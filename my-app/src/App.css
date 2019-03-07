@@ -1,0 +1,88 @@
+.App {
+  text-align: center;
+  
+}
+
+.bgimg {
+  background-image: url('../src/images/testPattern.jpg');
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+  min-height: 1000px
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+
+
+.card-image{
+  width: 35%;
+  min-height: 300;
+  background: #eeeeee;
+  align-content: center;
+}
+
+h5, h4, h3, h2, h1 {
+  color:#183333;
+}
+
+h6 {
+  color:white;
+}
+
+footer{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:40px;
+  align-items: center;
+  }
+
+/* .card.horizontal .card-image img {
+  width: 35%;
+  min-height: 300px;
+  background: #90caf9;
+  align-content: center;
+} */
+
+
+div > ul> li>a{
+  min-width: 100%;
+}
+
+.container {
+  width: 90%;
+}
+
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
