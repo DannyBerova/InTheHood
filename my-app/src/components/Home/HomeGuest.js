@@ -21,10 +21,11 @@ componentWillReceiveProps(nextProps) {
         let filtered = nextProps.filter !== '' 
             ? nextProps.posts.filter(p => p.category === nextProps.filter) 
             : nextProps.posts
+        
         this.setState({
             filter: nextProps.filter,
             filtered: filtered,
-            posts: filtered
+            posts: filtered,
         })
     }
    }

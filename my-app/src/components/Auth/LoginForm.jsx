@@ -43,7 +43,7 @@ handleSubmit(event) {
       body: JSON.stringify(this.state.userData)
     })
   .then(res => res.json())
-  .then(async (body) => {
+  .then( (body) => {
       if(!body.userId) {
           this.setState({message: 'Invalid credentials!'})
           toast.error(this.state.message);
@@ -52,7 +52,7 @@ handleSubmit(event) {
           toast.error(body.error);
       } else {
         toast.success(body.message);
-        await this.props.loginUser(body)
+         this.props.loginUser(body)
         this.setState({
           redirect: true,
         });
@@ -73,13 +73,13 @@ render() {
           <form onSubmit={this.handleSubmit}>
           <div className="row">
             <div className="col s12">
-              <label htmlFor="username">Username</label>
-              <input className="input-field col s12" type="text" onChange={this.handleChange} name="username" id="username" placeholder="Your username here"/>
+              <label className="black-text"  htmlFor="username">Username</label>
+              <input className="input-field col s12" type="text" onChange={this.handleChange} name="username" id="username" placeholder="Your username here..."/>
             </div>
           </div>
           <div className="row">
             <div className="col s12">
-              <label htmlFor="password">Password</label>
+              <label className="black-text"  htmlFor="password">Password</label>
               <input className="input-field col s12" type="password" onChange={this.handleChange}  name="password" id="password" placeholder="******"/>
             </div>
         </div>

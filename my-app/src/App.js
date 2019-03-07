@@ -8,6 +8,7 @@ import '../node_modules/materialize-css/dist/css/materialize.css'
 import './App.css';
 
 const HomeGuest = lazy(() => import('./components/Home/HomeGuest'));
+const About = lazy(() => import('./components/About/About'));
 const Create = lazy(() => import('./components/Create/Create'));
 const Auth = lazy(() => import('./Auth'));
 const Header = lazy(() => import('./components/Header/Header'));
@@ -50,6 +51,7 @@ class App extends Component {
           let orderedPosts = data.posts.sort((a, b) =>{
             return a.createdOn < b.createdOn
           })
+         
           localStorage.removeItem('message')
           if(localStorage.getItem('userId')) {
             this.setState({
@@ -93,9 +95,9 @@ class App extends Component {
       .catch(er => console.log(er.json()));
   }
 
-  async loginUser(user) {
+   loginUser(user) {
     if(user && user.userId) {
-      await this.setState((prevState, props) => ({
+       this.setState((prevState, props) => ({
         user: user.username,
         userId: user.userId,
         isLoggedIn: true,
@@ -107,7 +109,6 @@ class App extends Component {
       localStorage.setItem('username', user.username);
       localStorage.setItem('userId', user.userId);
       localStorage.setItem('ujwt', user.token);
-      //toast.success(<h4>{this.state.message}</h4>);
     }
   }
 
@@ -160,11 +161,7 @@ class App extends Component {
                               {...this.state}  
                               setHomePage={this.setHomePage}
                               searchByString={this.searchByString}/>} />
-                      <Route exact path='/:text' render={(props) => <HomeGuest 
-                              {...props} 
-                              {...this.state}  
-                              searchByString={this.searchByString}
-                              />} />
+                      <Route path='/about' render={(props) => <About/>} />
                       <Route path='/post/details/:id' render={(props) => <PostDetails 
                               {...props} 
                               {...this.state}  

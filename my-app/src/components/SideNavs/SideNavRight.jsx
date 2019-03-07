@@ -4,8 +4,7 @@ class SideNavRight extends Component {
     constructor(props) {
         super(props) 
         this.state ={
-            posts: this.props.posts,
-            newestAdminSays: {
+            latestPost: {
               title: '',
               content: '',
               _id: ''
@@ -14,33 +13,43 @@ class SideNavRight extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
-    componentWillReceiveProps(nextProps) {
-      if (this.props !== nextProps ) {
-          let newest = nextProps.posts.sort((a,b) => a.createdOn < b.createdOn)[0]
-          console.log(nextProps)
-          this.setState({
-              newestAdminSays: newest || {},
-              posts: nextProps.posts
-          })
-      }
-     }
+    componentWillMount() {
+      fetch('http://localhost:5000/post/latest')
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        if(data) {
+            this.setState({
+              latestPost: data
+            })       
+          } else {
+            this.setState({
+              latestPost: this.props.latestPost || {}
+            })
+          }
+      })
+      .catch(er => console.log(er.json())); 
+    }
 
     handleClick() {
         localStorage.removeItem('message')
     }
 
     render() {
+      if(this.state.latestPost.content === undefined) {
+        return <h2>No content</h2>
+      }
         //let ifAdmin = (this.props.isAdmin) ? (<span><NavLink to="/movies/create" onClick={this.handleClick}>Create</NavLink></span>) : (null)
         
         //utilities - string processing out
-        let detailsLink = `/post/details/${this.state.newestAdminSays._id}` || '';
-        let shortContent = (this.state.newestAdminSays.content) + '...' || '';
-        if(this.state.newestAdminSays.content.length > 100) {
-          shortContent = (this.state.newestAdminSays.content.substr(0, 50) + '...') || ''
+        let detailsLink = `/post/details/${this.state.latestPost._id}` || '';
+        let shortContent = (this.state.latestPost.content) + '...' || '';
+        if(this.state.latestPost.content.length > 100) {
+          shortContent = (this.state.latestPost.content.substr(0, 50) + '...') || ''
         }
         return (
           <div className='col s2' >
-            <ul className='teal darken-1 ' >
+            <ul >
               <li><h5>*TRENDING*</h5></li> 
               <li><button type="text" class="waves-effect teal   waves-light btn-large" onClick={this.handleClick} value='' >TOP RATED</button></li> 
               <li><button type="button" class="waves-effect teal darken-1  waves-light btn-large" onClick={this.handleClick} value='info' >LOCATION</button></li> 
@@ -51,7 +60,7 @@ class SideNavRight extends Component {
                     <div class="card">
                       <div class="card-content">
                         <h5 className='teal-text'>*LATEST*</h5>
-                        <h5>{this.state.newestAdminSays.title}</h5>
+                        <h5>{this.state.latestPost.title}</h5>
                             <p>{shortContent}</p>
                       </div>
                       <div class="card-action">

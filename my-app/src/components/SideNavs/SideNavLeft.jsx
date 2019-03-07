@@ -30,7 +30,7 @@ class SideNavLeft extends Component {
         //let ifAdmin = (this.props.isAdmin) ? (<span><NavLink to="/movies/create" onClick={this.handleClick}>Create</NavLink></span>) : (null)
         return (
             <div className='col s2' teal>
-              <ul className='teal darken-1 ' >
+              <ul  >
                 <li><h5> BY CATEGORY:</h5></li> 
          
                 <li><button type="text" class="waves-effect teal darken-2  waves-light btn-large" onClick={this.handleClick} value='' >ALL</button></li> 

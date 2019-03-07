@@ -46,7 +46,6 @@ function validatePostCreateForm(payload) {
 
 router.post('/create', authCheck, async (req, res) => {
   const postObj = req.body
-  console.log(req.body)
   if (req.user.roles.indexOf('User') > -1) {
     const validationResult = validatePostCreateForm(postObj)
     var user = req.user;
@@ -183,6 +182,24 @@ router.get('/', (req, res) => {
     .populate('createdBy')
     .then(posts => {
       res.status(200).json({posts})
+    })
+    .catch((err) => {
+      console.log(err)
+      const message = 'Something went wrong :('
+      return res.status(200).json({
+        success: false,
+        message: message
+      })
+    })
+})
+
+router.get('/latest', (req, res) => {
+  Post
+    .find()
+    .then(posts=> {
+      let latestPost = posts.sort((a, b) =>{
+        return a.createdOn < b.createdOn})[0]
+      res.status(200).json(latestPost)
     })
     .catch((err) => {
       console.log(err)

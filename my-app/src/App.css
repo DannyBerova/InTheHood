@@ -76,6 +76,11 @@ div > ul> li>a{
   width: 90%;
 }
 
+input::placeholder {
+  color: black;
+  text-decoration-color: black
+}
+
 
 
 @keyframes App-logo-spin {

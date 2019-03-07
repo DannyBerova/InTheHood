@@ -50,7 +50,7 @@ class AllUsersAdmin extends Component {
               <th>Posts count</th>
               <th>Is Blocked</th>
               <th>Is Admin</th>
-              <th>No name</th>
+              <th>Link to profile</th>
           </tr>
         </thead>
 
@@ -62,7 +62,7 @@ class AllUsersAdmin extends Component {
             <td>{user.firstName + '' + user.lastName}</td>
             <td>{user.email}</td>
             <td>{user.posts.length}</td>
-            <td>{user.isBlocked ? 'Active' : 'Blocked'}</td>
+            <td>{user.isBlocked ? 'Blocked' : 'Active'}</td>
             <td>{user.roles.includes('Admin') ? 'Admin' : 'User'}</td>
             <td><span><a className="btn-floating waves-effect waves-light teal darken-1" 
                                 href={`/user/details/${user._id}`}><i className="material-icons">person</i></a></span></td>

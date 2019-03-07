@@ -11,12 +11,10 @@ module.exports = (req, res, next) => {
   // decode the token using a secret key-phrase
   return jwt.verify(token.toString(), 's0m3 r4nd0m str1ng', (err, decoded) => {
     if (err) {
-      console.log('here i am')
       return res.status(401).end()
     }
     
     const userId = decoded.userId
-    console.log('here i am', userId)
     User
       .findOne({ _id: userId })
       .then(user => {

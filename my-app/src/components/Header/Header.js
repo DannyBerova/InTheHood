@@ -10,9 +10,10 @@ class Header extends Component {
         <header>
           <nav>
             <div className="nav-wrapper teal darken-3">
-              <a href="/" class="brand-logo right">InTheHood</a>
+              
               <ul id="nav-mobile" class="left hide-on-med-and-down">
                 <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
                 {isAdmin ? 
                     <li ><a className='grey-text lighten-4' href="/user/all">Users</a></li> : null}
                 {isAuth ? 
@@ -20,13 +21,20 @@ class Header extends Component {
                     <li><a href="/post/create">Create</a></li>
                     <li><a href={userDetails}>Profile</a></li>
                     <li><a href="/" onClick={this.props.logout}>Logout</a></li>
-                    <li className="grey-text lighten-3">Welcome, {this.props.user}!</li>
                     </Fragment>
                 ) : (
                 <Fragment>
                   <li><a href="/auth/login">Login</a></li>
                   <li><a href="/auth/register">Register</a></li>
                 </Fragment>)}
+              </ul>
+              <ul id="nav-mobile" class="right hide-on-med-and-down">
+                {isAuth ? (
+                  <Fragment>
+                    <li className="grey-text lighten-3">Welcome, {this.props.user}!</li>
+                    </Fragment>
+                ) : ( null)}
+                 <li><a style={{fontSize: 25 + 'px'}}  href="/">InTheHood</a></li>
               </ul>
             </div>
           </nav>

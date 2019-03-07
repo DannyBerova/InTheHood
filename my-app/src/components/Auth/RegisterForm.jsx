@@ -80,39 +80,37 @@ handleSubmit(event) {
               <h1>Register</h1>
               <form onSubmit={this.handleSubmit}>
               <div className="row">
-                <div className="col s12">
-                  <label htmlFor="username">Username</label>
-                  <input className="input-field col s12" type="text" onChange={this.handleChange} name="username" id="username" placeholder="Your username here"/>
+                <div className="col s6">
+                  <label className="black-text"  htmlFor="username">Username</label>
+                  <input className="input-field col s12" type="text" onChange={this.handleChange} name="username" id="username" placeholder="Your username here..."/>
+                </div>
+                <div className="col s6">
+                  <label className="black-text"  htmlFor="email">E-mail</label>
+                  <input className="input-field col s12" type="email" onChange={this.handleChange} name="email" id="email" placeholder="Your email here..."/>
                 </div>
               </div>
+             
               <div className="row">
-                <div className="col s12">
-                  <label htmlFor="email">E-mail</label>
-                  <input className="input-field col s12" type="email" onChange={this.handleChange} name="email" id="email" placeholder="Your email here"/>
+                <div className="col s6">
+                  <label className="black-text" htmlFor="firstName">First Name</label>
+                  <input className="input-field col s12" type="text" onChange={this.handleChange} name="firstName" id="firstName" placeholder="Your First Name here..."/>
+                </div>
+                <div className="col s6">
+                  <label className="black-text"  htmlFor="lastName">Last Name</label>
+                  <input className="input-field col s12" type="text" onChange={this.handleChange} name="lastName" id="lastName" placeholder="Your Last Name here..."/>
                 </div>
               </div>
+             
               <div className="row">
                 <div className="col s12">
-                  <label htmlFor="firstName">First Name</label>
-                  <input className="input-field col s12" type="text" onChange={this.handleChange} name="firstName" id="firstName" placeholder="Your First Name here"/>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col s12">
-                  <label htmlFor="lastName">Last Name</label>
-                  <input className="input-field col s12" type="text" onChange={this.handleChange} name="lastName" id="lastName" placeholder="Your Last Name here"/>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col s12">
-                  <label htmlFor="password">Password</label>
+                  <label className="black-text"  htmlFor="password">Password</label>
                   <input className="input-field col s12" type="password" onChange={this.handleChange}  name="password" id="password" placeholder="******"/>
                 </div>
             </div>
             <div className="row">
                 <div className="col s12">
-                  <label htmlFor="avatar">Avatar URL</label>
-                  <input className="input-field col s12" type="url" onChange={this.handleChange} name="avatar" id="avatar" placeholder="Your Avatar URL here"/>
+                  <label className="black-text"  htmlFor="avatar">Avatar URL</label>
+                  <input className="input-field col s12" type="url" onChange={this.handleChange} name="avatar" id="avatar" placeholder="Your Avatar URL here..."/>
                 </div>
               </div>
               <input type="submit" className='waves-effect teal darken-1 waves-light btn-large'  value="REGISTER"/>
