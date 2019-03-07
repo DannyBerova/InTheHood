@@ -17,7 +17,6 @@ class PostCard extends Component {
           shortContent = content.substr(0, 50) + '...'
         }
         
-        let starLink = `/post/star/${_id}`;
         let detailsLink = `/post/details/${_id}`;
         let classIsAdminSays = category === 'adminSays' ? (`card-panel teal lighten-4 z-depth-1`) : (`card-panel teal lighten-5 z-depth-1`);
        
