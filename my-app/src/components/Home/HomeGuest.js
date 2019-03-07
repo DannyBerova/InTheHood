@@ -45,7 +45,7 @@ search() {
     })
 }
   render() {
-    console.log("POST render:", this.state.posts)
+    //TODO: pagination, weather, location, top rated
       let isAuth = this.props.isLoggedIn;
       let welcomeBlock = (
           <Fragment>
@@ -79,6 +79,19 @@ search() {
                                 <div className="col s2">
                                     <button type="button" class="waves-effect teal darken-1  waves-light btn" onClick={this.search} value='info' >SEARCH</button>
                                 </div>
+                            </div>
+                            <div className="row">
+                            <div className="col s11 offset-s1">
+                                <ul class="pagination teal">
+                                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                                    <li className="active"><a className='teal' href="#!">1</a></li>
+                                    <li class="waves-effect"><a href="#!">2</a></li>
+                                    <li class="waves-effect"><a href="#!">3</a></li>
+                                    <li class="waves-effect"><a href="#!">4</a></li>
+                                    <li class="waves-effect"><a href="#!">5</a></li>
+                                    <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                                </ul>
+                            </div>
                             </div>
                             {(this.state.posts.length > 0
                                 ) ? (this.state.posts.map((post) => (

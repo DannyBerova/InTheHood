@@ -86,6 +86,13 @@ render() {
           <input type="submit" className='waves-effect teal darken-1 waves-light btn-large'  value="LOGIN"/>
           </form>
       </div>
+      <div className='col s12'>
+              <h5 className='teal-text'>
+                <hr></hr>
+                <span>  Don't have an account?   </span>
+                <span><a class="waves-effect teal darken-1  waves-light btn-small" href="/auth/register"><i class="material-icons left">border_color</i>Sign Up</a></span>
+            </h5>
+          </div>
     </div>
   )
 

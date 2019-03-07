@@ -46,6 +46,7 @@ function validatePostCreateForm(payload) {
 
 router.post('/create', authCheck, async (req, res) => {
   const postObj = req.body
+  console.log(req.body)
   if (req.user.roles.indexOf('User') > -1) {
     const validationResult = validatePostCreateForm(postObj)
     var user = req.user;
@@ -67,7 +68,7 @@ router.post('/create', authCheck, async (req, res) => {
     if(!postToCreate.imageUrl) {
       postToCreate.imageUrl = "https://www.union.edu/files/union-marketing-layer/201803/picture.jpg";
     }
-    let category = await Category.findById(postObj.category);
+    let category = await Category.findOne({name:postObj.category});
     postToCreate.category = category.name;
     let categoryDefault = await Category.findOne({name: 'info'});
     if(!postToCreate.category || postToCreate.category === '') {

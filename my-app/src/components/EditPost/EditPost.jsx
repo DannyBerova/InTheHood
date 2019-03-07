@@ -57,7 +57,10 @@ handleSubmit(event) {
   let postData = this.state.post;
   console.log(postData)
   const id = this.props.match.params.id;
-  postData.createdBy = this.props.userId
+  postData.createdBy = this.props.userId;
+  if(postData.category === null) {
+    postData.category = this.state.post.category || 'info'
+  }
  
   fetch(`http://localhost:5000/post/edit/${id}`, {
     method: "POST", 
@@ -110,10 +113,7 @@ isPostValid(post) {
     toast.error("Content is required!");
     isValid = false;
   }
-  if(!post.category || !post.category.trim()) {
-    toast.error("Category is required!");
-    isValid = false;
-  }
+
 
   return isValid;
 }

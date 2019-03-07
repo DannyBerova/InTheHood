@@ -48,7 +48,10 @@ handleSubmit(event) {
   }
 
   let postData = this.state.post;
-  postData.createdBy = this.props.userId
+  postData.createdBy = this.props.userId;
+  if(postData.category === null) {
+    postData.category = this.state.post.category || 'info'
+  }
  
   fetch('http://localhost:5000/post/create', {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -101,10 +104,7 @@ isPostValid(post) {
     toast.error("Content is required!");
     isValid = false;
   }
-  if(!post.category || !post.category.trim()) {
-    toast.error("Category is required!");
-    isValid = false;
-  }
+
 
   return isValid;
 }
@@ -126,7 +126,7 @@ handleChange(event) {
   render() {
     const isAuth = localStorage.ujwt !== null
     const isAdmin = localStorage.getItem("isAdmin") === "true";
-    let catFiltered = this.state.categories;
+    let catFiltered = this.state.categories.filter(c => c.name !== 'info');
     if(!isAdmin) {
       catFiltered = catFiltered.filter(c => c.name !== 'adminSays')
     }
@@ -162,9 +162,9 @@ handleChange(event) {
          <div className="row">
           <label>Categories</label>
           <select className="browser-default" name="category" onChange={this.handleChange}>
-          <option value="" disabled selected>Choose your option</option>
+          <option value='info' selected>info</option>
           {catFiltered.map(cat => (
-            <option key={cat._id} value={cat._id}>{cat.name}</option>
+            <option key={cat._id} value={cat.name}>{cat.name}</option>
             
           ))}
           </select>

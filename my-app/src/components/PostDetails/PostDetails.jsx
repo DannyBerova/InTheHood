@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import {Redirect} from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-let redir = false;
 class PostDetails extends Component {
     constructor(props) {
         super(props) 
@@ -12,6 +11,7 @@ class PostDetails extends Component {
             starsCount: 0,
             redirect: false
         }
+        this.handleClick = this.handleClick.bind(this);
         this.handleClickDelete = this.handleClickDelete.bind(this);
     }
     componentWillMount() {
@@ -31,13 +31,13 @@ class PostDetails extends Component {
      .catch(er => console.log(er.json()));
     }
 
-    // componentDidUpdate(prevProps, prevState) {
-    //     if(prevProps.content === undefined)
-    //     this.setState({ redirect: true });
-    //   }
+    handleClick(event) {
+        event.preventDefault()
+        console.log('testing')
+      }
 
     handleClickDelete() {
-        let postData = this.state.post;
+        //let postData = this.state.post;
         const id = this.state.post._id;
         
         fetch(`http://localhost:5000/post/remove/${id}`, {
@@ -68,9 +68,6 @@ class PostDetails extends Component {
                 
                 this.props.deletePost(body.message, this.state.post)
                 localStorage.setItem('message', body.message)
-                redir = true;
-                console.log(redir)
-                console.log(body.message)
                 this.setState({
                     redirect: true,
                     //createdPostId: body.data._id
@@ -89,15 +86,12 @@ class PostDetails extends Component {
         let isAdmin = localStorage.getItem('isAdmin') === "true"
         let isCreator = localStorage.getItem('username') === this.state.createdBy.username;
         let redirectLink = `/user/details/${this.state.createdBy._id}`;
-        console.log('there')
-        console.log(this.state)
 
         let toRender = null;
         if(!this.state.redirect) {
             let {title, content, imageUrl, category, createdOn, _id} = this.state.post;
             var dateStr = new Date(createdOn).toLocaleString('en-GB', { timeZone: 'UTC' });
             let stars = this.state.starsCount
-            let starLink = `/post/star/${_id}`;
             let editLink = `/post/edit/${_id}`;
             let userLink = `/user/details/${this.state.createdBy._id}`;
             
@@ -110,7 +104,7 @@ class PostDetails extends Component {
                                 {isAuth ? (<span><a className="btn-floating waves-effect waves-light teal darken-1" 
                                 href={userLink}><i className="material-icons">person</i></a></span>) : null}
                                 <span><a className="btn-floating waves-effect waves-light teal darken-1" 
-                                href={starLink}><i className="material-icons">star</i></a></span>
+                                href='/' onClick={this.handleClick}><i className="material-icons">star</i></a></span>
                                 <span><h5>Stars: {stars}</h5></span>
                             </div>
                             <div className="col s7">

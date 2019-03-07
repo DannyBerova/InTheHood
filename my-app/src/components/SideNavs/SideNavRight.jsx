@@ -16,10 +16,10 @@ class SideNavRight extends Component {
 
     componentWillReceiveProps(nextProps) {
       if (this.props !== nextProps ) {
-          let newest = nextProps.posts.sort((a,b) => a.createdOn > b.createdOn)[0]
+          let newest = nextProps.posts.sort((a,b) => a.createdOn < b.createdOn)[0]
           console.log(nextProps)
           this.setState({
-              newestAdminSays: newest,
+              newestAdminSays: newest || {},
               posts: nextProps.posts
           })
       }

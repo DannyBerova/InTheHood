@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PostCard from '../PostCard/PostCard';
 //import { NavLink, Link, Switch } from 'react-router-dom';
 
@@ -34,13 +34,14 @@ class PostDetails extends Component {
      .catch(er => console.log(er.json()));
     }
 
-    handleClick() {
-        localStorage.removeItem('message')
+    handleClick(event) {
+      event.preventDefault()
+      console.log('testing')
     }
 
     render() {
       //utilities or function to be -OR PUT IN STATE
-      let block = this.state.user.isBlocked ? 'UNBLOCK' : 'BLOCK'
+      let block = this.state.user.isBlocked ? 'UNBLOCK' : 'BLOCK';
       let active = this.state.user.isBlocked ? 'BLOCKED' : 'ACTIVE'
       const postsValues = Object.values(this.state.posts);
       postsValues.map(v => {
@@ -66,18 +67,19 @@ class PostDetails extends Component {
               {this.props.isAdmin === true 
               ? (
               <div class="card-action">
-                  <a href="#" className="teal darken-1 btn-large">{block}</a>
+                  <a href='/' onClick={this.handleClick} className="teal darken-1 btn-large">{block}</a>
               </div>
               ) : (
               <div class="card-action">
-                <a  className="teal darken-1 btn-large">{active}</a>
+                <a  href='/' onClick={this.handleClick} className="teal darken-1 btn-large">{active}</a>
               </div>
               )}
             </div>
           </div>
           <div className="col s9">
-                {postsValues.map((post, i) => (
-                    <PostCard key={post._id} post={post}/>))}
+                {postsValues.length > 0 ? (postsValues.map((post, i) => (
+                    <PostCard key={post._id} post={post}/>))
+                    ) : (<h4>No posts added!</h4>)}
           </div>
         </div>    
       );

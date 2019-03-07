@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 //import { NavLink, Link, Switch } from 'react-router-dom';
 
 class PostCard extends Component {
-    
+    handleClick(event) {
+      event.preventDefault()
+      console.log('testing')
+    }
+
     render() {
         // let isAuth = (this.props.userId)
         // let isAdmin = (this.props.isAdmin)
@@ -24,10 +28,8 @@ class PostCard extends Component {
                 <div className="col s2">
                   <img src={imageUrl} alt="" className="circle responsive-img"/>
                   <span>
-                    <a className="btn-floating waves-effect waves-light teal darken-1" 
-                  href={starLink}>
-                    <i className="material-icons">star</i>
-                    </a>
+                  <a className="btn-floating waves-effect waves-light teal darken-1" 
+                                href='/' onClick={this.handleClick}><i className="material-icons">star</i></a>
                   </span>
                   <span>
                     <p>Stars: {stars.length}</p>

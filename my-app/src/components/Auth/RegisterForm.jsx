@@ -59,7 +59,7 @@ handleSubmit(event) {
         this.setState({message: body.error})
         toast.error(body.error);
     } else {
-          toast.success(<h4>{body.message}</h4>);
+          toast.success(body.message);
           await this.props.loginUser(body)
           this.setState({ redirect: true });
     }
@@ -117,6 +117,13 @@ handleSubmit(event) {
               </div>
               <input type="submit" className='waves-effect teal darken-1 waves-light btn-large'  value="REGISTER"/>
               </form>
+          </div>
+          <div className='col s12'>
+              <h5 className='teal-text'>
+                <hr></hr>
+                <span>  Already have an account?   </span>
+                <span><a class="waves-effect teal darken-1  waves-light btn-small" href="/auth/login"><i class="material-icons left">border_color</i>Log In</a></span>
+            </h5>
           </div>
       </div>
     </div>

@@ -15,6 +15,7 @@ const Footer = lazy(() => import('./components/Footer/Footer'));
 const PostDetails = lazy(() => import('./components/PostDetails/PostDetails'));
 const EditPost = lazy(() => import('./components/EditPost/EditPost'));
 const UserDetails = lazy(() => import('./components/UserDetails/UserDetails'));
+const AllUsers = lazy(() => import('./components/AllUsersAdmin/AllUsersAdmin'));
 const NoMatch = lazy(() => import('./components/NoMatch/NoMatch'));
 
 
@@ -47,7 +48,7 @@ class App extends Component {
       .then(data => {
         if(data.posts) {
           let orderedPosts = data.posts.sort((a, b) =>{
-            return a.createdOn > b.createdOn
+            return a.createdOn < b.createdOn
           })
           localStorage.removeItem('message')
           if(localStorage.getItem('userId')) {
@@ -79,7 +80,7 @@ class App extends Component {
       .then(data => {
           if(data.posts) {
             let orderedPosts = data.posts.sort((a, b) =>{
-            return a.createdOn > b.createdOn
+            return a.createdOn < b.createdOn
             })
             this.setState({
               posts: orderedPosts,
@@ -148,8 +149,8 @@ class App extends Component {
     return (
       <div className="App bgimg ">
         <div className="row " >
-          <BrowserRouter>
             <Suspense fallback={<h1 className='teal'>Loading...</h1>}>
+          <BrowserRouter>
               <Fragment>
                 <Header  {...this.state} logout={this.logout} />
                 <div className='col s12'>
@@ -188,6 +189,12 @@ class App extends Component {
                                 ) ? (<Redirect to="/"/>
                                 ) : (<EditPost {...props} {...this.state}/>)}
                           />
+                      <Route exact path='/user/all' 
+                              render={(props) => 
+                                ((!localStorage.hasOwnProperty('isAdmin') || this.state.isAdmin === false) 
+                                ) ? (<Redirect to="/"/>
+                                ) : (<AllUsers {...props} {...this.state}/>)}
+                          />
                       <Route render={() => <NoMatch/>}/>
                   </Switch>
                 </div>
@@ -202,8 +209,8 @@ class App extends Component {
                     pauseOnHover/>
                 <Footer  {...this.state} logout={this.logout} />
               </Fragment>
-            </Suspense>
           </BrowserRouter>
+            </Suspense>
         </div>
       </div>
     );
