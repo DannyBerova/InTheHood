@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import {Redirect} from 'react-router-dom';
 import { toast } from 'react-toastify';
+import PostService from '../../services/post-service';
 
 class PostDetails extends Component {
     constructor(props) {
@@ -9,76 +10,81 @@ class PostDetails extends Component {
             post: {},
             createdBy: {},
             starsCount: 0,
-            redirect: false
+            stars: [],
+            redirect: false,
+            notAllowed: false,
+            liked: false
         }
-        this.handleClick = this.handleClick.bind(this);
+
+        this.PostService = new PostService();
+        this.handleClickStar = this.handleClickStar.bind(this);
         this.handleClickDelete = this.handleClickDelete.bind(this);
     }
-    componentWillMount() {
+    async componentWillMount() {
         const id = this.props.match.params.id;
-        fetch(`http://localhost:5000/post/details/${id}`)
-        .then(res => res.json())
-        .then(data => {
-            if(data.post) {
-                console.log(data)
-          this.setState({
-            post: data.post,
-            createdBy: data.createdBy,
-            starsCount: data.starsCount
-            })
-          }
-       })
-     .catch(er => console.log(er.json()));
+
+        const result = await this.PostService.postDetails(id);
+
+        if(result.post) {
+            this.setState({
+                post: result.post,
+                createdBy: result.createdBy,
+                starsCount: result.starsCount,
+                stars: result.stars,
+                liked: result.stars.includes(this.props.userId)
+                })
+        }
     }
 
-    handleClick(event) {
-        event.preventDefault()
-        console.log('testing')
-      }
+    
 
-    handleClickDelete() {
-        //let postData = this.state.post;
-        const id = this.state.post._id;
+    async handleClickStar(event) {
+        event.preventDefault()
+        const id = this.props.match.params.id;
         
-        fetch(`http://localhost:5000/post/remove/${id}`, {
-            method: "DELETE", // *GET, POST, PUT, DELETE, etc.
-            headers: new Headers({
-                'Authorization': `Bearer ${this.props.jwtoken}`,
-                'Content-Type': 'application/json',
-            })
-            //body: JSON.stringify(postData), 
-        })
-        .then(res => res.json())
-        .then(async (body) => {
-            if(body.errors) {
-                let err = this.state.message;
-                let values = Object.values(body.errors)
-                values.forEach(error => {
-                    console.log(error)
-                    err = err + ' ' + error;
-                })
-                this.setState({message: err})
-                toast.error(err);
-                return;
-            } else if(body.error){
+            let result = await this.PostService.star(id);
+            console.log('hop')
+            console.log(result)
+            if(result.post) {
+                toast.success(result.message)
+                this.setState({
+                    post: result.post,
+                    createdBy: result.createdBy,
+                    starsCount: result.starsCount,
+                    stars: result.stars,
+                    liked: result.stars.includes(this.props.userId)
+                    })
+            }
+            return;
+        
+    }
+
+    async handleClickDelete() {
+        const id = this.state.post._id;
+        const creatorId = this.state.post.createdBy._id;
+        console.log(creatorId)
+
+        const body = await this.PostService.remove({id, creatorId });
+
+
+        if(this.state.createdBy._id === this.props.userId || this.props.isAdmin === true) {
+            if(body.error){
                 this.setState({message: body.error})
                 toast.error(body.error);
             } else {
                 toast.success(body.message);
                 
-                this.props.deletePost(body.message, this.state.post)
                 localStorage.setItem('message', body.message)
                 this.setState({
                     redirect: true,
-                    //createdPostId: body.data._id
                 });
-            } 
-        })
-        .catch(er => {
-            console.log(er)
-            toast.error(er)
-            this.setState({message: er.message || er.TypeError})
-        })
+            }
+        } else {
+            localStorage.setItem('message', 'You are not allowed for this operation!')
+            this.setState({
+                redirect: true,
+            });
+        }
     }
     
     render() {
@@ -94,6 +100,8 @@ class PostDetails extends Component {
             let stars = this.state.starsCount
             let editLink = `/post/edit/${_id}`;
             let userLink = `/user/details/${this.state.createdBy._id}`;
+
+            let starLinkColor = this.state.liked === true ? 'teal' : 'grey'
             
             toRender=(<Fragment>
                 <div className='col s5'>
@@ -103,8 +111,13 @@ class PostDetails extends Component {
                                 <img src={this.state.createdBy.avatar} alt="" className="circle responsive-img small"/>
                                 {isAuth ? (<span><a className="btn-floating waves-effect waves-light teal darken-1" 
                                 href={userLink}><i className="material-icons">person</i></a></span>) : null}
-                                <span><a className="btn-floating waves-effect waves-light teal darken-1" 
-                                href='/' onClick={this.handleClick}><i className="material-icons">star</i></a></span>
+                                
+                                <span>
+                                    <a className={"btn-floating  waves-effect waves-light " + starLinkColor }
+                                        href='/' onClick={this.handleClickStar}>
+                                        <i className="material-icons">star</i>
+                                    </a>
+                                </span>
                                 <span><h5>Stars: {stars}</h5></span>
                             </div>
                             <div className="col s7">

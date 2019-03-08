@@ -4,6 +4,7 @@ const Book = require('../models/Book')
 const Post = require('../models/Post')
 const User = require('../models/User')
 const Category = require('../models/Category')
+var mongoose = require('mongoose');
 
 const router = new express.Router()
 
@@ -109,7 +110,7 @@ router.post('/create', authCheck, async (req, res) => {
 
 router.post('/edit/:id', authCheck, async (req, res) => {
   if (req.user.roles.indexOf('User') > -1) {
-    const postId = req.params.id
+    const postId = req.params.id;
     const postBody = req.body;
     let postObj = postBody;
     let category = await Category.findOne({name:postObj.category});
@@ -230,7 +231,8 @@ router.get('/details/:id', (req, res) => {
         message: 'Post details info.',
         post: post,
         createdBy: post.createdBy,
-        starsCount: post.stars.length
+        starsCount: post.stars.length,
+        stars: post.stars,
       })
     })
     .catch((err) => {
@@ -302,81 +304,43 @@ router.get('/details/:id', (req, res) => {
 //     })
 // })
 
-router.post('/star/:id', authCheck, (req, res) => {
+router.post('/star/:id', authCheck, async (req, res) => {
   const id = req.params.id
-  const userId = req.user.userId
-  Post
-    .findById(id)
-    .then(post => {
-      if (!post) {
-        const message = 'Post not found.'
-        return res.status(200).json({
-          success: false,
-          message: message
-        })
-      }
+  const userId = req.user.id
 
-      let stars = post.stars
-      if (!stars.includes(userId)) {
-        stars.push(userId)
-      }
-      post.stars = stars
-      post
-        .save()
-        .then((likedPost) => {
-          res.status(200).json({
-            success: true,
-            message: 'Post recieved star successfully.',
-            data: likedPost
-          })
-        })
-        .catch((err) => {
-          console.log(err)
-          const message = 'Something went wrong :('
-          return res.status(200).json({
-            success: false,
-            message: message
-          })
-        })
-    })
-    .catch((err) => {
-      console.log(err)
-      const message = 'Something went wrong :('
+  Post
+  .findById(id)
+  .then(post => {
+    if (!post) {
+      const message = 'Post not found.'
       return res.status(200).json({
         success: false,
         message: message
       })
-    })
-})
-
-router.post('/unstar/:id', authCheck, (req, res) => {
-  const id = req.params.id
-  const userId = req.user.userId
-  Post
-    .findById(id)
-    .then(post => {
-      if (!post) {
-        let message = 'Post not found.'
-        return res.status(200).json({
-          success: false,
-          message: message
-        })
-      }
-
-      let stars = post.stars
-      if (stars.includes(username)) {
-        const index = stars.indexOf(userId)
-        stars.splice(index, 1)
-      }
-
+    }
+    
+    let stars = post.stars;
+    let message = '';
+    if (stars.includes(userId)) {
+      const index = stars.indexOf(req.user.id)
+      stars.splice(index, 1)
+      message = 'Post unstar successfully.'
+    } else {
+      stars.push(userId)
+      message = 'Post recieved star successfully.'    
+    }
       post.stars = stars
       post
         .save()
-        .then((unlikedPost) => {
+        .then(async (likedPost) => {
+         let user = await User.findById(likedPost.createdBy._id)
           res.status(200).json({
             success: true,
-            message: 'Product unliked successfully.',
-            data: unlikedPost
+            message: message,
+            post: likedPost,
+            createdBy:  user,
+            starsCount: likedPost.stars.length,
+            stars: likedPost.stars,
           })
         })
         .catch((err) => {
@@ -400,7 +364,9 @@ router.post('/unstar/:id', authCheck, (req, res) => {
 
 router.delete('/remove/:id', authCheck, async (req, res) => {
   const id = req.params.id;
-  var user = await User.findById(req.user._id);
+  const creator = req.body.creatorId;
+  console.log(req.body)
+  var user = await User.findById(creator);
   if (req.user.roles.indexOf('User') > -1 || req.user.roles.indexOf('Admin') > -1) {
     Post
     .findById(id)

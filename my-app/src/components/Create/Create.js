@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
 import { toast } from 'react-toastify';
+import PostService from '../../services/post-service';
+import CategoryService from '../../services/category-service';
 //import './Create.css';
 
 class Create extends Component {
@@ -20,28 +22,24 @@ class Create extends Component {
       message: ''
     }
     
+
+    this.PostService = new PostService();
+    this.CategoryService = new CategoryService();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 }
 
-componentDidMount() {
-  fetch('http://localhost:5000/category/')
-     .then(res => res.json())
-     .then(data => {
-       console.log(data)
-        if(data.categories) {
-          this.setState({
-            categories: data.categories
-            })
-          }
-       })
-     .catch(er => console.log(er));
+async componentDidMount() {
 
-     this.setState({message:''})
-
+  let data = await this.CategoryService.all()
+  if(data.categories) {
+    this.setState({
+      categories: data.categories
+      })
+    }
 }
 
-handleSubmit(event) {
+async handleSubmit(event) {
   event.preventDefault();
   if(!this.isPostValid(this.state.post)) {
     return;
@@ -52,45 +50,30 @@ handleSubmit(event) {
   if(postData.category === null) {
     postData.category = this.state.post.category || 'info'
   }
- 
-  fetch('http://localhost:5000/post/create', {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
-    headers: new Headers({
-      'Authorization': `Bearer ${this.props.jwtoken}`,
-        "Content-Type": "application/json",
-    }),
-    body: JSON.stringify(postData), 
-  })
-  .then(res => res.json())
-  .then(async (body) => {
-    if(body.errors) {
-      let err = this.state.message;
-      let values = Object.values(body.errors)
-      values.forEach(error => {
-          console.log(error)
-          err = err + ' ' + error;
-      })
-      this.setState({message: err})
-      toast.error(err);
-      return;
-    } else if(body.error){
-      this.setState({message: body.error})
-      toast.error(body.error);
-    } else {
-      toast.success(body.message);
-      await this.props.createPost(body.data)
 
-      this.setState({
-        redirect: true,
-        createdPostId: body.data._id
-      });
-      } 
+  let body = await this.PostService.create(postData);
+  if(body.errors) {
+    this.setState({message: ''})
+    let err = this.state.message;
+    let values = Object.values(body.errors)
+    values.forEach(error => {
+        err = err + ' ' + error;
     })
-     .catch(er => {
-        console.log(er)
-        toast.error(er)
-      this.setState({message: er.message || er.TypeError})
-  })
+    this.setState({message: err})
+    toast.error(err);
+    return;
+  } else if(body.error){
+    this.setState({message: body.error})
+    toast.error(body.error);
+  } else {
+    toast.success(body.message);
+   //await this.props.createPost(body.data)
+
+    this.setState({
+      redirect: true,
+      createdPostId: body.data._id
+    });
+    }   
 }
 
 isPostValid(post) {
@@ -132,7 +115,6 @@ handleChange(event) {
     }
     const redirectLink = `/post/details/${this.state.createdPostId}`
     
-    console.log(isAuth)
     let renderIfAuth = (
       <div className="container">
       <div className="row">

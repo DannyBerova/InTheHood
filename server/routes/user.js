@@ -44,7 +44,6 @@ router.get('/all', async (req, res) => {
   const id = req.params.id
   User
     .find()
-    .populate('posts')
     .then(users => {
       if (!users) {
         const message = 'Users not found.'
@@ -55,7 +54,7 @@ router.get('/all', async (req, res) => {
       }
         return res.status(200).json({
           success: true,
-          message: 'User details info.',
+          message: 'All users info.',
           users: users,
         })
       })

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 //import { NavLink, Link, Switch } from 'react-router-dom';
+import UserService from '../../services/user-service';
 
 class AllUsersAdmin extends Component {
     constructor(props) {
@@ -7,27 +8,16 @@ class AllUsersAdmin extends Component {
         this.state ={
             users: {},
         }
+
+        this.UserService = new UserService();
         this.handleClick = this.handleClick.bind(this);
     }
-    componentWillMount() {
-        const token = localStorage.hasOwnProperty('ujwt') ? localStorage.getItem('ujwt') : ('');
-        console.log(this.props)
-        fetch(`http://localhost:5000/user/all`, {
-            method: "GET", // *GET, POST, PUT, DELETE, etc.
-            headers: new Headers({
-              'Authorization': `Bearer ${token}`,
-              "Content-Type": "application/json",
-            })
-          })
-          .then(res => res.json())
-          .then(data => {
-            if(data.users) {
-          this.setState({
-            users: data.users,
-            })
-          }
-       })
-     .catch(er => console.log(er.json()));
+    async componentWillMount() {
+        const result = await this.UserService.all();
+
+        if(result.users) {
+            this.setState({ users: result.users })
+        }
     }
 
     handleClick() {
@@ -35,8 +25,6 @@ class AllUsersAdmin extends Component {
     }
 
     render() {
-     
-
       return (
         <div className="col s10 offset-s1">
         <h4>ALL USERS</h4>

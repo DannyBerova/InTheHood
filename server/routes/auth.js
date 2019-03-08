@@ -92,7 +92,6 @@ router.post('/signup', (req, res, next) => {
     })
   }
   
-  console.log(req.body)
     const {  username, password,email, firstName, lastName, avatar } = req.body;
     const salt = encryption.generateSalt();
     const hashedPassword = encryption.generateHashedPassword(salt, password);
@@ -121,7 +120,7 @@ router.post('/signup', (req, res, next) => {
     
          res.status(200).json(
            { 
-             message: 'User successfully logged in!', 
+             message: 'User successfully created and logged in!', 
              token, 
              userId: user._id.toString(),
              username: user.username,

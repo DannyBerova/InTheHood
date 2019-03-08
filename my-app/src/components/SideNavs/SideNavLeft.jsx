@@ -19,19 +19,14 @@ class SideNavLeft extends Component {
     }
 
     handleClick(event) {
-        event.preventDefault()
-        console.log(event.target.value)
-        console.log(event.target.name)
-        this.props.searchByString(event.target.value) 
-        this.setState({filter: 'info'})
+        this.props.filterPosts(event.target.value) 
     }
 
     render() {
-        //let ifAdmin = (this.props.isAdmin) ? (<span><NavLink to="/movies/create" onClick={this.handleClick}>Create</NavLink></span>) : (null)
         return (
             <div className='col s2' teal>
               <ul  >
-                <li><h5> BY CATEGORY:</h5></li> 
+              <li className="teal"><h6 className="white-text ">BY CATEGORY:</h6></li>
          
                 <li><button type="text" class="waves-effect teal darken-2  waves-light btn-large" onClick={this.handleClick} value='' >ALL</button></li> 
                 <li><button type="button" class="waves-effect teal darken-1  waves-light btn-large" onClick={this.handleClick} value='info' >INFO</button></li> 

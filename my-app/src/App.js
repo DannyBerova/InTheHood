@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import '../node_modules/materialize-css/dist/css/materialize.css'
 import './App.css';
+import PostService from './services/post-service'
 
 const HomeGuest = lazy(() => import('./components/Home/HomeGuest'));
 const About = lazy(() => import('./components/About/About'));
@@ -29,70 +30,40 @@ class App extends Component {
       jwtoken: localStorage.getItem('username') || null,
       user: localStorage.getItem('username') || null,
       userId: localStorage.getItem('userId') || null,
-      hasFetched: false,
-      filter: '',
-      posts: [],
+      //hasFetched: false,
+      //filter: '',
+      //posts: [],
       message: ''
     }
 
-    this.fetchPosts = this.fetchPosts.bind(this);
+    this.PostService = new PostService();
     this.loginUser = this.loginUser.bind(this);
     this.logout = this.logout.bind(this);
-    this.createPost = this.createPost.bind(this);
-    this.deletePost = this.deletePost.bind(this);
-    this.searchByString = this.searchByString.bind(this);
   }
 
   async componentWillMount() {
-    await fetch('http://localhost:5000/post/')
-      .then(res => res.json())
-      .then(data => {
-        if(data.posts) {
-          let orderedPosts = data.posts.sort((a, b) =>{
-            return a.createdOn < b.createdOn
-          })
-         
-          localStorage.removeItem('message')
-          if(localStorage.getItem('userId')) {
-            this.setState({
-              user: localStorage.getItem('username'),
-              userId: localStorage.getItem('userId'),
-              jwtoken: localStorage.getItem('ujwt'),
-              isLoggedIn: true,
-              isAdmin: localStorage.getItem('isAdmin') === 'true',
-              message: '',
-              posts: orderedPosts,
-              hasFetched: true
-            })       
-          } else {
-            this.setState({
-              message: '',
-              posts: orderedPosts,
-              hasFetched: true
-            })
-          }
-        }
-      })
-      .catch(er => console.log(er.json())); 
-  }
 
-  async fetchPosts(message) {
-      fetch('http://localhost:5000/post/')
-      .then(res => res.json())
-      .then(data => {
-          if(data.posts) {
-            let orderedPosts = data.posts.sort((a, b) =>{
-            return a.createdOn < b.createdOn
-            })
-            this.setState({
-              posts: orderedPosts,
-              hasFetched: true,
-              filter: '',
-              message: message
-              })
-            }
-        })
-      .catch(er => console.log(er.json()));
+   // let data = await this.PostService.all();
+
+    // if(data.posts) {
+    //   let orderedPosts = data.posts.sort((a, b) =>{
+    //     return a.createdOn < b.createdOn
+    //   })
+     
+      localStorage.removeItem('message')
+      if(localStorage.getItem('userId')) {
+        this.setState({
+          user: localStorage.getItem('username'),
+          userId: localStorage.getItem('userId'),
+          jwtoken: localStorage.getItem('ujwt'),
+          isLoggedIn: true,
+          isAdmin: localStorage.getItem('isAdmin') === 'true',
+          message: '',
+
+        })       
+      } else {
+        this.setState({ message: '' })
+      }
   }
 
    loginUser(user) {
@@ -126,26 +97,6 @@ class App extends Component {
     toast.success('Logged Out!');
   }
 
-  async createPost (post) {
-   let currPosts = this.state.posts;
-   currPosts.unshift(post)
-   localStorage.setItem('message', `Post "${post.title}" created.`);
-   this.setState({
-     posts: currPosts,
-     message: `Post "${post.title}" created.`,
-    });
-  }
-  async deletePost(message, id) {
-    localStorage.setItem('message', message)
-    this.fetchPosts(message)
-  }
-
-  async searchByString(text) {
-    this.setState({ filter: '' })
-    let filterExists = text
-    this.setState({ filter: filterExists })
-  }
-
   render() {
     return (
       <div className="App bgimg ">
@@ -158,17 +109,14 @@ class App extends Component {
                   <Switch>
                       <Route exact path='/' render={(props) => <HomeGuest 
                               {...props} 
-                              {...this.state}  
-                              setHomePage={this.setHomePage}
-                              searchByString={this.searchByString}/>} />
+                              {...this.state}                                />} />
                       <Route path='/about' render={(props) => <About/>} />
                       <Route path='/post/details/:id' render={(props) => <PostDetails 
                               {...props} 
-                              {...this.state}  
-                              deletePost={this.deletePost}/>} />
+                              {...this.state}/>} />
                         <Route path='/user/details/:id' render={(props) =>
-                        (!localStorage.hasOwnProperty('ujwt')) ? (<Redirect to="/"/>
-                        ) : (<UserDetails {...props} {...this.state} createPost={this.createPost}/>)}
+                            (!localStorage.hasOwnProperty('ujwt')) ? (<Redirect to="/"/>
+                            ) : (<UserDetails {...props} {...this.state}/>)}
                               />
                       <Route path='/auth' 
                             render={(props) => <Auth 
@@ -178,7 +126,7 @@ class App extends Component {
                       <Route exact path='/post/create' 
                               render={(props) => 
                                 (!localStorage.hasOwnProperty('ujwt')) ? (<Redirect to="/"/>
-                                ) : (<Create {...props} {...this.state} createPost={this.createPost}/>)}
+                                ) : (<Create {...props} {...this.state}/>)}
                           />
                       <Route exact path='/post/edit/:id' 
                               render={(props) => 

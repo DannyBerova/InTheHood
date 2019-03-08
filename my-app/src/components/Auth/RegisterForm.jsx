@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
 import { toast } from 'react-toastify';
+import AuthService from '../../services/auth-service';
 
 class Register extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class Register extends Component {
         message: null
     }
 
+    this.AuthService = new AuthService();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 }
@@ -35,41 +37,29 @@ handleChange(event) {
   }
 }
 
-handleSubmit(event) {
-  event.preventDefault();
-  fetch('http://localhost:5000/auth/signup', {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(this.state.userData),
-  })
-  .then(res => res.json())
-  .then(async (body) => {
-    this.setState({message: ''})
-    if(body.errors) {
-      let err = this.state.message;
-      let values = Object.values(body.errors)
-      values.forEach(error => {
-          err = err + ' ' + error;
-      })
-        this.setState({message: err})
-        toast.error(err);
-      } else if(body.error){
-        this.setState({message: body.error})
-        toast.error(body.error);
-    } else {
-          toast.success(body.message);
-          await this.props.loginUser(body)
-          this.setState({ redirect: true });
-    }
-  })
-  .catch(er => {
-    console.log(er)
-    toast.error(<h4>{er.message || er.TypeError}</h4>);
-      this.setState({message: er.message || er.TypeError})
-  })
-}
+async handleSubmit(event) {
+        event.preventDefault();
+
+        const body = await this.AuthService.register(this.state.userData);
+
+        if(body.errors) {
+          this.setState({message: ''})
+          let err = this.state.message;
+          let values = Object.values(body.errors)
+          values.forEach(error => {
+              err = err + ' ' + error;
+          })
+            this.setState({message: err})
+            toast.error(err);
+          } else if(body.error){
+            this.setState({message: body.error})
+            toast.error(body.error);
+        } else {
+              toast.success(body.message);
+              await this.props.loginUser(body)
+              this.setState({ redirect: true });
+        } 
+  } 
 
   render() {
     const redirectLink = `/`

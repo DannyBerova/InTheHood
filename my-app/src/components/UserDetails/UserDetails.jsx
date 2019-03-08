@@ -1,37 +1,29 @@
 import React, { Component } from 'react';
 import PostCard from '../PostCard/PostCard';
 //import { NavLink, Link, Switch } from 'react-router-dom';
+import UserService from '../../services/user-service';
 
-class PostDetails extends Component {
+class UserDetails extends Component {
     constructor(props) {
         super(props) 
         this.state ={
             user: {},
             posts: {}
         }
+        this.UserService = new UserService();
         this.handleClick = this.handleClick.bind(this);
     }
-    componentWillMount() {
+    async componentWillMount() {
         const id = this.props.match.params.id;
-        const token = localStorage.hasOwnProperty('ujwt') ? localStorage.getItem('ujwt') : ('');
-        console.log(this.props)
-        fetch(`http://localhost:5000/user/details/${id}`, {
-            method: "GET", // *GET, POST, PUT, DELETE, etc.
-            headers: new Headers({
-              'Authorization': `Bearer ${token}`,
-              "Content-Type": "application/json",
-            })
-          })
-          .then(res => res.json())
-          .then(data => {
-            if(data.user) {
+
+        const result = await this.UserService.userDetails(id);
+
+        if(result.user) {
           this.setState({
-            user: data.user,
-            posts: data.posts
+            user: result.user,
+            posts: result.posts
             })
-          }
-       })
-     .catch(er => console.log(er.json()));
+          } 
     }
 
     handleClick(event) {
@@ -86,4 +78,4 @@ class PostDetails extends Component {
     }
 }
 
-export default PostDetails;
+export default UserDetails;

@@ -8,13 +8,11 @@ class PostCard extends Component {
     }
 
     render() {
-        // let isAuth = (this.props.userId)
-        // let isAdmin = (this.props.isAdmin)
         let {title, content, category, imageUrl, createdOn, _id, stars} = this.props.post;
         var dateStr = new Date(createdOn).toLocaleString('en-GB', { timeZone: 'UTC' });
         let shortContent = content + '...';
-        if(content.length > 50) {
-          shortContent = content.substr(0, 50) + '...'
+        if(content.length > 70) {
+          shortContent = content.substr(0, 70) + '...'
         }
         
         let detailsLink = `/post/details/${_id}`;
@@ -26,22 +24,23 @@ class PostCard extends Component {
               <div className="row valign-wrapper">
                 <div className="col s2">
                   <img src={imageUrl} alt="" className="circle responsive-img"/>
-                  <span>
+                  {/* <span>
                   <a className="btn-floating waves-effect waves-light teal darken-1" 
                                 href='/' onClick={this.handleClick}><i className="material-icons">star</i></a>
-                  </span>
+                  </span> */}
+                  <hr></hr>
                   <span>
-                    <p>Stars: {stars.length}</p>
+                    <p className="teal-text">Stars: {stars.length}</p>
                   </span> 
                 </div>
                 <div className="col s10">
                   <div className="card-content">
                     <span>
-                      <h5 className="teal-text">Category: {category}</h5>
+                      <h6 className="teal-text">Category: {category}</h6>
                     </span>
-                    <h4>{title}</h4>
+                    <h5>"{title}"</h5>
                     <span>
-                      <p>by {this.props.post.createdBy.username} / created on: {dateStr}</p>
+                      <p className='teal-text'>by {this.props.post.createdBy.username} / created on: {dateStr}</p>
                     </span>
                     <p>{shortContent}</p>
                     <hr></hr>    

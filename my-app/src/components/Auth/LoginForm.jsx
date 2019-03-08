@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
 import { toast } from 'react-toastify';
+import AuthService from '../../services/auth-service';
 
 class Login extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class Login extends Component {
       message: null
     }
 
+    this.AuthService = new AuthService();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 }
@@ -32,36 +34,25 @@ handleChange(event) {
   }
 }
 
-handleSubmit(event) {
+async handleSubmit(event) {
   event.preventDefault();
   this.setState({message: ''})
-  fetch('http://localhost:5000/auth/login', {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      headers: {
-          "Content-Type": "application/json"
-      },
-      body: JSON.stringify(this.state.userData)
-    })
-  .then(res => res.json())
-  .then( (body) => {
-      if(!body.userId) {
-          this.setState({message: 'Invalid credentials!'})
-          toast.error(this.state.message);
-        } else if(body.error){
-          this.setState({message: body.error})
-          toast.error(body.error);
-      } else {
-        toast.success(body.message);
-         this.props.loginUser(body)
-        this.setState({
-          redirect: true,
-        });
-      }
-  })
-  .catch(er => {
-    console.log(er)
-      this.setState({message: er.message || er.TypeError})
-  })
+
+  const result = await this.AuthService.login(this.state.userData);
+
+  if(!result.userId) {
+    this.setState({message: 'Invalid credentials!'})
+    toast.error(this.state.message);
+  } else if(result.error){
+    this.setState({message: result.error})
+    toast.error(result.error);
+  } else {
+    toast.success(result.message);
+    this.props.loginUser(result)
+    this.setState({
+      redirect: true,
+    });
+  }
 }
 
 render() {

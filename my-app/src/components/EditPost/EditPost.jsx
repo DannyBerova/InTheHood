@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
 import { toast } from 'react-toastify';
+import PostService from '../../services/post-service'
+import CategoryService from '../../services/category-service'
 
 class EditPost extends Component {
 
@@ -14,11 +16,13 @@ class EditPost extends Component {
       category: null,
       },
       redirect: false,
-      createdPostId: null,
+      editedPostId: null,
       categories: [],
       message: ''
     }
     
+    this.PostService = new PostService();
+    this.CategoryService = new CategoryService();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 }
@@ -26,12 +30,8 @@ class EditPost extends Component {
  async componentDidMount() {
      const id = this.props.match.params.id;
      try {
-         let post = await fetch(`http://localhost:5000/post/details/${id}`)
-              .then(res => res.json())
-              .then(data => data.post)
-         let categories = await fetch(`http://localhost:5000/category`)
-              .then(res => res.json())
-              .then(data => data.categories)
+       let {categories} = await this.CategoryService.all();
+       let {post} = await this.PostService.postDetails(id);
 
          this.setState({
             post: {
@@ -48,60 +48,44 @@ class EditPost extends Component {
      }
 }
 
-handleSubmit(event) {
+async handleSubmit(event) {
   event.preventDefault();
   if(!this.isPostValid(this.state.post)) {
     return;
   }
 
   let postData = this.state.post;
-  console.log(postData)
   const id = this.props.match.params.id;
   postData.createdBy = this.props.userId;
   if(postData.category === null) {
     postData.category = this.state.post.category || 'info'
   }
- 
-  fetch(`http://localhost:5000/post/edit/${id}`, {
-    method: "POST", 
-    headers: new Headers({
-      'Authorization': `Bearer ${this.props.jwtoken}`,
-        "Content-Type": "application/json",
-    }),
-    body: JSON.stringify(postData), 
-  })
-  .then(res => res.json())
-  .then(async (body) => {
-    if(body.errors) {
-      let err = this.state.message;
-      let values = Object.values(body.errors)
-      values.forEach(error => {
-          console.log(error)
-          err = err + ' ' + error;
-      })
-      this.setState({message: err})
-      toast.error(err);
-      return;
-    } else if(body.error){
-      this.setState({message: body.error})
-      toast.error(body.error);
-    } else {
-      toast.success(body.message);
+
+  let body = await this.PostService.edit({id, postData});
+  if(body.errors) {
+    this.setState({message: ''})
+    let err = this.state.message;
+    let values = Object.values(body.errors)
+    values.forEach(error => {
+        err = err + ' ' + error;
+    })
+    this.setState({message: err})
+    toast.error(err);
+    return;
+  } else if(body.error){
+    this.setState({message: body.error})
+    toast.error(body.error);
+  } else {
+    toast.success(body.message);
 
       this.setState({
         redirect: true,
-        createdPostId: body.data._id
-      });
-      } 
-    })
-     .catch(er => {
-        console.log(er)
-        toast.error(er)
-      this.setState({message: er.message || er.TypeError})
-  })
+        editedPostId: body.data._id
+      })
+    } 
 }
 
-//will put more validation front-end
+//TODO: put more validation front-end
 isPostValid(post) {
   let isValid = true;
 
@@ -134,10 +118,10 @@ handleChange(event) {
   
   render() {
     const isAuth = localStorage.hasOwnProperty("ujwt")
-    const redirectLink = `/post/details/${this.state.createdPostId}`
+    const redirectLink = `/post/details/${this.state.editedPostId}`
     let {title, content, imageUrl, category} = this.state.post;
-    let cat = this.state.categories.filter(c => c.name === category)
-    let withoutCat = this.state.categories.filter(c => c.name !== category)
+    let cat = this.state.categories.filter(c => c.name === category) || []
+    let withoutCat = this.state.categories.filter(c => c.name !== category) || []
 
     let renderIfAuth = (
       <div className="container">

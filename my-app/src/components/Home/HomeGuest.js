@@ -2,46 +2,78 @@ import React, { Component, Fragment } from 'react';
 import PostCard from '../PostCard/PostCard';
 import SideNavLeft from '../SideNavs/SideNavLeft';
 import SideNavRight from '../SideNavs/SideNavRight';
+import PostService from '../../services/post-service'
 
 class HomeGuest extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        posts: this.props.posts,
-        filter: this.props.filter,
-        filteredPosts: this.props.posts,
+        posts: [],
+        filter: '',
+        filteredPosts: [],
         search: ''
     }
+
+    this.PostService = new PostService();
     this.handleChange = this.handleChange.bind(this);
     this.search = this.search.bind(this);
+    this.filterPosts = this.filterPosts.bind(this);
 }
 
-componentWillReceiveProps(nextProps) {
-    if (this.props !== nextProps) {
-        let filtered = nextProps.filter !== '' 
-            ? nextProps.posts.filter(p => p.category === nextProps.filter) 
-            : nextProps.posts
-        
+async componentWillMount() {
+    let data = await this.PostService.all();
+
+    if(data.posts) {
+      let orderedPosts = data.posts.sort((a, b) =>{
+        return a.createdOn < b.createdOn
+      })
+      if(this.state.filter !== '') 
+     
+      localStorage.removeItem('message')
+      
         this.setState({
-            filter: nextProps.filter,
-            filtered: filtered,
-            posts: filtered,
+          message: '',
+          posts: orderedPosts,
+          filteredPosts: orderedPosts,
+          hasFetched: true
         })
     }
-   }
+}
+
 handleChange(event) {
     this.setState({
         [event.target.name]: event.target.value
     })
 }
 
+async filterPosts(text) {
+    this.setState({filteredPosts: this.state.posts})
+    let filtered = this.state.posts.concat();
+    if(text === 'toprated') {
+        filtered = filtered.sort((a, b) => a.stars.length < b.stars.length)
+
+    } else {
+
+     filtered = text !== '' 
+                ? this.state.posts.filter(p => p.category === text) 
+                : this.state.posts
+    }
+
+    this.setState({ filteredPosts: filtered })
+   
+  }
+
+  
+
 search() {
-    let filtered = this.props.posts;
+    let filtered = this.state.posts;
     if(this.state.search !== '') {
-        filtered = this.props.posts.filter(p => p.title.toLowerCase().includes(this.state.search.toLowerCase())) 
+        filtered = this.state.posts.filter(p => p.title.toLowerCase().includes(this.state.search.toLowerCase())) 
+    } else {
+        filtered = this.state.posts
     }
     this.setState({
-        posts: filtered,
+        filteredPosts: filtered,
         search: ''
     })
 }
@@ -68,17 +100,22 @@ search() {
         <Fragment>
           <div className='row'>
             {isAuth ? authBlock : welcomeBlock}
-                <SideNavLeft  {...this.state} searchByString={this.props.searchByString} />
+                <SideNavLeft  {...this.state} filterPosts={this.filterPosts} />
 
                     <Fragment>
                         <div className='col s8'>
                             <div className="row">
                                 <div className="col s8 offset-s1">
                                     <i class="material-icons left">search</i>
-                                    <input className="input-field col s10 " type="text" onChange={this.handleChange} name="search" id="search" placeholder="Search..." value={this.state.search}/>
+                                    <input className="input-field col s10 " type="text" onChange={this.handleChange} 
+                                onKeyPress={event => {
+                                    if (event.key === 'Enter') {
+                                      this.search()
+                                    }
+                                  }}   name="search" placeholder="Search..." value={this.state.search}/>
                                 </div>
                                 <div className="col s2">
-                                    <button type="button" class="waves-effect teal darken-1  waves-light btn" onClick={this.search} value='info' >SEARCH</button>
+                                    <button type="button" id = "btnSearch" className="waves-effect teal darken-1  waves-light btn" onClick={this.search} value='info' >SEARCH</button>
                                 </div>
                             </div>
                             <div className="row">
@@ -94,13 +131,13 @@ search() {
                                 </ul>
                             </div>
                             </div>
-                            {(this.state.posts.length > 0
-                                ) ? (this.state.posts.map((post) => (
+                            {(this.state.filteredPosts.length > 0
+                                ) ? (this.state.filteredPosts.map((post) => (
                                     <PostCard key={post._id} post={post}/>))
                                 ) : (<h4>No posts to show!</h4>)}
                         </div>
                     </Fragment>
-                <SideNavRight  {...this.state} {...this.props} logout={this.logout} />
+                <SideNavRight  {...this.state} {...this.props} filterPosts={this.filterPosts}/>
             </div>
         </Fragment>
     );
