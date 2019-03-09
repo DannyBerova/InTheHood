@@ -8,18 +8,25 @@ class PostCard extends Component {
     }
 
     render() {
+      
         let {title, content, category, imageUrl, createdOn, _id, stars} = this.props.post;
-        var dateStr = new Date(createdOn).toLocaleString('en-GB', { timeZone: 'UTC' });
-        let shortContent = content + '...';
-        if(content.length > 70) {
-          shortContent = content.substr(0, 70) + '...'
+        let ifEntry = title && content && category && imageUrl && createdOn && _id && stars
+        let dateStr, shortContent, detailsLink, classIsAdminSays
+        if(title && content && category && imageUrl && createdOn && _id && stars) {
+
+          dateStr = new Date(createdOn).toLocaleString('en-GB', { timeZone: 'UTC' });
+          shortContent = content + '...';
+          if(content.length > 70) {
+            shortContent = content.substr(0, 70) + '...'
+          }
+          
+          detailsLink = `/post/details/${_id}`;
+          classIsAdminSays = category === 'adminSays' ? (`card-panel teal lighten-4 z-depth-1`) : (`card-panel teal lighten-5 z-depth-1`);
+         
         }
-        
-        let detailsLink = `/post/details/${_id}`;
-        let classIsAdminSays = category === 'adminSays' ? (`card-panel teal lighten-4 z-depth-1`) : (`card-panel teal lighten-5 z-depth-1`);
-       
         return (
-          <div className="col s12 ">
+          (!ifEntry) ? (<h3>No posts found!</h3>) : (
+            <div className="col s12 ">
             <div className={classIsAdminSays}>
               <div className="row valign-wrapper">
                 <div className="col s2">
@@ -55,7 +62,8 @@ class PostCard extends Component {
               </div>
             </div>           
           </div>
-        );
+          ))
+          
       }
 }
 export default PostCard;

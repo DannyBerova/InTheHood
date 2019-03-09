@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PostCard from '../PostCard/PostCard';
 //import { NavLink, Link, Switch } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import UserService from '../../services/user-service';
 
 class UserDetails extends Component {
@@ -26,15 +27,30 @@ class UserDetails extends Component {
           } 
     }
 
-    handleClick(event) {
+   async handleClick(event) {
       event.preventDefault()
-      console.log('testing')
+      if(this.props.isAdmin === true) {
+        const id = this.props.match.params.id;
+        
+            let result = await this.UserService.block(id);
+            console.log('hop')
+            console.log(result)
+            if(result.user) {
+                toast.success(result.message)
+                this.setState({
+                    user: result.user,
+                    posts: result.posts,
+                    })
+            }
+            return;
+          }
     }
 
     render() {
       //utilities or function to be -OR PUT IN STATE
-      let block = this.state.user.isBlocked ? 'UNBLOCK' : 'BLOCK';
-      let active = this.state.user.isBlocked ? 'BLOCKED' : 'ACTIVE'
+      let block = this.state.user.isBlocked === true ? 'UNBLOCK' : 'BLOCK';
+      let active = this.state.user.isBlocked === true ? 'BLOCKED' : 'ACTIVE';
+      let isBlockedColor = this.state.user.isBlocked === true ? 'grey' : 'teal'
       const postsValues = Object.values(this.state.posts);
       postsValues.map(v => {
             v.createdBy = {};
@@ -59,11 +75,11 @@ class UserDetails extends Component {
               {this.props.isAdmin === true 
               ? (
               <div class="card-action">
-                  <a href='/' onClick={this.handleClick} className="teal darken-1 btn-large">{block}</a>
+                  <a href='/' onClick={this.handleClick} className={isBlockedColor + " darken-1 btn-large"}>{block}</a>
               </div>
               ) : (
               <div class="card-action">
-                <a  href='/' onClick={this.handleClick} className="teal darken-1 btn-large">{active}</a>
+                <a  href='/' onClick={this.handleClick} className={isBlockedColor + " darken-1 btn-large"}>{active}</a>
               </div>
               )}
             </div>

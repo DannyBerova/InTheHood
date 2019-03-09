@@ -100,12 +100,12 @@ class App extends Component {
   render() {
     return (
       <div className="App bgimg ">
-        <div className="row " >
+        <div className="row" >
             <Suspense fallback={<h1 className='teal'>Loading...</h1>}>
           <BrowserRouter>
               <Fragment>
                 <Header  {...this.state} logout={this.logout} />
-                <div className='col s12'>
+                <div className='col s12 '>
                   <Switch>
                       <Route exact path='/' render={(props) => <HomeGuest 
                               {...props} 

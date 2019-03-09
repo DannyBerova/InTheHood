@@ -1,7 +1,10 @@
 import React, { Component, Fragment } from 'react';
+
 import PostCard from '../PostCard/PostCard';
+import Pagination from "../pagination";
 import SideNavLeft from '../SideNavs/SideNavLeft';
 import SideNavRight from '../SideNavs/SideNavRight';
+
 import PostService from '../../services/post-service'
 
 class HomeGuest extends Component {
@@ -11,7 +14,10 @@ class HomeGuest extends Component {
         posts: [],
         filter: '',
         filteredPosts: [],
-        search: ''
+        search: '',
+        currentPosts: [],
+        currentPage: null,
+        totalPages: 1
     }
 
     this.PostService = new PostService();
@@ -33,9 +39,11 @@ async componentWillMount() {
       
         this.setState({
           message: '',
+          filter: '',
           posts: orderedPosts,
           filteredPosts: orderedPosts,
-          hasFetched: true
+          currentPosts: orderedPosts,
+          totalPages: Math.ceil(orderedPosts / 5)
         })
     }
 }
@@ -47,37 +55,104 @@ handleChange(event) {
 }
 
 async filterPosts(text) {
-    this.setState({filteredPosts: this.state.posts})
+    this.setState({filteredPosts: this.state.posts, })
     let filtered = this.state.posts.concat();
     if(text === 'toprated') {
         filtered = filtered.sort((a, b) => a.stars.length < b.stars.length)
-
+    } else if(text === 'all'){
+        filtered = this.state.posts;
     } else {
 
      filtered = text !== '' 
-                ? this.state.posts.filter(p => p.category === text) 
+                ? (filtered.filter(p => p.category === text) )
                 : this.state.posts
     }
+    if(filtered.length > 0) {
 
-    this.setState({ filteredPosts: filtered })
-   
+        let filteredLength = filtered.length > 0 ? filtered.length : 1
+        this.setState({ 
+            filteredPosts: filtered,
+            currentPosts: filtered.slice(0,5),
+            totalPages: Math.ceil(filteredLength / 5) || 1,
+            currentPage: 1,
+            })
+    } else {
+        this.setState({
+            filteredPosts: [{
+            title:'', content: '', imageUrl: '', stars:''
+            }],
+            currentPosts: [{
+                title:'', content: '', imageUrl: '', stars:''
+                }],
+                totalPages:1
+    })
+    }
+    
+  }
+  search() {
+      let filtered = this.state.posts;
+      if(this.state.search !== '') {
+          filtered = this.state.posts.filter(p => p.title.toLowerCase().includes(this.state.search.toLowerCase())) 
+      } else {
+          filtered = this.state.posts
+      }
+      let filteredLength = filtered.length > 0 ? filtered.length : 1
+      if(filtered.length > 0) {
+
+          this.setState({
+              filteredPosts: filtered,
+              currentPosts: filtered.slice(0,5),
+            totalPages: Math.ceil(filteredLength / 5) || 1,
+            currentPage: 1,
+            search: ''
+          })
+      } else {
+        this.setState({
+            filteredPosts: [{
+            title:'', content: '', imageUrl: '', stars:''
+            }],
+            currentPosts: [{
+                title:'', content: '', imageUrl: '', stars:''
+                }],
+                totalPages:1,
+            currentPage: 1,
+            search: ''
+    })
+    }
   }
 
+onPageChanged = data => {
+    console.log(data)
+    let {filteredPosts } = this.state;
+    //let filtered = this.state.posts;
+    const { currentPage, totalPages, pageLimit } = data;
+     //let totalRecords = this.state.filteredPosts.length;
+
+    const offset = (currentPage - 1) * pageLimit;
+    let currentPosts = filteredPosts.slice(offset, offset + pageLimit);
+
+    this.setState({ currentPage, currentPosts, totalPages });
+    console.log(currentPosts)
+  };
   
 
-search() {
-    let filtered = this.state.posts;
-    if(this.state.search !== '') {
-        filtered = this.state.posts.filter(p => p.title.toLowerCase().includes(this.state.search.toLowerCase())) 
-    } else {
-        filtered = this.state.posts
-    }
-    this.setState({
-        filteredPosts: filtered,
-        search: ''
-    })
-}
   render() {
+    const {
+        filteredPosts,
+        currentPosts,
+        currentPage,
+        totalPages
+      } = this.state;
+      const totalPosts = filteredPosts.length;
+  
+      if (totalPosts === 0) return null;
+  
+      const headerClass = [
+        "text-dark py-2 pr-4 m-0",
+        currentPage ? "border-gray border-right" : ""
+      ]
+        .join(" ")
+        .trim();
     //TODO: pagination, weather, location, top rated
       let isAuth = this.props.isLoggedIn;
       let welcomeBlock = (
@@ -98,6 +173,7 @@ search() {
     )
     return (
         <Fragment>
+            
           <div className='row'>
             {isAuth ? authBlock : welcomeBlock}
                 <SideNavLeft  {...this.state} filterPosts={this.filterPosts} />
@@ -107,7 +183,7 @@ search() {
                             <div className="row">
                                 <div className="col s8 offset-s1">
                                     <i class="material-icons left">search</i>
-                                    <input className="input-field col s10 " type="text" onChange={this.handleChange} 
+                                    <input className="input-field col s11 " type="text" onChange={this.handleChange} 
                                 onKeyPress={event => {
                                     if (event.key === 'Enter') {
                                       this.search()
@@ -118,23 +194,36 @@ search() {
                                     <button type="button" id = "btnSearch" className="waves-effect teal darken-1  waves-light btn" onClick={this.search} value='info' >SEARCH</button>
                                 </div>
                             </div>
-                            <div className="row">
-                            <div className="col s11 offset-s1">
-                                <ul class="pagination teal">
-                                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                                    <li className="active"><a className='teal' href="#!">1</a></li>
-                                    <li class="waves-effect"><a href="#!">2</a></li>
-                                    <li class="waves-effect"><a href="#!">3</a></li>
-                                    <li class="waves-effect"><a href="#!">4</a></li>
-                                    <li class="waves-effect"><a href="#!">5</a></li>
-                                    <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-                                </ul>
+                            <div className="row ">
+                            <div className="row d-flex flex-row py-5">
+                            <div className="w-90 px-4 py-5 d-flex flex-row flex-wrap align-items-center justify-content-between">
+                                <p className=" align-items-center">
+                                
+                                {currentPage && (
+                                    
+                                    <span>Page {currentPage} / {" "}
+                                    {totalPages}</span>
+                                    
+                                )}
+                                </p>
+                                <div className="d-flex flex-row py-4   ">
+                                <Pagination
+                                    totalRecords={this.state.filteredPosts.length}
+                                    totalPages={totalPages}
+                                    records={filteredPosts}
+                                    pageLimit={5}
+                                    pageNeighbours={1}
+                                    onPageChanged={this.onPageChanged}
+                                />
+                                </div>
                             </div>
-                            </div>
-                            {(this.state.filteredPosts.length > 0
-                                ) ? (this.state.filteredPosts.map((post) => (
-                                    <PostCard key={post._id} post={post}/>))
-                                ) : (<h4>No posts to show!</h4>)}
+                            {(filteredPosts.length > 0
+                                ) ? (currentPosts.map(post => (
+                                    <PostCard key={post._id} post={post} />
+                                  ))
+                                ) : (<h4>No posts found!</h4>)}
+                        </div>
+                        </div>
                         </div>
                     </Fragment>
                 <SideNavRight  {...this.state} {...this.props} filterPosts={this.filterPosts}/>

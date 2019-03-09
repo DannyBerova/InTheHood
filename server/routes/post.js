@@ -365,7 +365,6 @@ router.post('/star/:id', authCheck, async (req, res) => {
 router.delete('/remove/:id', authCheck, async (req, res) => {
   const id = req.params.id;
   const creator = req.body.creatorId;
-  console.log(req.body)
   var user = await User.findById(creator);
   if (req.user.roles.indexOf('User') > -1 || req.user.roles.indexOf('Admin') > -1) {
     Post

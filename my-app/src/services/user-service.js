@@ -20,7 +20,7 @@ class UserService {
 
     async block(id) {  
         try {
-            return await requester.get(`/user/block/${id}`); 
+            return await requester.post(`/user/block/${id}`); 
         } catch(err) {
             return err;
         }           

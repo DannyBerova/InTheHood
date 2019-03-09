@@ -66,13 +66,13 @@ class SideNavRight extends Component {
         }
         return (
           <div className='col s2' >
-            <ul >
+            <ul className="teal" >
             <li className="teal"><h6 className="white-text ">TRENDING:</h6></li> 
-              <li><button type="text" class="waves-effect teal darken-1  waves-light btn-large" onClick={this.handleClick} value='toprated' >TOP RATED</button></li> 
               <li>
                     <div class="card">
                     <div class="card-content">
                 <div  class="teal-text"   >
+                <p>Current Weather:</p>
               <img src={icon} alt="weather"/>
               <p>{d.toLocaleDateString()}</p>
               <h5>Sofia {temp} &#8451;</h5>
