@@ -125,6 +125,7 @@ router.post('/signup', (req, res, next) => {
              userId: user._id.toString(),
              username: user.username,
              isAdmin: user.roles.indexOf('Admin') !== -1,
+             isBlocked: user.isBlocked,
              roles: user.roles
            });
     })
@@ -190,6 +191,7 @@ router.post('/login', (req, res, next) => {
          userId: user._id.toString(),
          username: user.username,
          isAdmin: user.roles.indexOf('Admin') !== -1,
+         isBlocked: user.isBlocked,
          roles: user.roles
        });
   })

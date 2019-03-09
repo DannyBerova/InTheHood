@@ -32,7 +32,7 @@ class SideNavRight extends Component {
          // let weather = await this.WeatherService.sofia()
           let weather = await fetch("http://api.apixu.com/v1/current.json?key=ae5066bced2b4b2c8d9220032190803&q=Sofia`").then(res => res.json())
           if(weather) {
-            localStorage.setItem('weather', weather.current)
+            localStorage.setItem('weather', weather.current.temp_c)
           }
             this.setState({ 
               latestPost: data,

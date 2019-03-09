@@ -30,9 +30,7 @@ class App extends Component {
       jwtoken: localStorage.getItem('username') || null,
       user: localStorage.getItem('username') || null,
       userId: localStorage.getItem('userId') || null,
-      //hasFetched: false,
-      //filter: '',
-      //posts: [],
+      isBlocked: localStorage.getItem('isBlocked') === 'true' || false,
       message: ''
     }
 
@@ -58,6 +56,7 @@ class App extends Component {
           jwtoken: localStorage.getItem('ujwt'),
           isLoggedIn: true,
           isAdmin: localStorage.getItem('isAdmin') === 'true',
+          isBlocked: localStorage.getItem('isBlocked') === 'true',
           message: '',
 
         })       
@@ -68,15 +67,18 @@ class App extends Component {
 
    loginUser(user) {
     if(user && user.userId) {
+      console.log(user)
        this.setState((prevState, props) => ({
         user: user.username,
         userId: user.userId,
         isLoggedIn: true,
         isAdmin: user.isAdmin,
+        isBlocked: user.isBlocked,
         message: user.message,
         jwtoken: user.token
       }));
       localStorage.setItem('isAdmin', user.isAdmin);
+      localStorage.setItem('isBlocked', user.isBlocked);
       localStorage.setItem('username', user.username);
       localStorage.setItem('userId', user.userId);
       localStorage.setItem('ujwt', user.token);
@@ -125,7 +127,7 @@ class App extends Component {
                               loginUser={this.loginUser}/>} />
                       <Route exact path='/post/create' 
                               render={(props) => 
-                                (!localStorage.hasOwnProperty('ujwt')) ? (<Redirect to="/"/>
+                                ((!localStorage.hasOwnProperty('ujwt')) || (localStorage.hasOwnProperty('isBlocked') && this.state.isBlocked === true)) ? (<Redirect to="/"/>
                                 ) : (<Create {...props} {...this.state}/>)}
                           />
                       <Route exact path='/post/edit/:id' 

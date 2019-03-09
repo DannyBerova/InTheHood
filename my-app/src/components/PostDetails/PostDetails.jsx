@@ -41,7 +41,8 @@ class PostDetails extends Component {
     async handleClickStar(event) {
         event.preventDefault()
         const id = this.props.match.params.id;
-        
+        if(this.props.isBlocked === false) {
+
             let result = await this.PostService.star(id);
             console.log('hop')
             console.log(result)
@@ -56,6 +57,10 @@ class PostDetails extends Component {
                     })
             }
             return;
+        } else {
+            toast.error('You are blocked! You can\'t give stars!')
+        }
+        
         
     }
 
