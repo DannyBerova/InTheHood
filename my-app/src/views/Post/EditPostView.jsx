@@ -110,9 +110,9 @@ class EditPostView extends Component {
   render() {
     const isAuth = localStorage.hasOwnProperty("ujwt")
     const redirectLink = `/post/details/${this.state.editedPostId}`
-    let {title, content, imageUrl, category} = this.state.post;
-    let cat = this.state.categories.filter(c => c.name === category) || []
-    let withoutCat = this.state.categories.filter(c => c.name !== category) || []
+    // let {title, content, imageUrl, category} = this.state.post;
+    // let cat = this.state.categories.filter(c => c.name === category) || []
+    // let withoutCat = this.state.categories.filter(c => c.name !== category) || []
 
     return (
       <div className="Create">

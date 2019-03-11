@@ -8,7 +8,7 @@ import '../node_modules/materialize-css/dist/css/materialize.css'
 import './App.css';
 import PostService from './services/post-service'
 
-const HomeGuest = lazy(() => import('./components/Home/HomeGuest'));
+const Home = lazy(() => import('./views/Home/HomeView'));
 const About = lazy(() => import('./components/About/About'));
 const Create = lazy(() => import('./views/Post/CreateView'));
 const Auth = lazy(() => import('./Auth'));
@@ -40,14 +40,6 @@ class App extends Component {
   }
 
   async componentWillMount() {
-
-   // let data = await this.PostService.all();
-
-    // if(data.posts) {
-    //   let orderedPosts = data.posts.sort((a, b) =>{
-    //     return a.createdOn < b.createdOn
-    //   })
-     
       localStorage.removeItem('message')
       if(localStorage.getItem('userId')) {
         this.setState({
@@ -104,59 +96,55 @@ class App extends Component {
       <div className="App bgimg ">
         <div className="row" >
             <Suspense fallback={<h1 className='teal'>Loading...</h1>}>
-          <BrowserRouter>
-              <Fragment>
-                <Header  {...this.state} logout={this.logout} />
-                <div className='col s12 '>
-                  <Switch>
-                      <Route exact path='/' render={(props) => <HomeGuest 
-                              {...props} 
-                              {...this.state}                                />} />
-                      <Route path='/about' render={(props) => <About/>} />
-                      <Route path='/post/details/:id' render={(props) => <PostDetails 
-                              {...props} 
-                              {...this.state}/>} />
+              <BrowserRouter>
+                <Fragment>
+                  <Header  {...this.state} logout={this.logout} />
+                  <div className='col s12 '>
+                    <Switch>
+                        <Route exact path='/' render={(props) => <Home 
+                                {...props} 
+                                {...this.state} />} />
+                        <Route path='/about' render={(props) => <About/>} />
+                        <Route path='/post/details/:id' render={(props) => <PostDetails 
+                                {...props} 
+                                {...this.state}/>} />
                         <Route path='/user/details/:id' render={(props) =>
-                            (!localStorage.hasOwnProperty('ujwt')) ? (<Redirect to="/"/>
-                            ) : (<UserDetails {...props} {...this.state}/>)}
-                              />
-                      <Route path='/auth' 
-                            render={(props) => <Auth 
-                              {...props} 
-                              {...this.state}  
-                              loginUser={this.loginUser}/>} />
-                      <Route exact path='/post/create' 
-                              render={(props) => 
-                                ((!localStorage.hasOwnProperty('ujwt')) || (localStorage.hasOwnProperty('isBlocked') && this.state.isBlocked === true)) ? (<Redirect to="/"/>
-                                ) : (<Create {...props} {...this.state}/>)}
-                          />
-                      <Route exact path='/post/edit/:id' 
-                              render={(props) => 
-                                (!localStorage.hasOwnProperty('ujwt')
-                                ) ? (<Redirect to="/"/>
-                                ) : (<EditPost {...props} {...this.state}/>)}
-                          />
-                      <Route exact path='/user/all' 
-                              render={(props) => 
-                                ((!localStorage.hasOwnProperty('isAdmin') || this.state.isAdmin === false) 
-                                ) ? (<Redirect to="/"/>
-                                ) : (<AllUsers {...props} {...this.state}/>)}
-                          />
-                      <Route render={() => <NoMatch/>}/>
-                  </Switch>
-                </div>
-                <ToastContainer 
-                    position="bottom-right"
-                    autoClose={3000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    rtl={false}
-                    pauseOnVisibilityChange
-                    draggable
-                    pauseOnHover/>
-                <Footer  {...this.state} logout={this.logout} />
-              </Fragment>
-          </BrowserRouter>
+                              (!localStorage.hasOwnProperty('ujwt')) ? (<Redirect to="/"/>
+                              ) : (<UserDetails {...props} {...this.state}/>)} />
+                        <Route path='/auth' 
+                              render={(props) => <Auth 
+                                {...props} 
+                                {...this.state}  
+                                loginUser={this.loginUser}/>} />
+                        <Route exact path='/post/create' 
+                                render={(props) => 
+                                  ((!localStorage.hasOwnProperty('ujwt')) || (localStorage.hasOwnProperty('isBlocked') && this.state.isBlocked === true)) ? (<Redirect to="/"/>
+                                  ) : (<Create {...props} {...this.state}/>)} />
+                        <Route exact path='/post/edit/:id' 
+                                render={(props) => 
+                                  (!localStorage.hasOwnProperty('ujwt')
+                                  ) ? (<Redirect to="/"/>
+                                  ) : (<EditPost {...props} {...this.state}/>)} />
+                        <Route exact path='/user/all' 
+                                render={(props) => 
+                                  ((!localStorage.hasOwnProperty('isAdmin') || this.state.isAdmin === false) 
+                                  ) ? (<Redirect to="/"/>
+                                  ) : (<AllUsers {...props} {...this.state}/>)} />
+                        <Route render={() => <NoMatch/>}/>
+                    </Switch>
+                  </div>
+                  <ToastContainer 
+                      position="bottom-right"
+                      autoClose={3000}
+                      hideProgressBar={false}
+                      newestOnTop={false}
+                      rtl={false}
+                      pauseOnVisibilityChange
+                      draggable
+                      pauseOnHover/>
+                    <Footer  {...this.state} logout={this.logout} />
+                  </Fragment>
+              </BrowserRouter>
             </Suspense>
         </div>
       </div>

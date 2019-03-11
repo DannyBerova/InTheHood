@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PostService from '../../services/post-service';
 import WeatherService from '../../services/weather-service';
 
-const sofiaWeather = "http://api.apixu.com/v1/current.json?key=ae5066bced2b4b2c8d9220032190803&q=Sofia`";
-
 class SideNavRight extends Component {
     constructor(props) {
         super(props) 

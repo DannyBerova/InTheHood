@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
 import { toast } from 'react-toastify';
 import PostService from '../../services/post-service';
@@ -23,7 +23,6 @@ class PostDetailsView extends Component {
     }
     async componentWillMount() {
         const id = this.props.match.params.id;
-
         const result = await this.PostService.postDetails(id);
 
         if(result.post) {
@@ -37,16 +36,12 @@ class PostDetailsView extends Component {
         }
     }
 
-    
-
     async handleClickStar(event) {
         event.preventDefault()
         const id = this.props.match.params.id;
         if(this.props.isBlocked === false) {
 
             let result = await this.PostService.star(id);
-            console.log('hop')
-            console.log(result)
             if(result.post) {
                 toast.success(result.message)
                 this.setState({
@@ -61,14 +56,11 @@ class PostDetailsView extends Component {
         } else {
             toast.error('You are blocked! You can\'t give stars!')
         }
-        
-        
     }
 
     async handleClickDelete() {
         const id = this.state.post._id;
         const creatorId = this.state.post.createdBy._id;
-        console.log(creatorId)
 
         const body = await this.PostService.remove({id, creatorId });
 
