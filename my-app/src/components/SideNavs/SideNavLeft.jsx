@@ -8,14 +8,7 @@ class SideNavLeft extends Component {
             filter: true,
             redirect: null
         }
-        this.handleChange = this.handleChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
     }
 
     handleClick(event) {
@@ -27,7 +20,6 @@ class SideNavLeft extends Component {
             <div className='col s2' teal>
               <ul className="teal" >
               <li className="teal"><h6 className="white-text ">BY CATEGORY:</h6></li>
-         
                 <li><button type="text" class="waves-effect teal darken-2  waves-light btn-large" onClick={this.handleClick} value='all' >ALL</button></li> 
                 <li><button type="text" class="waves-effect teal darken-1  waves-light btn-large" onClick={this.handleClick} value='toprated' >TOP RATED</button></li> 
                 <li><button type="button" class="waves-effect teal darken-1  waves-light btn-large" onClick={this.handleClick} value='info' >INFO</button></li> 

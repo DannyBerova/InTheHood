@@ -113,6 +113,9 @@ router.post('/edit/:id', authCheck, async (req, res) => {
     const postId = req.params.id;
     const postBody = req.body;
     let postObj = postBody;
+    if(!postObj.imageUrl) {
+      postObj.imageUrl = "https://www.union.edu/files/union-marketing-layer/201803/picture.jpg";
+    }
     let category = await Category.findOne({name:postObj.category});
     postObj.category = category.name;
     const validationResult = validatePostCreateForm(postObj)
@@ -244,65 +247,6 @@ router.get('/details/:id', (req, res) => {
       })
     })
 })
-
-// router.post('/review/:id', authCheck, (req, res) => {
-//   const id = req.params.id
-//   const review = req.body.review
-//   const username = req.user.username
-
-//   if (review.length < 4) {
-//     const message = 'Review must be at least 4 characters long.'
-//     return res.status(200).json({
-//       success: false,
-//       message: message
-//     })
-//   }
-
-//   Book
-//     .findById(id)
-//     .then(book => {
-//       if (!book) {
-//         return res.status(200).json({
-//           success: false,
-//           message: 'Product not found.'
-//         })
-//       }
-
-//       let reviewObj = {
-//         review,
-//         createdBy: username
-//       }
-
-//       let reviews = book.reviews
-//       reviews.push(reviewObj)
-//       book.reviews = reviews
-//       book
-//         .save()
-//         .then((book) => {
-//           res.status(200).json({
-//             success: true,
-//             message: 'Review added successfully.',
-//             data: book
-//           })
-//         })
-//         .catch((err) => {
-//           console.log(err)
-//           const message = 'Something went wrong :( Check the form for errors.'
-//           return res.status(200).json({
-//             success: false,
-//             message: message
-//           })
-//         })
-//     })
-//     .catch((err) => {
-//       console.log(err)
-//       const message = 'Something went wrong :( Check the form for errors.'
-//       return res.status(200).json({
-//         success: false,
-//         message: message
-//       })
-//     })
-// })
 
 router.post('/star/:id', authCheck, async (req, res) => {
   const id = req.params.id

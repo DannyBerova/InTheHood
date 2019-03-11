@@ -32,9 +32,7 @@ class UserService {
         } catch(err) {
             return err;
         }           
-    }
-
-  
+    }  
 }
 
 export default UserService;

@@ -34,7 +34,7 @@ class Header extends Component {
                     <li className="grey-text lighten-3">Welcome, {this.props.user}!</li>
                     </Fragment>
                 ) : ( null)}
-                 <li><a style={{fontSize: 25 + 'px'}}  href="/">InTheHood</a></li>
+                 <li><a style={{fontSize: 25 + 'px'}}  href="/">InDaHood</a></li>
               </ul>
             </div>
           </nav>

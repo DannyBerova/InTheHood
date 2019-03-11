@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import PostCard from '../PostCard/PostCard';
+import PostCard from '../Post/PostCard';
 import Pagination from "../pagination";
 import SideNavLeft from '../SideNavs/SideNavLeft';
 import SideNavRight from '../SideNavs/SideNavRight';
@@ -57,10 +57,12 @@ handleChange(event) {
 async filterPosts(text) {
     this.setState({filteredPosts: this.state.posts, })
     let filtered = this.state.posts.concat();
+    let filter = text;
     if(text === 'toprated') {
         filtered = filtered.sort((a, b) => a.stars.length < b.stars.length)
     } else if(text === 'all'){
         filtered = this.state.posts;
+        filter = ''
     } else {
 
      filtered = text !== '' 
@@ -75,6 +77,7 @@ async filterPosts(text) {
             currentPosts: filtered.slice(0,5),
             totalPages: Math.ceil(filteredLength / 5) || 1,
             currentPage: 1,
+            filter: filter
             })
     } else {
         this.setState({
@@ -84,15 +87,18 @@ async filterPosts(text) {
             currentPosts: [{
                 title:'', content: '', imageUrl: '', stars:''
                 }],
-                totalPages:1
+                totalPages:1,
+            filter: filter
     })
     }
     
   }
   search() {
       let filtered = this.state.posts;
+      let filter = '';
       if(this.state.search !== '') {
           filtered = this.state.posts.filter(p => p.title.toLowerCase().includes(this.state.search.toLowerCase())) 
+          filter = this.state.search;
       } else {
           filtered = this.state.posts
       }
@@ -104,7 +110,8 @@ async filterPosts(text) {
               currentPosts: filtered.slice(0,5),
             totalPages: Math.ceil(filteredLength / 5) || 1,
             currentPage: 1,
-            search: ''
+            search: '',
+            filter: filter
           })
       } else {
         this.setState({
@@ -116,7 +123,8 @@ async filterPosts(text) {
                 }],
                 totalPages:1,
             currentPage: 1,
-            search: ''
+            search: '',
+            filter: filter
     })
     }
   }
@@ -155,6 +163,7 @@ onPageChanged = data => {
         .trim();
     //TODO: pagination, weather, location, top rated
       let isAuth = this.props.isLoggedIn;
+      let filterAdded = this.state.filter === '' ? '' : ` * Filtered by: ${this.state.filter}`
       let welcomeBlock = (
           <Fragment>
               <h4>
@@ -162,8 +171,7 @@ onPageChanged = data => {
                 <span>   Welcome in the hoood...   </span>
                 <span><a class="waves-effect teal darken-1  waves-light btn-small" href="/auth/login"><i class="material-icons left">border_color</i>Log In</a></span>
             </h4>
-            <h4>Slatina hood!</h4>
-            <h4>Log in to see all the stuff.</h4>
+            <h4>Slatina hood! Log in to see all the stuff.</h4>
           </Fragment>
       )
       let authBlock = (
@@ -197,12 +205,12 @@ onPageChanged = data => {
                             <div className="row ">
                             <div className="row d-flex flex-row py-5">
                             <div className="w-90 px-4 py-5 d-flex flex-row flex-wrap align-items-center justify-content-between">
-                                <p className=" align-items-center">
+                                <p className="teal-text align-items-center">
                                 
                                 {currentPage && (
                                     
                                     <span>Page {currentPage} / {" "}
-                                    {totalPages}</span>
+                                    {totalPages} {filterAdded} </span>
                                     
                                 )}
                                 </p>

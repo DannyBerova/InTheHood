@@ -65,11 +65,7 @@ class PostService {
         } catch(err) {
             return err;
         }           
-    }
-
-
-
-  
+    } 
 }
 
 export default PostService;

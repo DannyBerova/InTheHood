@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import { NavLink, Link, Switch } from 'react-router-dom';
 import UserService from '../../services/user-service';
 
 class AllUsersAdmin extends Component {

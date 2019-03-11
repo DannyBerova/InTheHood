@@ -10,14 +10,14 @@ import PostService from './services/post-service'
 
 const HomeGuest = lazy(() => import('./components/Home/HomeGuest'));
 const About = lazy(() => import('./components/About/About'));
-const Create = lazy(() => import('./components/Create/Create'));
+const Create = lazy(() => import('./views/Post/CreateView'));
 const Auth = lazy(() => import('./Auth'));
 const Header = lazy(() => import('./components/Header/Header'));
 const Footer = lazy(() => import('./components/Footer/Footer'));
-const PostDetails = lazy(() => import('./components/PostDetails/PostDetails'));
-const EditPost = lazy(() => import('./components/EditPost/EditPost'));
-const UserDetails = lazy(() => import('./components/UserDetails/UserDetails'));
-const AllUsers = lazy(() => import('./components/AllUsersAdmin/AllUsersAdmin'));
+const PostDetails = lazy(() => import('./views/Post/PostDetailsView'));
+const EditPost = lazy(() => import('./views/Post/EditPostView'));
+const UserDetails = lazy(() => import('./views/User/UserDetailsView'));
+const AllUsers = lazy(() => import('./views/Admin/AllUsersAdmin'));
 const NoMatch = lazy(() => import('./components/NoMatch/NoMatch'));
 
 
