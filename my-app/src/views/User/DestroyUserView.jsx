@@ -33,9 +33,7 @@ class DestroyUserView extends Component {
         const id = this.props.match.params.id;
 
         let result =  await this.UserService.destroy({id, id2: id });
-        console.log(result)
         if(result.user) {
-          //toast.success('Your profile is permanently destroyed!!! You must to create new account to log in InDaHood');
           toast.success(<h6 className="white-text center">{MESSAGE_DESTROY}</h6>);
           await this.props.logout(event, MESSAGE_DESTROY)
           this.setState({redirect: true})

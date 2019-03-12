@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 import PostService from '../../services/post-service';
 import WeatherService from '../../services/weather-service';
 import Constants from '../../utils/constants/constants';
@@ -22,6 +23,7 @@ class SideNavRight extends Component {
 
    async componentWillMount() {
       let data = await this.PostService.latest();
+      console.log(data)
       let weather = await this.WeatherService.sofia();
       if(weather) {
         localStorage.setItem(Constants.weather, weather.current.temp_c)
@@ -50,9 +52,9 @@ class SideNavRight extends Component {
     let icon = this.state.weather ? this.state.weather.icon : '';
     let d =new Date(Date.now()); 
 
-    let shortContent = (this.state.latestPost.content) + '...' || '';
-    if(this.state.latestPost.content.length > 100) {
-      shortContent = (this.state.latestPost.content.substr(0, 50) + '...') || ''
+    let shortContent = this.props.latest.content ? (this.props.latest.content + '...') : '';
+    if(this.props.latest.content && this.props.latest.content.length > 100) {
+      shortContent = (this.props.latest.content.substr(0, 50) + '...') || ''
     }
     return (
       <div className='col s2' >
@@ -77,11 +79,11 @@ class SideNavRight extends Component {
                 <div class="card">
                   <div class="card-content">
                     <h5 className='teal-text'>*LATEST*</h5>
-                    <h5>{this.state.latestPost.title}</h5>
+                    <h5>{this.props.latest.title}</h5>
                         <p>{shortContent}</p>
                   </div>
                   <div class="card-action">
-                    <a className="waves-effect teal darken-1  waves-light btn" href={detailsLink}><i class="material-icons left">cloud</i>Read more...</a>
+                    <Link className="waves-effect teal darken-1  waves-light btn" to={detailsLink}><i class="material-icons left">cloud</i>Read more...</Link>
                   </div>
                 </div>
               </div>

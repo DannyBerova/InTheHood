@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 
 class Register extends Component {
   render() {
@@ -60,7 +61,7 @@ class Register extends Component {
             <h5 className='teal-text'>
               <hr></hr>
               <span>  Already have an account?   </span>
-              <span><a class="waves-effect teal darken-1  waves-light btn-small" href="/auth/login"><i class="material-icons left">border_color</i>Log In</a></span>
+              <span><Link className="waves-effect teal darken-1  waves-light btn-small" to="/auth/login"><i class="material-icons left">border_color</i>Log In</Link></span>
           </h5>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import {Link} from 'react-router-dom';
 
 class HomeWelcomeBlock extends Component {
     render() {
@@ -10,9 +11,17 @@ class HomeWelcomeBlock extends Component {
             ) : (
             <Fragment>
                 <h4>
-                  <span><a class="waves-effect teal darken-1 waves-light btn-small" href='auth/register'><i class="material-icons left white-text">border_color</i>Register</a></span>
+                  <span>
+                      <Link className="waves-effect teal darken-1 waves-light btn-small" to='auth/register'>
+                        <i className="material-icons left white-text">border_color</i>Register
+                        </Link>
+                    </span>
                   <span>   Welcome in da hoood...   </span>
-                  <span><a class="waves-effect teal darken-1  waves-light btn-small" href="/auth/login"><i class="material-icons left">border_color</i>Log In</a></span>
+                  <span>
+                      <Link className="waves-effect teal darken-1 waves-light btn-small" to='auth/register'>
+                        <i className="material-icons left white-text">border_color</i>Log In
+                        </Link>
+                    </span>
                 </h4>
                 <h4> Log in to see all the stuff.</h4>
             </Fragment>

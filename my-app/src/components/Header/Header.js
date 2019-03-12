@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import {Link, NavLink} from 'react-router-dom';
 
 class Header extends Component {
     render() {
@@ -10,20 +11,20 @@ class Header extends Component {
           <nav>
             <div className="nav-wrapper teal darken-3">
               <ul id="nav-mobile" class="left hide-on-med-and-down">
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
+                <li><NavLink to="/">Home</NavLink></li>
+                <li><NavLink to="/about">About</NavLink></li>
                 {isAdmin ? 
-                    <li ><a className='grey-text lighten-4' href="/user/all">Users</a></li> : null}
+                    <li ><NavLink className='grey-text lighten-4' to="/user/all">Users</NavLink></li> : null}
                 {isAuth ? 
                 (<Fragment>
-                    <li><a href="/post/create">Create</a></li>
-                    <li><a href={userDetails}>Profile</a></li>
-                    <li><a href="/" onClick={this.props.logout}>Logout</a></li>
+                    <li><NavLink to="/post/create">Create</NavLink></li>
+                    <li><NavLink to={userDetails}>Profile</NavLink></li>
+                    <li><NavLink to="/" onClick={this.props.logout}>Logout</NavLink></li>
                     </Fragment>
                 ) : (
                 <Fragment>
-                  <li><a href="/auth/login">Login</a></li>
-                  <li><a href="/auth/register">Register</a></li>
+                  <li><NavLink to="/auth/login">Login</NavLink></li>
+                  <li><NavLink to="/auth/register">Register</NavLink></li>
                 </Fragment>)}
               </ul>
               <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -32,7 +33,7 @@ class Header extends Component {
                     <li className="grey-text lighten-3">Welcome, {this.props.user}!</li>
                     </Fragment>
                 ) : ( null)}
-                 <li><a style={{fontSize: 25 + 'px'}}  href="/">InDaHood</a></li>
+                 <li><NavLink style={{fontSize: 25 + 'px'}}  to="/">InDaHood</NavLink></li>
               </ul>
             </div>
           </nav>

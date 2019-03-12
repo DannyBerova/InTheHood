@@ -66,8 +66,6 @@ class PostDetailsView extends Component {
         const creatorId = this.state.post.createdBy._id;
 
         const body = await this.PostService.remove({id, creatorId });
-
-
         if(this.state.createdBy._id === this.props.userId || this.props.isAdmin === true) {
             if(body.error){
                 this.setState({message: body.error})
@@ -90,7 +88,6 @@ class PostDetailsView extends Component {
     
     render() {
         let redirectLink = `/user/details/${this.state.createdBy._id}`;
-
         return (
             <div className="col s10 offset-s1">
                 {(!this.state.redirect) ? (

@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import {Link} from 'react-router-dom';
 import PostCard from '../Post/PostCard';
 
 class UserDetails extends Component {
@@ -26,13 +27,10 @@ class UserDetails extends Component {
             <div class="card">
               {this.props.user === this.props.userD.username 
               ? (
-          //      <div class="card-action">
-          //      <a href='/' onClick={this.props.handleClickDelete} className="red darken-1 btn-small">Destroy!</a>
-          //  </div>
-          <Fragment>
-          <a type="button" class="waves-effect red darken-3  waves-light btn" href={`/user/destroy/${this.props.userD._id}`}><i className="material-icons left">close</i>DESTROY!</a>
-                                       
-                                        </Fragment>
+              <Fragment>
+                <Link type="button" class="waves-effect red darken-3  waves-light btn" to={`/user/destroy/${this.props.userD._id}`}>
+                  <i className="material-icons left">delete_forever</i>DESTROY!</Link>
+              </Fragment>
               ) : (null)}
               <div class="card-content">
                 <img src={this.props.userD.avatar} alt="" className="circle responsive-img small"/>
@@ -46,14 +44,14 @@ class UserDetails extends Component {
                 <p>{email}</p>
               </div>
               
-              {this.props.isAdmin === true 
+              {this.props.isAdmin === true && this.props.userId !== this.props.userD._id 
               ? (
               <div class="card-action">
-                  <a href='/' onClick={this.props.handleClick} className={isBlockedColor + " darken-1 btn-large"}>{block}</a>
+                  <Link to='/' onClick={this.props.handleClick} className={isBlockedColor + " darken-1 btn-large"}>{block}</Link>
               </div>
               ) : (
               <div class="card-action">
-                <a  href='/' onClick={this.props.handleClick} className={isBlockedColor + " darken-1 btn-large"}>{active}</a>
+                <button  className={isBlockedColor + " darken-1 btn-large"}>{active}</button>
               </div>
               )}
             </div>

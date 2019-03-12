@@ -1,4 +1,5 @@
 import React, { Component} from 'react';
+import {Link} from 'react-router-dom';
 
 class DestroyUser extends Component {
     render() {
@@ -18,7 +19,7 @@ class DestroyUser extends Component {
                                 <h5 className="white-text">Press [DESTROY!] to proceed!</h5>
                             </div>
                             <div class="card-action">
-                                <a type="button" href={"/user/details/" + id} class="waves-effect grey darken-3  waves-light btn">CANCEL</a>
+                                <Link type="button" to={"/user/details/" + id} class="waves-effect grey darken-3  waves-light btn">CANCEL</Link>
                                 <button type="button" onClick={this.props.handleClickDestroy} class="waves-effect red darken-3  waves-light btn" >DESTROY!</button>
                             </div>
                 </div>
@@ -32,7 +33,7 @@ class DestroyUser extends Component {
                 <hr></hr>
                 <h6 className='teal-text'>E-mail:</h6>
                 <p>{email}</p>
-                <a type="button" href="/" class="waves-effect grey darken-3  waves-light btn-large">GO HOME! NOW!</a>
+                <Link type="button" to="/" class="waves-effect grey darken-3  waves-light btn-large">GO HOME! NOW!</Link>
                 </div>
                 <div className="col s3">
                     <img src={this.props.userD.avatar} alt="" className="circle responsive-img small"/>

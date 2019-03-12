@@ -190,6 +190,12 @@ router.get('/', (req, res) => {
       res.status(200).json({posts})
     })
     .catch((err) => {
+      for (const idx in posts) {
+        if (object.hasOwnProperty(idx)) {
+          const element = object[idx];
+          
+        }
+      }
       console.log(err)
       const message = 'Something went wrong :('
       return res.status(200).json({
@@ -203,9 +209,10 @@ router.get('/latest', (req, res) => {
   Post
     .find()
     .then(posts=> {
-      let latestPost = posts.sort((a, b) =>{
-        return a.createdOn < b.createdOn})[0]
-      res.status(200).json(latestPost)
+      let orderedPosts = posts.sort((a, b) =>{
+        return a["createdOn"].toString() < b["createdOn"].toString()
+      })
+      res.status(200).json(orderedPosts[0])
     })
     .catch((err) => {
       console.log(err)

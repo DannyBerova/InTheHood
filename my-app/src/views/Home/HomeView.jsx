@@ -20,6 +20,7 @@ class HomeView extends Component {
         filteredPosts: [],
         search: '',
         currentPosts: [],
+        latest: {},
         currentPage: null,
         totalPages: 1
     }
@@ -40,6 +41,7 @@ async componentWillMount() {
       if(this.state.filter !== '') 
      
       localStorage.removeItem(cnst.message)
+      let latest = orderedPosts[0]
       
         this.setState({
           message: '',
@@ -47,6 +49,7 @@ async componentWillMount() {
           posts: orderedPosts,
           filteredPosts: orderedPosts,
           currentPosts: orderedPosts,
+          latest: orderedPosts[0],
           totalPages: Math.ceil(orderedPosts / 5)
         })
     }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 
 class PostCard extends Component {
     render() {
@@ -44,7 +45,7 @@ class PostCard extends Component {
                   </div>
                   <div className="card-action ">
                     <span>
-                      <a className="waves-effect teal darken-1  waves-light btn" href={detailsLink}><i class="material-icons left">cloud</i>Read more...</a>
+                      <Link className="waves-effect teal darken-1  waves-light btn" to={detailsLink}><i class="material-icons left">cloud</i>Read more...</Link>
                     </span>
                   </div>
                 </div>

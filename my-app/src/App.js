@@ -1,4 +1,3 @@
-
 import React, { Component, Fragment, Suspense, lazy} from 'react';
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -53,7 +52,6 @@ class App extends Component {
           isAdmin: localStorage.getItem(cnst.isAdmin) === 'true',
           isBlocked: localStorage.getItem(cnst.isBlocked) === 'true',
           message: '',
-
         })       
       } else {
         this.setState({ message: '' })
@@ -79,12 +77,9 @@ class App extends Component {
     }
   }
 
-   async logout(event, message) {
+   async logout(event) {
     event.preventDefault();
     let messageToSet='Logged Out! ';
-    // if(message) {
-    //   messageToSet = messageToSet + message
-    // }
     this.setState({
       isAdmin: false,
       isLoggedIn: false,

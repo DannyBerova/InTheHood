@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import {Link} from 'react-router-dom';
 import cnst from '../../utils/constants/constants';
 
 class PostDetails extends Component {
@@ -30,16 +31,16 @@ class PostDetails extends Component {
                                     {isAuth ? (
                                         <Fragment>
                                     <div className="col s6">
-                                        <a className="btn-floating waves-effect waves-light teal darken-1" 
-                                    href={userLink}>
+                                        <Link className="btn-floating waves-effect waves-light teal darken-1" 
+                                    to={userLink}>
                                         <i className="material-icons">person</i>
-                                        </a>
+                                        </Link>
                                     </div>
                                     <div className="col s6">
-                                        <a className={"btn-floating  waves-effect waves-light " + starLinkColor }
-                                            href='/' onClick={this.props.handleClickStar}>
+                                        <Link className={"btn-floating  waves-effect waves-light " + starLinkColor }
+                                            to='/' onClick={this.props.handleClickStar}>
                                             <i className="material-icons">star</i>
-                                        </a>
+                                        </Link>
                                     </div>
                                     </Fragment>
                                     ) : null}
@@ -57,14 +58,14 @@ class PostDetails extends Component {
                                         {isCreator 
                                         ? (
                                         <span>
-                                            <a className="waves-effect teal darken-1  waves-light btn" href={editLink}><i className="material-icons left">edit</i>Edit</a>
+                                            <Link className="waves-effect teal darken-1  waves-light btn" to={editLink}><i className="material-icons left">edit</i>Edit</Link>
                                         </span>) 
                                         : null}
                                         {(isAdmin || isCreator) 
                                         ? (
                                         <Fragment>
                                         <span>
-                                        <button type="button" class="waves-effect teal darken-1  waves-light btn" data-toggle="modal" data-target="#myModal"><i className="material-icons left">edit</i>DELETE</button>
+                                        <button type="button" class="waves-effect teal darken-1  waves-light btn" data-toggle="modal" data-target="#myModal"><i className="material-icons left">delete</i>DELETE</button>
                                         </span>
                                         <div class="modal fade orange" style={{width: 60 + '%', maxHeight: 50 + '%', opacity: 5}}  id="myModal" role="dialog">
                                             <div class="modal-dialog">                           
