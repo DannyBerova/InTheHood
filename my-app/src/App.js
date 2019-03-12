@@ -19,6 +19,7 @@ const Footer = lazy(() => import('./components/Footer/Footer'));
 const PostDetails = lazy(() => import('./views/Post/PostDetailsView'));
 const EditPost = lazy(() => import('./views/Post/EditPostView'));
 const UserDetails = lazy(() => import('./views/User/UserDetailsView'));
+const DestroyUser = lazy(() => import('./views/User/DestroyUserView'));
 const AllUsers = lazy(() => import('./views/Admin/AllUsersAdmin'));
 const NoMatch = lazy(() => import('./components/NoMatch/NoMatch'));
 
@@ -61,7 +62,6 @@ class App extends Component {
 
    loginUser(user) {
     if(user && user.userId) {
-      console.log(user)
        this.setState((prevState, props) => ({
         user: user.username,
         userId: user.userId,
@@ -79,18 +79,22 @@ class App extends Component {
     }
   }
 
-  logout(event) {
+   async logout(event, message) {
     event.preventDefault();
+    let messageToSet='Logged Out! ';
+    // if(message) {
+    //   messageToSet = messageToSet + message
+    // }
     this.setState({
       isAdmin: false,
       isLoggedIn: false,
       user: null,
       userId: null,
       isFetched: false,
-      message: 'Logged Out!'
+      message: messageToSet
     })
-    localStorage.clear()
-    toast.success('Logged Out!');
+    localStorage.clear();
+    toast.success(<h6 className="white-text center">{messageToSet}</h6>);
   }
 
   render() {
@@ -112,7 +116,7 @@ class App extends Component {
                                 {...this.state}/>} />
                         <Route path='/user/details/:id' render={(props) =>
                               (!localStorage.hasOwnProperty(cnst.jwtoken)) ? (<Redirect to="/"/>
-                              ) : (<UserDetails {...props} {...this.state}/>)} />
+                              ) : (<UserDetails {...props} {...this.state} logout={this.logout}/>)} />
                         <Route path='/auth' 
                               render={(props) => <Auth 
                                 {...props} 
@@ -127,6 +131,11 @@ class App extends Component {
                                   (!localStorage.hasOwnProperty(cnst.jwtoken)
                                   ) ? (<Redirect to="/"/>
                                   ) : (<EditPost {...props} {...this.state}/>)} />
+                        <Route exact path='/user/destroy/:id' 
+                                render={(props) => 
+                                  (!localStorage.hasOwnProperty(cnst.jwtoken)
+                                  ) ? (<Redirect to="/"/>
+                                  ) : (<DestroyUser {...props} {...this.state} logout={this.logout}/>)} />
                         <Route exact path='/user/all' 
                                 render={(props) => 
                                   ((!localStorage.hasOwnProperty(cnst.isAdmin) || this.state.isAdmin === false) 
@@ -135,15 +144,17 @@ class App extends Component {
                         <Route render={() => <NoMatch/>}/>
                     </Switch>
                   </div>
+                  <Fragment>
                   <ToastContainer 
                       position="bottom-right"
-                      autoClose={3000}
+                      autoClose={4000}
                       hideProgressBar={false}
                       newestOnTop={false}
                       rtl={false}
                       pauseOnVisibilityChange
                       draggable
                       pauseOnHover/>
+                    </Fragment>
                     <Footer  {...this.state} logout={this.logout} />
                   </Fragment>
               </BrowserRouter>

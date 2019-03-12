@@ -125,7 +125,6 @@ async filterPosts(text) {
   }
 
 onPageChanged = data => {
-    console.log(data)
     let {filteredPosts } = this.state;
     const { currentPage, totalPages, pageLimit } = data;
 
@@ -133,7 +132,6 @@ onPageChanged = data => {
     let currentPosts = filteredPosts.slice(offset, offset + pageLimit);
 
     this.setState({ currentPage, currentPosts, totalPages });
-    console.log(currentPosts)
   };
   
 

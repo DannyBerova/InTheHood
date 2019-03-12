@@ -184,7 +184,9 @@ router.get('/', (req, res) => {
   Post
     .find()
     .populate('createdBy')
+    
     .then(posts => {
+      posts = posts.filter(p => p.createdBy.isBlocked === false)
       res.status(200).json({posts})
     })
     .catch((err) => {

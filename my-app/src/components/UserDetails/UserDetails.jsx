@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PostCard from '../Post/PostCard';
 
 class UserDetails extends Component {
@@ -8,18 +8,32 @@ class UserDetails extends Component {
       let active = this.props.userD.isBlocked === true ? 'BLOCKED' : 'ACTIVE';
       let isBlockedColor = this.props.userD.isBlocked === true ? 'grey' : 'teal'
       const postsValues = Object.values(this.props.posts);
-      postsValues.map(v => {
-            v.createdBy = {};
-            v.createdBy['username'] = this.props.userD.username;
-            return v;
+      console.log(postsValues) 
+      if(postsValues.length > 0 ) {
+
+        postsValues.map(v => {
+          v.createdBy = {};
+          v.createdBy['username'] = this.props.userD.username;
+          return v;
         })
+      }
+      console.log('render',this.props.userD.username)
       const {username, email, firstName, lastName} = this.props.userD;
-      console.log(this.props)
 
       return (
         <div className="col s10 offset-s1">
           <div className="col s3">
             <div class="card">
+              {this.props.user === this.props.userD.username 
+              ? (
+          //      <div class="card-action">
+          //      <a href='/' onClick={this.props.handleClickDelete} className="red darken-1 btn-small">Destroy!</a>
+          //  </div>
+          <Fragment>
+          <a type="button" class="waves-effect red darken-3  waves-light btn" href={`/user/destroy/${this.props.userD._id}`}><i className="material-icons left">close</i>DESTROY!</a>
+                                       
+                                        </Fragment>
+              ) : (null)}
               <div class="card-content">
                 <img src={this.props.userD.avatar} alt="" className="circle responsive-img small"/>
                 <h6 className='teal-text'>Username:</h6>
@@ -31,6 +45,7 @@ class UserDetails extends Component {
                 <h6 className='teal-text'>E-mail:</h6>
                 <p>{email}</p>
               </div>
+              
               {this.props.isAdmin === true 
               ? (
               <div class="card-action">

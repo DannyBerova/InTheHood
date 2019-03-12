@@ -15,7 +15,6 @@ class LoginView extends Component {
       userData: {
         username: null,
         password: null,
-        email: null
       },
       redirect: false,
       errors: {},
