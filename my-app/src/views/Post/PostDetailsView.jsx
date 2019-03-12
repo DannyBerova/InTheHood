@@ -3,7 +3,10 @@ import {Redirect} from 'react-router-dom';
 import { toast } from 'react-toastify';
 import PostService from '../../services/post-service';
 import PostDetails from '../../components/Post/PostDetails';
+import cnst from '../../utils/constants/constants'
 
+const NOT_ALLOWED = 'You are not allowed for this operation!';
+const BLOCKED_ERROR = 'You are blocked! You can\'t give stars!';
 class PostDetailsView extends Component {
     constructor(props) {
         super(props) 
@@ -54,7 +57,7 @@ class PostDetailsView extends Component {
             }
             return;
         } else {
-            toast.error('You are blocked! You can\'t give stars!')
+            toast.error(BLOCKED_ERROR)
         }
     }
 
@@ -72,13 +75,13 @@ class PostDetailsView extends Component {
             } else {
                 toast.success(body.message);
                 
-                localStorage.setItem('message', body.message)
+                localStorage.setItem(cnst.message, body.message)
                 this.setState({
                     redirect: true,
                 });
             }
         } else {
-            localStorage.setItem('message', 'You are not allowed for this operation!')
+            localStorage.setItem(cnst.message, NOT_ALLOWED)
             this.setState({
                 redirect: true,
             });

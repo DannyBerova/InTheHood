@@ -24,8 +24,10 @@ class UserDetails extends Component {
                 <img src={this.props.userD.avatar} alt="" className="circle responsive-img small"/>
                 <h6 className='teal-text'>Username:</h6>
                 <h5>{username}</h5>
+                <hr></hr>
                 <h6 className='teal-text'>Full name:</h6>
                 <h5>{firstName} {lastName}</h5>
+                <hr></hr>
                 <h6 className='teal-text'>E-mail:</h6>
                 <p>{email}</p>
               </div>

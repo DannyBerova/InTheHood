@@ -5,7 +5,7 @@ import PostService from '../../services/post-service';
 import CategoryService from '../../services/category-service';
 import isPostValid from '../../utils/postValidation';
 import EditPost from '../../components/Post/EditPost'
-
+import cnst from '../../utils/constants/constants';
 
 class EditPostView extends Component {
 
@@ -108,11 +108,8 @@ class EditPostView extends Component {
   }
   
   render() {
-    const isAuth = localStorage.hasOwnProperty("ujwt")
+    const isAuth = localStorage.hasOwnProperty(cnst.jwtoken)
     const redirectLink = `/post/details/${this.state.editedPostId}`
-    // let {title, content, imageUrl, category} = this.state.post;
-    // let cat = this.state.categories.filter(c => c.name === category) || []
-    // let withoutCat = this.state.categories.filter(c => c.name !== category) || []
 
     return (
       <div className="Create">

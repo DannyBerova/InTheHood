@@ -44,12 +44,8 @@
   align-content: center;
 }
 
-h5, h4, h3, h2, h1 {
+h6, h5, h4, h3, h2, h1 {
   color:#183333;
-}
-
-h6 {
-  color:white;
 }
 
 footer{

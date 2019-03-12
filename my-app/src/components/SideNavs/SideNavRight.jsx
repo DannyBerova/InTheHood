@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PostService from '../../services/post-service';
 import WeatherService from '../../services/weather-service';
+import Constants from '../../utils/constants/constants';
 
 class SideNavRight extends Component {
     constructor(props) {
@@ -10,10 +11,8 @@ class SideNavRight extends Component {
               title: '',
               content: '',
               _id: '',
-             weather: {
-             }
-            }
-            
+            },
+            weather: { }
         }
 
         this.PostService = new PostService();
@@ -25,7 +24,7 @@ class SideNavRight extends Component {
       let data = await this.PostService.latest();
       let weather = await this.WeatherService.sofia();
       if(weather) {
-        localStorage.setItem('weather', weather.current.temp_c)
+        localStorage.setItem(Constants.weather, weather.current.temp_c)
       }
       this.setState({ 
         latestPost: data,

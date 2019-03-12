@@ -32,8 +32,6 @@ class UserDetailsView extends Component {
         const id = this.props.match.params.id;
         
         let result = await this.UserService.block(id);
-        console.log('hop')
-        console.log(result)
         if(result.user) {
             toast.success(result.message)
             this.setState({

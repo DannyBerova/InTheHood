@@ -5,7 +5,8 @@ import AuthService from '../../services/auth-service';
 import Register from '../../components/Auth/RegisterForm';
 import isUserDataValid from '../../utils/userValidation';
 
-
+const HOME = '/';
+const OPTIONS_REGISTER = 'register';
 class RegisterView extends Component {
   constructor(props) {
     super(props);
@@ -46,7 +47,7 @@ async handleSubmit(event) {
         event.preventDefault();
 
         this.setState({message: ''})
-        let validateUser = isUserDataValid(this.state, 'register');
+        let validateUser = isUserDataValid(this.state, OPTIONS_REGISTER);
         let validateErrors = validateUser.errors;
         let isValid = validateUser.isValid;
 
@@ -77,13 +78,12 @@ async handleSubmit(event) {
   } 
 
   render() {
-    const redirectLink = `/`
    
     return (
       <div className="Create">
         {(!this.state.redirect) ? (
             <Register {...this.state} {...this.props} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
-        ) : (<Redirect to={redirectLink}/>)}
+        ) : (<Redirect to={HOME}/>)}
       </div>
     )
   }

@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
 class Header extends Component {
-
     render() {
         let isAuth = (this.props.userId)
         let isAdmin = (this.props.isAdmin)
@@ -10,7 +9,6 @@ class Header extends Component {
         <header>
           <nav>
             <div className="nav-wrapper teal darken-3">
-              
               <ul id="nav-mobile" class="left hide-on-med-and-down">
                 <li><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>

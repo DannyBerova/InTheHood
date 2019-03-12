@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 const LEFT_PAGE = "LEFT";
 const RIGHT_PAGE = "RIGHT";
+const NUMBER = 'number';
 
 const range = (from, to, step = 1) => {
   let i = from;
@@ -21,11 +22,11 @@ class Pagination extends Component {
     super(props);
     const { totalRecords = null, pageLimit = 30, pageNeighbours = 0 } = props;
 
-    this.pageLimit = typeof pageLimit === "number" ? pageLimit : 30;
-    this.totalRecords = typeof totalRecords === "number" ? totalRecords : 0;
+    this.pageLimit = typeof pageLimit === NUMBER ? pageLimit : 30;
+    this.totalRecords = typeof totalRecords === NUMBER ? totalRecords : 0;
 
     this.pageNeighbours =
-      typeof pageNeighbours === "number"
+      typeof pageNeighbours === NUMBER
         ? Math.max(0, Math.min(pageNeighbours, 2))
         : 0;
 
@@ -115,7 +116,6 @@ class Pagination extends Component {
 
   render() {
     if (!this.totalRecords) return null;
-
     if (this.props.totalPages === 1) return null;
 
     const { currentPage } = this.state;
@@ -128,12 +128,7 @@ class Pagination extends Component {
               if (page === LEFT_PAGE)
                 return (
                   <li key={index} className="page-item">
-                    <a
-                      className="page-link"
-                      href="/"
-                      aria-label="Previous"
-                      onClick={this.handleMoveLeft}
-                    >
+                    <a className="page-link" href="/" aria-label="Previous" onClick={this.handleMoveLeft}>
                       <span aria-hidden="true">&laquo;</span>
                       <span className="sr-only">Previous</span>
                     </a>
@@ -143,12 +138,7 @@ class Pagination extends Component {
               if (page === RIGHT_PAGE)
                 return (
                   <li key={index} className="page-item">
-                    <a
-                      className="page-link"
-                      href="/"
-                      aria-label="Next"
-                      onClick={this.handleMoveRight}
-                    >
+                    <a className="page-link" href="/" aria-label="Next" onClick={this.handleMoveRight}>
                       <span aria-hidden="true">&raquo;</span>
                       <span className="sr-only">Next</span>
                     </a>
@@ -156,18 +146,9 @@ class Pagination extends Component {
                 );
 
               return (
-                <li
-                  key={index}
-                  className={`page-item${
-                    currentPage === page ? " active" : ""
-                  }`}
-                >
-                  <a
-                    className="page-link"
-                    href="/"
-                    onClick={e => this.handleClick(page, e)}
-                  >
-                    {page}
+                <li key={index} className={`page-item${currentPage === page ? " active" : "" }`}>
+                  <a className="page-link" href="/" onClick={e => this.handleClick(page, e)}> 
+                    {page} 
                   </a>
                 </li>
               );

@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react';
+import cnst from '../../utils/constants/constants';
 
 class PostDetails extends Component {
     render() {
         let isAuth = (this.props.userId)
-        let isAdmin = localStorage.getItem('isAdmin') === "true"
-        let isCreator = localStorage.getItem('username') === this.props.createdBy.username;
+        let isAdmin = localStorage.getItem(cnst.isAdmin) === "true"
+        let isCreator = localStorage.getItem(cnst.username) === this.props.createdBy.username;
+
         let {title, content, imageUrl, category, createdOn, _id} = this.props.post;
         var dateStr = new Date(createdOn).toLocaleString('en-GB', { timeZone: 'UTC' });
         let stars = this.props.starsCount
@@ -16,31 +18,34 @@ class PostDetails extends Component {
         return (
             <div className="col s10 offset-s1">
                 <Fragment>
-                    <div className='col s5'>
+                    <div className='col s4'>
                         <div className="card-panel lighten-5 z-depth-1">
                             <div className="row valign-wrapper">
-                                <div className="col s3">
-                                    <img src={this.props.createdBy.avatar} alt="" className="circle responsive-img small"/>
+                                <div className="col s12">
+                                    <div className="row">
+                                    <div className='col s8 offset-s2'>
+                                        <img src={this.props.createdBy.avatar} alt="" className="circle responsive-img small"/>
+                                    </div>
+                                    </div>
                                     {isAuth ? (
                                         <Fragment>
-                                    <span>
+                                    <div className="col s6">
                                         <a className="btn-floating waves-effect waves-light teal darken-1" 
                                     href={userLink}>
                                         <i className="material-icons">person</i>
                                         </a>
-                                    </span>
-                                    <span>
+                                    </div>
+                                    <div className="col s6">
                                         <a className={"btn-floating  waves-effect waves-light " + starLinkColor }
                                             href='/' onClick={this.props.handleClickStar}>
                                             <i className="material-icons">star</i>
                                         </a>
-                                    </span>
+                                    </div>
                                     </Fragment>
                                     ) : null}
                                     
-                                    <span><h6 className="teal-text">Stars: {stars}</h6></span>
-                                </div>
-                                <div className="col s7">
+                                    <div><h6 className="teal-text">Stars: {stars}</h6></div>
+                                    <hr></hr>
                                     <div className="card-content">
                                         <span><h6 className="teal-text">Category: {category}</h6></span>
                                         <h5>{title}</h5>
@@ -84,13 +89,14 @@ class PostDetails extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="card-panel lighten-5 z-depth-1">
-                            <p>{content}</p>
-                        </div>
+                        
                     </div>
-                    <div className="col s7">
+                    <div className="col s8">
+                        <div className="card-panel lighten-5 z-depth-1">
+                            <h6>"{content}"</h6>
+                        </div>
                         <div className="card-panel s6 lighten-5 ">
-                            <img  src={imageUrl} alt={title} style={{ maxWidth: 100 + '%'}} />  
+                            <img  src={imageUrl} alt={title} style={{minWidth: 400 + 'px', maxWidth: 100 + '%'}} />  
                         </div>
                     </div>                      
                 </Fragment>

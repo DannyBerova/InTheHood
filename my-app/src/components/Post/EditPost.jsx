@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import cnst from '../../utils/constants/constants';
 
 class EditPost extends Component {
   render() {
     let {title, content, imageUrl, category} = this.props.post;
-    const isAdmin = localStorage.getItem("isAdmin") === "true";
+    const isAdmin = localStorage.getItem(cnst.isAdmin) === "true";
     let catFiltered = this.props.categories;
     if(!isAdmin) {
       catFiltered = catFiltered.filter(c => c.name !== 'adminSays')
@@ -28,7 +29,7 @@ class EditPost extends Component {
                   <div className="col s12">
                     <div class="input-field col s12">
                       <label htmlFor="content">Content</label>
-                      <textarea className="input-field col s12 white" type="text" onChange={this.props.handleChange} name="content" id="content" value={content} ></textarea>
+                      <textarea style={{minHeight: 80 + "px"}} className="input-field col s12 white" type="text" onChange={this.props.handleChange} name="content" id="content" value={content} ></textarea>
                     </div>
                     <div className='red-text'>{ this.props.errors.content}</div>
                   </div>

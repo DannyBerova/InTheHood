@@ -7,7 +7,10 @@ import HomeWelcomeBlock from '../../components/Home/homeWelcomeBlock';
 import SideNavRight from '../../components/SideNavs/SideNavRight';
 
 import PostService from '../../services/post-service'
+import cnst from '../../utils/constants/constants';
 
+const TOP_RATED = 'toprated';
+const ALL = 'all';
 class HomeView extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +39,7 @@ async componentWillMount() {
       })
       if(this.state.filter !== '') 
      
-      localStorage.removeItem('message')
+      localStorage.removeItem(cnst.message)
       
         this.setState({
           message: '',
@@ -59,9 +62,9 @@ async filterPosts(text) {
     this.setState({filteredPosts: this.state.posts, })
     let filtered = this.state.posts.concat();
     let filter = text;
-    if(text === 'toprated') {
+    if(text === TOP_RATED) {
         filtered = filtered.sort((a, b) => a.stars.length < b.stars.length)
-    } else if(text === 'all'){
+    } else if(text === ALL){
         filtered = this.state.posts;
         filter = ''
     } else {

@@ -6,16 +6,17 @@ function isPostValid(state) {
     const titleError = "Title is required! Title must be between 3 and 30 symbols!";
     const contentError = "Content is required! Content must be between 10 and 1024 symbols!";
     const imageUrlError = "Image URL must be valid URL!";
+    const STRING = 'string';
     
     let isValid = true;
     let errors = {};
     let payload = state.post;
     
-    if(!payload || typeof payload.title !== 'string' || payload.title.trim().length < 3 || payload.title.trim().length > 50) {
+    if(!payload || typeof payload.title !== STRING || payload.title.trim().length < 3 || payload.title.trim().length > 50) {
         errors.title = titleError;
         isValid = false;
     }
-    if(!payload || typeof payload.content !== 'string' || payload.content.trim().length < 10 || payload.content.trim().length > 1024) {
+    if(!payload || typeof payload.content !== STRING || payload.content.trim().length < 10 || payload.content.trim().length > 1024) {
         errors.content = contentError
         isValid = false;
     }

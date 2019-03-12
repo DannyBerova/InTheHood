@@ -5,6 +5,7 @@ import PostService from '../../services/post-service';
 import CategoryService from '../../services/category-service';
 import Create from '../../components/Post/Create';
 import isPostValid from '../../utils/postValidation';
+import cnst from '../../utils/constants/constants';
 
 class CreateView extends Component {
 
@@ -95,7 +96,7 @@ handleChange(event) {
 }
   
   render() {
-    const isAuth = localStorage.ujwt !== null
+    const isAuth = localStorage.hasOwnProperty(cnst.jwtoken)
     const redirectLink = `/post/details/${this.state.createdPostId}`
 
     return (

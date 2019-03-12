@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 
 class Register extends Component {
   render() {
-   
     return (
-      <div className="container">
+    <div className="container">
       <div className="row">
         <div className="col s12">
             <h1>Register</h1>
@@ -64,8 +63,8 @@ class Register extends Component {
               <span><a class="waves-effect teal darken-1  waves-light btn-small" href="/auth/login"><i class="material-icons left">border_color</i>Log In</a></span>
           </h5>
         </div>
+      </div>
     </div>
-  </div>
     )
   }
 }

@@ -6,7 +6,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import '../node_modules/materialize-css/dist/css/materialize.css'
 import './App.css';
-import PostService from './services/post-service'
+import PostService from './services/post-service';
+import cnst from './utils/constants/constants'
+
 
 const Home = lazy(() => import('./views/Home/HomeView'));
 const About = lazy(() => import('./components/About/About'));
@@ -25,12 +27,12 @@ class App extends Component {
   constructor(props) {
     super(props) 
     this.state={
-      isAdmin: localStorage.getItem('isAdmin') === 'true' || false,
+      isAdmin: localStorage.getItem(cnst.isAdmin) === 'true' || false,
       isLoggedIn: false,
-      jwtoken: localStorage.getItem('username') || null,
-      user: localStorage.getItem('username') || null,
-      userId: localStorage.getItem('userId') || null,
-      isBlocked: localStorage.getItem('isBlocked') === 'true' || false,
+      jwtoken: localStorage.getItem(cnst.jwtoken) || null,
+      user: localStorage.getItem(cnst.username) || null,
+      userId: localStorage.getItem(cnst.userId) || null,
+      isBlocked: localStorage.getItem(cnst.isBlocked) === 'true' || false,
       message: ''
     }
 
@@ -40,15 +42,15 @@ class App extends Component {
   }
 
   async componentWillMount() {
-      localStorage.removeItem('message')
-      if(localStorage.getItem('userId')) {
+      localStorage.removeItem(cnst.message)
+      if(localStorage.getItem(cnst.userId)) {
         this.setState({
-          user: localStorage.getItem('username'),
-          userId: localStorage.getItem('userId'),
-          jwtoken: localStorage.getItem('ujwt'),
+          user: localStorage.getItem(cnst.username),
+          userId: localStorage.getItem(cnst.userId),
+          jwtoken: localStorage.getItem(cnst.jwtoken),
           isLoggedIn: true,
-          isAdmin: localStorage.getItem('isAdmin') === 'true',
-          isBlocked: localStorage.getItem('isBlocked') === 'true',
+          isAdmin: localStorage.getItem(cnst.isAdmin) === 'true',
+          isBlocked: localStorage.getItem(cnst.isBlocked) === 'true',
           message: '',
 
         })       
@@ -69,11 +71,11 @@ class App extends Component {
         message: user.message,
         jwtoken: user.token
       }));
-      localStorage.setItem('isAdmin', user.isAdmin);
-      localStorage.setItem('isBlocked', user.isBlocked);
-      localStorage.setItem('username', user.username);
-      localStorage.setItem('userId', user.userId);
-      localStorage.setItem('ujwt', user.token);
+      localStorage.setItem(cnst.isAdmin, user.isAdmin);
+      localStorage.setItem(cnst.isBlocked, user.isBlocked);
+      localStorage.setItem(cnst.username, user.username);
+      localStorage.setItem(cnst.userId, user.userId);
+      localStorage.setItem(cnst.jwtoken, user.token);
     }
   }
 
@@ -109,7 +111,7 @@ class App extends Component {
                                 {...props} 
                                 {...this.state}/>} />
                         <Route path='/user/details/:id' render={(props) =>
-                              (!localStorage.hasOwnProperty('ujwt')) ? (<Redirect to="/"/>
+                              (!localStorage.hasOwnProperty(cnst.jwtoken)) ? (<Redirect to="/"/>
                               ) : (<UserDetails {...props} {...this.state}/>)} />
                         <Route path='/auth' 
                               render={(props) => <Auth 
@@ -118,16 +120,16 @@ class App extends Component {
                                 loginUser={this.loginUser}/>} />
                         <Route exact path='/post/create' 
                                 render={(props) => 
-                                  ((!localStorage.hasOwnProperty('ujwt')) || (localStorage.hasOwnProperty('isBlocked') && this.state.isBlocked === true)) ? (<Redirect to="/"/>
+                                  ((!localStorage.hasOwnProperty(cnst.jwtoken)) || (localStorage.hasOwnProperty(cnst.isBlocked) && this.state.isBlocked === true)) ? (<Redirect to="/"/>
                                   ) : (<Create {...props} {...this.state}/>)} />
                         <Route exact path='/post/edit/:id' 
                                 render={(props) => 
-                                  (!localStorage.hasOwnProperty('ujwt')
+                                  (!localStorage.hasOwnProperty(cnst.jwtoken)
                                   ) ? (<Redirect to="/"/>
                                   ) : (<EditPost {...props} {...this.state}/>)} />
                         <Route exact path='/user/all' 
                                 render={(props) => 
-                                  ((!localStorage.hasOwnProperty('isAdmin') || this.state.isAdmin === false) 
+                                  ((!localStorage.hasOwnProperty(cnst.isAdmin) || this.state.isAdmin === false) 
                                   ) ? (<Redirect to="/"/>
                                   ) : (<AllUsers {...props} {...this.state}/>)} />
                         <Route render={() => <NoMatch/>}/>

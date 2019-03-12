@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
-//import { NavLink, Link, Switch } from 'react-router-dom';
 
 class PostCard extends Component {
-    handleClick(event) {
-      event.preventDefault()
-      console.log('testing')
-    }
-
     render() {
       
         let {title, content, category, imageUrl, createdOn, _id, stars} = this.props.post;
-        let ifEntry = title && content && category && imageUrl && createdOn && _id && stars
-        let dateStr, shortContent, detailsLink, classIsAdminSays
-        if(title && content && category && imageUrl && createdOn && _id && stars) {
-
+        let ifEntry = title && content && category && imageUrl && createdOn && _id && stars;
+        let dateStr, shortContent, detailsLink, classIsAdminSays;
+        if(ifEntry) {
           dateStr = new Date(createdOn).toLocaleString('en-GB', { timeZone: 'UTC' });
           shortContent = content + '...';
           if(content.length > 70) {
@@ -26,16 +19,13 @@ class PostCard extends Component {
         }
         return (
           (!ifEntry) ? (<h3>No posts found!</h3>) : (
-            <div className="col s12 ">
+          <div className="col s12 ">
             <div className={classIsAdminSays}>
               <div className="row valign-wrapper">
                 <div className="col s2">
-                  <img src={imageUrl} alt="" className="circle responsive-img"/>
-                  {/* <span>
-                  <a className="btn-floating waves-effect waves-light teal darken-1" 
-                                href='/' onClick={this.handleClick}><i className="material-icons">star</i></a>
-                  </span> */}
-                  <hr></hr>
+                  <img src={imageUrl} alt="" className="circle responsive-img" style={{maxHeight: 160 + 'px'}}/>
+                  <br></br>
+                  <br></br>
                   <span>
                     <p className="teal-text">Stars: {stars.length}</p>
                   </span> 
@@ -56,14 +46,12 @@ class PostCard extends Component {
                     <span>
                       <a className="waves-effect teal darken-1  waves-light btn" href={detailsLink}><i class="material-icons left">cloud</i>Read more...</a>
                     </span>
-                    
                   </div>
                 </div>
               </div>
             </div>           
           </div>
-          ))
-          
+        ))
       }
 }
 export default PostCard;

@@ -5,7 +5,9 @@ import AuthService from '../../services/auth-service';
 import isUserDataValid from '../../utils/userValidation';
 import Login from '../../components/Auth/LoginForm';
 
-
+const HOME = '/';
+const CREDENTIALS_ERROR = 'Invalid credentials!';
+const OPTIONS_LOGIN = 'login';
 class LoginView extends Component {
   constructor(props) {
     super(props);
@@ -41,7 +43,7 @@ handleChange(event) {
 async handleSubmit(event) {
   event.preventDefault();
   this.setState({message: ''})
-  let validateUser = isUserDataValid(this.state, 'login');
+  let validateUser = isUserDataValid(this.state, OPTIONS_LOGIN);
   let validateErrors = validateUser.errors;
   let isValid = validateUser.isValid;
 
@@ -53,7 +55,7 @@ async handleSubmit(event) {
   const result = await this.AuthService.login(this.state.userData);
 
   if(!result.userId) {
-    this.setState({message: 'Invalid credentials!'})
+    this.setState({message: CREDENTIALS_ERROR})
     toast.error(this.state.message);
   } else if(result.error){
     this.setState({message: result.error})
@@ -68,13 +70,12 @@ async handleSubmit(event) {
 }
 
 render() {
-  const redirectLink = `/`
   
   return (
     <div >
       {(!this.state.redirect) ? (
           <Login {...this.state} {...this.props} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
-      ) : (<Redirect to={redirectLink}/>)}
+      ) : (<Redirect to={HOME}/>)}
     </div>
     )
   }

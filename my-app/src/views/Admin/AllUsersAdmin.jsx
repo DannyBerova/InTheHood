@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import UserService from '../../services/user-service';
+import Constants from '../../utils/constants/constants';
 
 class AllUsersAdmin extends Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class AllUsersAdmin extends Component {
     }
 
     handleClick() {
-        localStorage.removeItem('message')
+        localStorage.removeItem(Constants.message)
     }
 
     render() {
