@@ -6,8 +6,10 @@
 
 ## Overall Description
 
-InDaHood is free web app hood-info-area facebook-like oriented. Users can read posts, edit and delete them, posts can be searched and filtered by category, also users can give stars to a specific post if they are logged in. 
+InDaHood is free web app hood-info-area facebook-like oriented. In the project are also implemented different user roles separated in private sections for admins and regular users. Depending on its role every user can access different sections of the application and has specific permissions of what can or cannot do. Users can read posts, edit and delete them, posts can be searched and filtered by category, also users can give stars to a specific post if they are logged in. 
 
+ P.S In the future many more things will be added.
+ 
   The public part is visible without authentication. This public part includes:
 *	Application start page with all posts (from ACTIVE users) paginated on pages by 5, 
   “Current Weather” (Sofia, Bulgaria) block, 
