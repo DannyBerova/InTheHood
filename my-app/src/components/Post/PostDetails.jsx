@@ -115,13 +115,16 @@ class PostDetails extends Component {
                 <div className="col s11 offset-s1">
                 {isAuth && this.props.isBlocked === false 
                     ? (<Fragment>
-                        <div className="col s11 offset-s5" >
+                        {(this.props.comments.length > 0) 
+                            ? (
+                                <Fragment>
+                                <div className="col s11 offset-s5" >
                         <h6 className="teal-text left">Comments:</h6>
                         </div>
-                        {(this.props.comments.length > 0) 
-                            ? (this.props.comments.map((comment, i) => (
-                            <CommentCard key={comment._id} comment={comment} user={this.props.user} updateState={this.props.updateState}/>))) 
-                            : (<h6>No comments for this post yet!</h6>)}              
+                                    {this.props.comments.map((comment, i) => (
+                            <CommentCard key={comment._id} comment={comment} user={this.props.user} updateState={this.props.updateState}/>))}
+                            </Fragment>) 
+                            : (<h6>No comments for this post yet!</h6>)}             
                             <br></br>
                             <br></br>
                     </Fragment>) 

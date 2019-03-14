@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 import CommentService from '../../services/comment-service';
 import isValidComment from '../../utils/commentValidation';
 
-let blank = '';
 class CreateComment extends Component {
     constructor(props) {
         super(props);
@@ -51,7 +50,7 @@ class CreateComment extends Component {
         return;
       }
     
-      let commentData = this.state.comment.trim();
+      let commentData = this.state.comment;
       commentData.createdBy = this.props.user;
       commentData.postId = this.props.match.params.id;
       
@@ -73,7 +72,6 @@ class CreateComment extends Component {
         toast.success(body.message);
     
         this.props.updateState()
-        blank = ''
         this.setState({
           redirect: true,
           createdCommentId: body.data._id,
@@ -93,20 +91,21 @@ class CreateComment extends Component {
     
       if(this.state.comment.hasOwnProperty(name)) {
         const value = event.target.value;
+    
         let comment = {...this.state.comment};
         comment[name] = value;
-        blank = value;
         this.setState({comment});
       }
     }
 
   render() {
+    
     return (
         <div className="col s12">
           <form onSubmit={this.handleSubmit}>
             <div class="input-field col s12">
               <label htmlFor="content">Content</label>
-              <textarea style={{minHeight: 80 + "px"}} className="input-field col s12 white" type="text" onChange={this.handleChange} name="content" id="content" placeholder="Comment content here...">{blank}</textarea>
+              <textarea style={{minHeight: 80 + "px"}} className="input-field col s12 white" type="text" onChange={this.handleChange} name="content" id="content" placeholder="Comment content here..."></textarea>
               <div className='red-text'>{this.state.errors.content}</div>
             </div>
             <div className="input-field col s12">

@@ -113,8 +113,6 @@ router.get('/allByPost/:id', (req, res) => {
 router.delete('/remove/:id', authCheck, async (req, res) => {
   const id = req.params.id;
   const creator = req.body.creator;
-  //   var user = await User.findOne({username: creator});
-  console.log(id)
   if (req.user.username === creator || req.user.username === 'Admin') {
       Comment
       .findById(id)
@@ -124,7 +122,6 @@ router.delete('/remove/:id', authCheck, async (req, res) => {
               let filtered =post.comments.filter(c => c.toString() !== id.toString());
               post.comments = filtered
               await post.save();
-              console.log(post)
             } catch (error) {
                 console.log(error)
             }

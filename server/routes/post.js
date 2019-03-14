@@ -13,7 +13,6 @@ function validatePostCreateForm(payload) {
   let isFormValid = true
   let message = ''
 
-
   if (!payload || typeof payload.title !== 'string' || payload.title.length < 3 || payload.title.length > 50) {
     isFormValid = false
     errors.title = 'Post title must be at least 3 symbols and less than 50 symbols.'
@@ -28,11 +27,6 @@ function validatePostCreateForm(payload) {
     isFormValid = false
     errors.createdBy = 'CreatedBy needs valid user ID.'
   }
-
-  // if (!payload || typeof payload.imageUrl !== 'string' || !(payload.imageUrl.startsWith('https://') || payload.imageUrl.startsWith('http://')) || payload.imageUrl.length < 14) {
-  //   isFormValid = false
-  //   errors.imageUrl = 'Please enter valid Image URL. Image URL must be at least 14 symbols.'
-  // }
 
   if (!isFormValid) {
     message = 'Check the form for errors.'
@@ -259,7 +253,6 @@ router.post('/star/:id', authCheck, async (req, res) => {
   const userId = req.user.id
 
   let comments = await Comment.find({postId: id})
-  console.log(comments)
   Post
   .findById(id)
   .then(post => {

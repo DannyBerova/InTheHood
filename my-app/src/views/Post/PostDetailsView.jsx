@@ -70,6 +70,7 @@ class PostDetailsView extends Component {
     async updateState() {
         const id = this.props.match.params.id;
         let result = await this.CommentService.allByPost(id);
+        console.log(result)
         this.setState({
             commentAdded: true,
             comments: result.comments

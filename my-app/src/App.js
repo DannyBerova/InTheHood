@@ -138,8 +138,6 @@ class App extends Component {
                                   ) : (<AllUsers {...props} {...this.state}/>)} />
                         <Route render={() => <NoMatch/>}/>
                     </Switch>
-                  </div>
-                    <Footer  {...this.state} logout={this.logout} />
                   <Fragment>
                   <ToastContainer 
                       position="bottom-right"
@@ -151,6 +149,8 @@ class App extends Component {
                       draggable
                       pauseOnHover/>
                     </Fragment>
+                  </div>
+                    <Footer  {...this.state} logout={this.logout} />
                   </Fragment>
               </BrowserRouter>
             </Suspense>

@@ -35,7 +35,7 @@ class CommentCard extends Component {
       
         let {_id, content, postId, createdBy, createdOn} = this.props.comment;
         let isCreatorOrAdmin = createdBy === this.props.user || this.props.user === 'Admin';
-        console.log(this.props.user)
+        console.log(this.props.comment)
         let ifEntry =_id && content && postId && createdBy && createdOn;
         let dateStr, classIsAdminSays;
         if(ifEntry) {
@@ -48,9 +48,9 @@ class CommentCard extends Component {
               <div className={"card-panel col s11 "  + classIsAdminSays}>
                     <div className="card-content col s12">
                         <br></br>
-                        <p className=" teal-text">on {dateStr} by {createdBy}:  
+                        <p className=" teal-text">on {dateStr} by {createdBy}:   
                             <span className="black-text">
-                            " {content}"
+                             " {content} "
                             </span>
                         </p>
                     </div>
@@ -64,6 +64,7 @@ class CommentCard extends Component {
                         </Link>
                     </span>) 
                     : (null)}
+                    
                 </div>
           </Fragment>
         ))
