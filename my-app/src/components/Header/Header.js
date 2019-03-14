@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import {Link, NavLink} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
 class Header extends Component {
+  
     render() {
-        let isAuth = (this.props.userId)
+        let isAuth = (this.props.isLoggedIn)
         let isAdmin = (this.props.isAdmin)
         let userDetails = `/user/details/${this.props.userId}`
         return (
@@ -15,10 +16,10 @@ class Header extends Component {
                 <li><NavLink to="/about">About</NavLink></li>
                 {isAdmin ? 
                     <li ><NavLink className='grey-text lighten-4' to="/user/all">Users</NavLink></li> : null}
-                {isAuth ? 
+                {isAuth === true ? 
                 (<Fragment>
                     <li><NavLink to="/post/create">Create</NavLink></li>
-                    <li><NavLink to={userDetails}>Profile</NavLink></li>
+                    <li><NavLink to={userDetails} onClick={this.toProfile}>Profile</NavLink></li>
                     <li><NavLink to="/" onClick={this.props.logout}>Logout</NavLink></li>
                     </Fragment>
                 ) : (

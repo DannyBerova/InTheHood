@@ -1,5 +1,4 @@
 const express = require('express')
-const authCheck = require('../config/auth-check')
 const Category = require('../models/Category')
 
 const router = new express.Router()

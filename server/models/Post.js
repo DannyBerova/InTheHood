@@ -24,7 +24,7 @@ const postSchema = new Schema({
         default: "https://www.union.edu/files/union-marketing-layer/201803/picture.jpg"
     },
     stars: [{type: Schema.Types.String}],
-    //category: {type: mongoose.Schema.Types.String},
+    comments: [{type: Schema.Types.String}],
     category: {type: Schema.Types.String, default: 'info'},
 });
 

@@ -18,7 +18,7 @@ class HomeWelcomeBlock extends Component {
                     </span>
                   <span>   Welcome in da hoood...   </span>
                   <span>
-                      <Link className="waves-effect teal darken-1 waves-light btn-small" to='auth/register'>
+                      <Link className="waves-effect teal darken-1 waves-light btn-small" to='auth/login'>
                         <i className="material-icons left white-text">border_color</i>Log In
                         </Link>
                     </span>

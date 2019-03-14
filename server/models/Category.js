@@ -22,9 +22,6 @@ module.exports.seedCategory = () => {
     Category.find({}).then(categories => {
         if (categories.length > 0) return
 
-        // let salt = encryption.generateSalt()
-        // let password = encryption.generateHashedPassword(salt, '123456')
-
         Category.create({
             name: 'info',
             posts: []

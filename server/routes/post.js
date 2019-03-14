@@ -1,9 +1,9 @@
 const express = require('express')
 const authCheck = require('../config/auth-check')
-const Book = require('../models/Book')
 const Post = require('../models/Post')
 const User = require('../models/User')
 const Category = require('../models/Category')
+const Comment = require('../models/Comment')
 var mongoose = require('mongoose');
 
 const router = new express.Router()
@@ -65,6 +65,7 @@ router.post('/create', authCheck, async (req, res) => {
     }
 
     let postToCreate = postObj;
+    postToCreate.comments = [];
     if(!postToCreate.imageUrl) {
       postToCreate.imageUrl = "https://www.union.edu/files/union-marketing-layer/201803/picture.jpg";
     }
@@ -190,12 +191,6 @@ router.get('/', (req, res) => {
       res.status(200).json({posts})
     })
     .catch((err) => {
-      for (const idx in posts) {
-        if (object.hasOwnProperty(idx)) {
-          const element = object[idx];
-          
-        }
-      }
       console.log(err)
       const message = 'Something went wrong :('
       return res.status(200).json({
@@ -224,12 +219,12 @@ router.get('/latest', (req, res) => {
     })
 })
 
-router.get('/details/:id', (req, res) => {
+router.get('/details/:id', async (req, res) => {
   const id = req.params.id
   Post
   .findById(id)
   .populate('createdBy')
-  .then(post => {
+  .then(async(post) => {
     if (!post) {
       const message = 'Post not found.'
       return res.status(200).json({
@@ -237,6 +232,7 @@ router.get('/details/:id', (req, res) => {
         message: message
       })
     }
+    let comments = await Comment.find({postId: post.id})
 
     return res.status(200).json({
         success: true,
@@ -245,6 +241,7 @@ router.get('/details/:id', (req, res) => {
         createdBy: post.createdBy,
         starsCount: post.stars.length,
         stars: post.stars,
+        comments: comments
       })
     })
     .catch((err) => {
@@ -261,6 +258,8 @@ router.post('/star/:id', authCheck, async (req, res) => {
   const id = req.params.id
   const userId = req.user.id
 
+  let comments = await Comment.find({postId: id})
+  console.log(comments)
   Post
   .findById(id)
   .then(post => {
@@ -294,6 +293,7 @@ router.post('/star/:id', authCheck, async (req, res) => {
             createdBy:  user,
             starsCount: likedPost.stars.length,
             stars: likedPost.stars,
+            comments: comments
           })
         })
         .catch((err) => {

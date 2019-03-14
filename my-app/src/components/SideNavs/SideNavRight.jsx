@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {Link} from 'react-router-dom';
 import PostService from '../../services/post-service';
 import WeatherService from '../../services/weather-service';
@@ -23,7 +23,6 @@ class SideNavRight extends Component {
 
    async componentWillMount() {
       let data = await this.PostService.latest();
-      console.log(data)
       let weather = await this.WeatherService.sofia();
       if(weather) {
         localStorage.setItem(Constants.weather, weather.current.temp_c)
@@ -43,10 +42,7 @@ class SideNavRight extends Component {
   }
 
   render() {
-    if(this.state.latestPost.content === undefined) {
-      return <h2>No content</h2>
-    }
-    let detailsLink = `/post/details/${this.state.latestPost._id}` || '';
+    let detailsLink = `/post/details/${this.props.latest._id}` || '';
     let temp = this.state.weather ? this.state.weather.temp : '';
     let text = this.state.weather ? this.state.weather.text : '';
     let icon = this.state.weather ? this.state.weather.icon : '';
@@ -77,15 +73,20 @@ class SideNavRight extends Component {
             <div class="row">
               <div class="col s12">
                 <div class="card">
+                    {this.state.latestPost.content !== undefined ? (
+                      <Fragment>
                   <div class="card-content">
-                    <h5 className='teal-text'>*LATEST*</h5>
+                  <h5 className='teal-text'>*LATEST*</h5>
                     <h5>{this.props.latest.title}</h5>
                         <p>{shortContent}</p>
                   </div>
                   <div class="card-action">
                     <Link className="waves-effect teal darken-1  waves-light btn" to={detailsLink}><i class="material-icons left">cloud</i>Read more...</Link>
                   </div>
+                  </Fragment>
+                    ) : (<p>No connection with database in the moment!</p>)}
                 </div>
+
               </div>
             </div>             
           </li>

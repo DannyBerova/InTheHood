@@ -4,24 +4,23 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 import './App.css';
 import '../node_modules/materialize-css/dist/css/materialize.css'
-import './App.css';
+import ErrorBoundary from './components/hocs/ErrorBoundary';
 import PostService from './services/post-service';
 import cnst from './utils/constants/constants'
+import About from './components/About/About';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 
 
 const Home = lazy(() => import('./views/Home/HomeView'));
-const About = lazy(() => import('./components/About/About'));
 const Create = lazy(() => import('./views/Post/CreateView'));
 const Auth = lazy(() => import('./Auth'));
-const Header = lazy(() => import('./components/Header/Header'));
-const Footer = lazy(() => import('./components/Footer/Footer'));
 const PostDetails = lazy(() => import('./views/Post/PostDetailsView'));
 const EditPost = lazy(() => import('./views/Post/EditPostView'));
 const UserDetails = lazy(() => import('./views/User/UserDetailsView'));
 const DestroyUser = lazy(() => import('./views/User/DestroyUserView'));
 const AllUsers = lazy(() => import('./views/Admin/AllUsersAdmin'));
 const NoMatch = lazy(() => import('./components/NoMatch/NoMatch'));
-
 
 class App extends Component {
   constructor(props) {
@@ -95,6 +94,7 @@ class App extends Component {
   render() {
     return (
       <div className="App bgimg ">
+       <ErrorBoundary>
         <div className="row" >
             <Suspense fallback={<h1 className='teal'>Loading...</h1>}>
               <BrowserRouter>
@@ -139,6 +139,7 @@ class App extends Component {
                         <Route render={() => <NoMatch/>}/>
                     </Switch>
                   </div>
+                    <Footer  {...this.state} logout={this.logout} />
                   <Fragment>
                   <ToastContainer 
                       position="bottom-right"
@@ -150,11 +151,11 @@ class App extends Component {
                       draggable
                       pauseOnHover/>
                     </Fragment>
-                    <Footer  {...this.state} logout={this.logout} />
                   </Fragment>
               </BrowserRouter>
             </Suspense>
         </div>
+        </ErrorBoundary>
       </div>
     );
   }

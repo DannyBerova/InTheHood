@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import PostCard from '../Post/PostCard';
 
 class UserDetails extends Component {
@@ -9,23 +9,20 @@ class UserDetails extends Component {
       let active = this.props.userD.isBlocked === true ? 'BLOCKED' : 'ACTIVE';
       let isBlockedColor = this.props.userD.isBlocked === true ? 'grey' : 'teal'
       const postsValues = Object.values(this.props.posts);
-      console.log(postsValues) 
       if(postsValues.length > 0 ) {
-
         postsValues.map(v => {
           v.createdBy = {};
           v.createdBy['username'] = this.props.userD.username;
           return v;
         })
       }
-      console.log('render',this.props.userD.username)
       const {username, email, firstName, lastName} = this.props.userD;
 
-      return (
+      return ((this.props.userId === null) ? (<Redirect to="/"/>) : (
         <div className="col s10 offset-s1">
           <div className="col s3">
             <div class="card">
-              {this.props.user === this.props.userD.username 
+              {this.props.user === this.props.userD.username && this.props.isAdmin === false 
               ? (
               <Fragment>
                 <Link type="button" class="waves-effect red darken-3  waves-light btn" to={`/user/destroy/${this.props.userD._id}`}>
@@ -47,7 +44,7 @@ class UserDetails extends Component {
               {this.props.isAdmin === true && this.props.userId !== this.props.userD._id 
               ? (
               <div class="card-action">
-                  <Link to='/' onClick={this.props.handleClick} className={isBlockedColor + " darken-1 btn-large"}>{block}</Link>
+                  <button onClick={this.props.handleClick} className={isBlockedColor + " darken-1 btn-large"}>{block}</button>
               </div>
               ) : (
               <div class="card-action">
@@ -62,7 +59,7 @@ class UserDetails extends Component {
                     ) : (<h4>No posts added!</h4>)}
           </div>
         </div>    
-      );
+      ))
     }
 }
 

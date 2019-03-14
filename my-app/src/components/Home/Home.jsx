@@ -13,7 +13,8 @@ class Home extends Component {
       } = this.props;
       const totalPosts = filteredPosts.length;
   
-      if (totalPosts === 0) return null;
+      if (totalPosts === 0) 
+      return <p>No connection with database in the moment!</p>;
 
       let filterAdded = this.props.filter === '' ? '' : ` * Filtered by: ${this.props.filter}`
       

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Redirect} from 'react-router-dom';
 import { toast } from 'react-toastify';
 import UserService from '../../services/user-service';
 import UserDetails from '../../components/UserDetails/UserDetails';
@@ -15,15 +16,25 @@ class UserDetailsView extends Component {
     }
     async componentWillMount() {
         const id = this.props.match.params.id;
-
         const result = await this.UserService.userDetails(id);
-
         if(result.user) {
           this.setState({
             userD: result.user,
             posts: result.posts
           })
         } 
+      }
+      async componentWillUpdate(prevProps, prevState) {
+        if (prevProps.match.params.id !== this.props.match.params.id) {
+          const id = prevProps.match.params.id;
+          const result = await this.UserService.userDetails(id);
+          if(result.user) {
+            this.setState({
+              userD: result.user,
+              posts: result.posts
+            })
+          } 
+        }
       }
       
       async handleClick(event) {
@@ -32,7 +43,7 @@ class UserDetailsView extends Component {
           const id = this.props.match.params.id;
           let result = await this.UserService.block(id);
           if(result.user) {
-            toast.success(result.message)
+            toast.success(result.message.toString())
             this.setState({
                 userD: result.user,
                 posts: result.posts,
@@ -43,8 +54,11 @@ class UserDetailsView extends Component {
     }
 
     render() {
+      let isAuth = this.props.isLoggedIn && !this.props.isBlocked;
       return (
-        <UserDetails {...this.state} {...this.props} handleClick={this.handleClick} />
+        (isAuth) 
+        ? (<UserDetails {...this.state} {...this.props} handleClick={this.handleClick} />) 
+        : (<Redirect to="/"/>)
       );
     }
 }

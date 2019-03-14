@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
 import { toast } from 'react-toastify';
 import PostService from '../../services/post-service';
+import CommentService from '../../services/comment-service';
 import PostDetails from '../../components/Post/PostDetails';
 import cnst from '../../utils/constants/constants'
 
@@ -15,14 +16,17 @@ class PostDetailsView extends Component {
             createdBy: {},
             starsCount: 0,
             stars: [],
+            comments: [],
             redirect: false,
             notAllowed: false,
-            liked: false
+            liked: false 
         }
 
         this.PostService = new PostService();
+        this.CommentService = new CommentService();
         this.handleClickStar = this.handleClickStar.bind(this);
         this.handleClickDelete = this.handleClickDelete.bind(this);
+        this.updateState = this.updateState.bind(this);
     }
     async componentWillMount() {
         const id = this.props.match.params.id;
@@ -34,6 +38,7 @@ class PostDetailsView extends Component {
                 createdBy: result.createdBy,
                 starsCount: result.starsCount,
                 stars: result.stars,
+                comments: result.comments,
                 liked: result.stars.includes(this.props.userId)
                 })
         }
@@ -52,6 +57,7 @@ class PostDetailsView extends Component {
                     createdBy: result.createdBy,
                     starsCount: result.starsCount,
                     stars: result.stars,
+                    comments: result.comments,
                     liked: result.stars.includes(this.props.userId)
                     })
             }
@@ -59,6 +65,15 @@ class PostDetailsView extends Component {
         } else {
             toast.error(BLOCKED_ERROR)
         }
+    }
+
+    async updateState() {
+        const id = this.props.match.params.id;
+        let result = await this.CommentService.allByPost(id);
+        this.setState({
+            commentAdded: true,
+            comments: result.comments
+            })
     }
 
     async handleClickDelete() {
@@ -72,7 +87,6 @@ class PostDetailsView extends Component {
                 toast.error(body.error);
             } else {
                 toast.success(body.message);
-                
                 localStorage.setItem(cnst.message, body.message)
                 this.setState({
                     redirect: true,
@@ -91,7 +105,7 @@ class PostDetailsView extends Component {
         return (
             <div className="col s10 offset-s1">
                 {(!this.state.redirect) ? (
-                    <PostDetails {...this.state} {...this.props} handleClickDelete={this.handleClickDelete} handleClickStar={this.handleClickStar}/>
+                    <PostDetails {...this.state} {...this.props} handleClickDelete={this.handleClickDelete} handleClickStar={this.handleClickStar} updateState={this.updateState}/>
                 ) : (<Redirect to={redirectLink}/>)}
             </div>
         )

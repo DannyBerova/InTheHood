@@ -41,7 +41,6 @@ async componentWillMount() {
       if(this.state.filter !== '') 
      
       localStorage.removeItem(cnst.message)
-      let latest = orderedPosts[0]
       
         this.setState({
           message: '',
