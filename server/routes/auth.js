@@ -37,11 +37,6 @@ function validateSignupForm (payload) {
     errors.password = 'Password must be at least 6 characters long'
   }
 
-  // if (!payload || typeof payload.avatar !== 'string' || !validator.isURL(payload.avatar)) {
-  //   isFormValid = false
-  //   errors.avatar = 'Please provide a correct avatar URL address'
-  // }
-
   if (!isFormValid) {
     message = 'Check the form for errors.'
   }
@@ -116,7 +111,7 @@ router.post('/signup', (req, res, next) => {
           userId: user._id.toString()
         }
         , 's0m3 r4nd0m str1ng'
-        , { expiresIn: '12h' });
+        , { expiresIn: '24h' });
     
          res.status(200).json(
            { 
@@ -182,7 +177,7 @@ router.post('/login', (req, res, next) => {
       userId: user._id.toString()
     }
     , 's0m3 r4nd0m str1ng'
-    , { expiresIn: '12h' });
+    , { expiresIn: '24h' });
 
      res.status(200).json(
        { 

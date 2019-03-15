@@ -29,7 +29,7 @@ class AllUsersAdmin extends Component {
         <div className="col s10 offset-s1">
         <h4>ALL USERS</h4>
         <hr></hr>
-          <table className='highlight '>
+          <table className='highlight centered'>
         <thead>
           <tr>
               <th>Username</th>

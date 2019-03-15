@@ -29,8 +29,8 @@ const postSchema = new Schema({
 });
 
 postSchema.path('title').validate(function () {
-    return this.title.length >= 3 && this.title.length <= 30;
-}, 'Title must be between 3 and 30 symbols!');
+    return this.title.length >= 3 && this.title.length <= 50;
+}, 'Title must be between 3 and 50 symbols!');
 postSchema.path('content').validate(function () {
     return this.content.length >= 3 && this.content.length <= 10240;
 }, 'Description must be between 3 and 1024 symbols!');

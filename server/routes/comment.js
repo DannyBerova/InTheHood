@@ -1,9 +1,7 @@
 const express = require('express')
 const authCheck = require('../config/auth-check')
 const Post = require('../models/Post')
-const User = require('../models/User')
 const Comment = require('../models/Comment')
-var mongoose = require('mongoose');
 
 const router = new express.Router()
 

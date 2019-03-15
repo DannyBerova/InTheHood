@@ -45,8 +45,8 @@ class CommentCard extends Component {
         return (
           (!ifEntry) ? (<h3>No comments for this post yet!</h3>) : (
           <Fragment>
-              <div className={"card-panel col s11 "  + classIsAdminSays}>
-                    <div className="card-content col s12">
+              <div className={"card-panel col s12 "  + classIsAdminSays}>
+                    <div className="card-content col s10 offset-s1 left-text">
                         <br></br>
                         <p className=" teal-text">on {dateStr} by {createdBy}:   
                             <span className="black-text">
@@ -54,17 +54,14 @@ class CommentCard extends Component {
                             </span>
                         </p>
                     </div>
-                </div>
-                <div className="col s1">
                     {isCreatorOrAdmin === true 
-                    ? (<span>
+                    ? (<div className="card-content col s1">
                         <Link className="btn-floating btn-small waves-effect waves-light grey"
                         to='/' onClick={this.handleDeleteComment}>
                         <i className="material-icons">delete</i>
                         </Link>
-                    </span>) 
+                      </div>) 
                     : (null)}
-                    
                 </div>
           </Fragment>
         ))

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 function isPostValid(state) {
     const globalError = 'Check your form for errors!';
-    const titleError = "Title is required! Title must be between 3 and 30 symbols!";
+    const titleError = "Title is required! Title must be between 3 and 50 symbols!";
     const contentError = "Content is required! Content must be between 10 and 1024 symbols!";
     const imageUrlError = "Image URL must be valid URL!";
     const STRING = 'string';

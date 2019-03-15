@@ -4,7 +4,6 @@ const Post = require('../models/Post')
 const User = require('../models/User')
 const Category = require('../models/Category')
 const Comment = require('../models/Comment')
-var mongoose = require('mongoose');
 
 const router = new express.Router()
 
@@ -325,7 +324,7 @@ router.delete('/remove/:id', authCheck, async (req, res) => {
         let filteredPosts =user.posts.filter(p => p.toString() !== id.toString());
         user.posts = filteredPosts
         await user.save();
-        //remove from categories and users!!!
+        //removed from categories and users!!!
         
       } catch (error) {
         console.log(error)

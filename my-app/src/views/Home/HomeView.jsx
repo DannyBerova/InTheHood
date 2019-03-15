@@ -36,7 +36,7 @@ async componentWillMount() {
 
     if(data.posts) {
       let orderedPosts = data.posts.sort((a, b) =>{
-        return a.createdOn < b.createdOn
+        return a.createdOn > b.createdOn  ? -1 : 1;
       })
       if(this.state.filter !== '') 
      
@@ -65,7 +65,7 @@ async filterPosts(text) {
     let filtered = this.state.posts.concat();
     let filter = text;
     if(text === TOP_RATED) {
-        filtered = filtered.sort((a, b) => a.stars.length < b.stars.length)
+        filtered = filtered.sort((a, b) => a.stars.length > b.stars.length ? -1 : 1)
     } else if(text === ALL){
         filtered = this.state.posts;
         filter = ''

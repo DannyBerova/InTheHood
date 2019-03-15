@@ -32,6 +32,7 @@ class App extends Component {
       user: localStorage.getItem(cnst.username) || null,
       userId: localStorage.getItem(cnst.userId) || null,
       isBlocked: localStorage.getItem(cnst.isBlocked) === 'true' || false,
+      timeLoggedIn: localStorage.getItem(cnst.timeLoggedIn) || null,
       message: ''
     }
 
@@ -43,10 +44,18 @@ class App extends Component {
   async componentWillMount() {
       localStorage.removeItem(cnst.message)
       if(localStorage.getItem(cnst.userId)) {
+        let oldDate = new Date(+localStorage.getItem(cnst.timeLoggedIn))
+        let newDate = new Date(Date.now())
+        let resultDiff =new Date( oldDate.setDate(oldDate.getDate() + 1))
+        if(resultDiff < newDate) {
+          this.logout()
+          return;
+        }
         this.setState({
           user: localStorage.getItem(cnst.username),
           userId: localStorage.getItem(cnst.userId),
           jwtoken: localStorage.getItem(cnst.jwtoken),
+          timeLoggedIn: localStorage.getItem(cnst.timeLoggedIn),
           isLoggedIn: true,
           isAdmin: localStorage.getItem(cnst.isAdmin) === 'true',
           isBlocked: localStorage.getItem(cnst.isBlocked) === 'true',
@@ -73,11 +82,12 @@ class App extends Component {
       localStorage.setItem(cnst.username, user.username);
       localStorage.setItem(cnst.userId, user.userId);
       localStorage.setItem(cnst.jwtoken, user.token);
+      localStorage.setItem(cnst.timeLoggedIn, Date.now());
     }
   }
 
    async logout(event) {
-    event.preventDefault();
+    //event.preventDefault();
     let messageToSet='Logged Out! ';
     this.setState({
       isAdmin: false,
@@ -138,18 +148,17 @@ class App extends Component {
                                   ) : (<AllUsers {...props} {...this.state}/>)} />
                         <Route render={() => <NoMatch/>}/>
                     </Switch>
+                  </div>
                   <Fragment>
                   <ToastContainer 
                       position="bottom-right"
                       autoClose={4000}
                       hideProgressBar={false}
                       newestOnTop={false}
-                      rtl={false}
                       pauseOnVisibilityChange
                       draggable
                       pauseOnHover/>
                     </Fragment>
-                  </div>
                     <Footer  {...this.state} logout={this.logout} />
                   </Fragment>
               </BrowserRouter>

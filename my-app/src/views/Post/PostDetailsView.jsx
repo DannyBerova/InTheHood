@@ -33,6 +33,9 @@ class PostDetailsView extends Component {
         const result = await this.PostService.postDetails(id);
 
         if(result.post) {
+            result.comments.sort((a, b) =>{
+                return a.createdOn > b.createdOn  ? -1 : 1;
+              })
             this.setState({
                 post: result.post,
                 createdBy: result.createdBy,
@@ -52,6 +55,9 @@ class PostDetailsView extends Component {
             let result = await this.PostService.star(id);
             if(result.post) {
                 toast.success(result.message)
+                result.comments.sort((a, b) =>{
+                    return a.createdOn > b.createdOn  ? -1 : 1;
+                  })
                 this.setState({
                     post: result.post,
                     createdBy: result.createdBy,
@@ -70,11 +76,16 @@ class PostDetailsView extends Component {
     async updateState() {
         const id = this.props.match.params.id;
         let result = await this.CommentService.allByPost(id);
-        console.log(result)
+        if(result.comments) {
+
+            result.comments.sort((a, b) =>{
+            return a.createdOn > b.createdOn  ? -1 : 1;
+          })
         this.setState({
             commentAdded: true,
             comments: result.comments
             })
+        }
     }
 
     async handleClickDelete() {

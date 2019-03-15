@@ -107,9 +107,9 @@ class CreateComment extends Component {
               <label htmlFor="content">Content</label>
               <textarea style={{minHeight: 80 + "px"}} className="input-field col s12 white" type="text" onChange={this.handleChange} name="content" id="content" placeholder="Comment content here..."></textarea>
               <div className='red-text'>{this.state.errors.content}</div>
-            </div>
-            <div className="input-field col s12">
+            <span className="input-field col s12">
               <input type="submit" className='waves-effect teal darken-1 waves-light btn-small'  value="ADD COMMENT"/>
+            </span>
             </div>
           </form>
         </div>

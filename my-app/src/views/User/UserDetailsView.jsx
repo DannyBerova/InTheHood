@@ -18,6 +18,9 @@ class UserDetailsView extends Component {
         const id = this.props.match.params.id;
         const result = await this.UserService.userDetails(id);
         if(result.user) {
+          result.posts.sort((a, b) =>{
+            return a.createdOn > b.createdOn  ? -1 : 1;
+          })
           this.setState({
             userD: result.user,
             posts: result.posts
@@ -29,6 +32,9 @@ class UserDetailsView extends Component {
           const id = prevProps.match.params.id;
           const result = await this.UserService.userDetails(id);
           if(result.user) {
+            result.posts.sort((a, b) =>{
+              return a.createdOn > b.createdOn  ? -1 : 1;
+            })
             this.setState({
               userD: result.user,
               posts: result.posts
@@ -43,6 +49,9 @@ class UserDetailsView extends Component {
           const id = this.props.match.params.id;
           let result = await this.UserService.block(id);
           if(result.user) {
+            result.posts.sort((a, b) =>{
+              return a.createdOn > b.createdOn  ? -1 : 1;
+            })
             toast.success(result.message.toString())
             this.setState({
                 userD: result.user,

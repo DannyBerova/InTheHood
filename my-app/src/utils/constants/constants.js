@@ -4,6 +4,7 @@
     static username = 'username';
     static jwtoken = 'ujwt';
     static isBlocked = 'isBlocked';
+    static timeLoggedIn = 'timeLoggedIn';
     static message = 'message';
     static weather = 'weather';
   }
