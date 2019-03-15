@@ -48,9 +48,14 @@ class SideNavRight extends Component {
     let icon = this.state.weather ? this.state.weather.icon : '';
     let d =new Date(Date.now()); 
 
-    let shortContent = this.props.latest.content ? (this.props.latest.content + '...') : '';
-    if(this.props.latest.content && this.props.latest.content.length > 100) {
-      shortContent = (this.props.latest.content.substr(0, 50) + '...') || ''
+    let content, title, shortContent;
+    if(this.props.latest !== undefined && this.props.latest.title !== undefined) {
+      content = this.props.latest.content;
+      title = this.props.latest.title;
+      shortContent = this.props.latest ? (this.props.latest.content + '...') : '';
+      if(this.props.latest && this.props.latest.content.length > 100) {
+        shortContent = (this.props.latest.content.substr(0, 50) + '...') || ''
+      }
     }
     return (
       <div className='col s2' >
@@ -73,11 +78,11 @@ class SideNavRight extends Component {
             <div class="row">
               <div class="col s12">
                 <div class="card">
-                    {this.state.latestPost.content !== undefined ? (
+                    {content !== undefined ? (
                       <Fragment>
                   <div class="card-content">
                   <h5 className='teal-text'>*LATEST*</h5>
-                    <h5>{this.props.latest.title}</h5>
+                    <h5>{title}</h5>
                         <p>{shortContent}</p>
                   </div>
                   <div class="card-action">

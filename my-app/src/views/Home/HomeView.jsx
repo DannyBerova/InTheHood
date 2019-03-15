@@ -20,7 +20,11 @@ class HomeView extends Component {
         filteredPosts: [],
         search: '',
         currentPosts: [],
-        latest: {},
+        latest: {
+            title: '',
+            content: '',
+            createdOn: ''
+        },
         currentPage: null,
         totalPages: 1
     }
@@ -48,7 +52,9 @@ async componentWillMount() {
           posts: orderedPosts,
           filteredPosts: orderedPosts,
           currentPosts: orderedPosts,
-          latest: orderedPosts[0],
+          latest: orderedPosts[0] || {title: '',
+                                        content: '',
+                                        createdOn: ''},
           totalPages: Math.ceil(orderedPosts / 5)
         })
     }
