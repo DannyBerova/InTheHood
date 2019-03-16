@@ -7,6 +7,7 @@
 ## Overall Description
 
 InDaHood is a free web app, hood-info-area facebook-like oriented. In the project are implemented different user roles: admins, regular and guest users, each with different permissions. Depending on its role, every user can access different sections of the application and has specific permissions of what can or cannot do and see. Users can create, read posts, edit and delete them. Posts can be searched and filtered by category. Users can give stars to a specific post if they are logged in, can comment to a post, see others comments and delete their comments.
+You can test project on https://indahoodapp.herokuapp.com/ .
 
  P.S In the future many more things will be added.
  
@@ -44,11 +45,13 @@ InDaHood is a free web app, hood-info-area facebook-like oriented. In the projec
 ### Server: “server” folder (Express server Api)
   #### Install the dependencies *npm i* and start the client *npm start* or *nodemon* (port: 5000).
   This project was created with [Express] version 4.16.4.
+  You can test backend server api on https://indahooddb.herokuapp.com (deployed with HEROKU and mLab database).
 
 ### Client: “my-app” folder (React web app)
   #### Install the dependencies *npm i* and start the client *npm start* (port: 3000).
   This project was generated with [React] version 16.8.3.
   The app will automatically reload if you change any of the source files.
+  You can test client app on https://indahoodapp.herokuapp.com/ (deployed with HEROKU).
 
 ### *Author* 
   Danny Berova https://github.com/DannyBerova/InTheHood
