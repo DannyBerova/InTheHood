@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
-import { toast } from 'react-toastify';
 import UserService from '../../services/user-service';
 import UserDetails from '../../components/UserDetails/UserDetails';
+import notify from '../../utils/notification';
+
 
 class UserDetailsView extends Component {
     constructor(props) {
@@ -52,7 +53,8 @@ class UserDetailsView extends Component {
             result.posts.sort((a, b) =>{
               return a.createdOn > b.createdOn  ? -1 : 1;
             })
-            toast.success(result.message.toString())
+            //toast.success(result.message.toString())
+            notify.success(result.message)
             this.setState({
                 userD: result.user,
                 posts: result.posts,

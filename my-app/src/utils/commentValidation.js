@@ -1,4 +1,5 @@
-import { toast } from 'react-toastify';
+import notify from './notification';
+
 
 function isCommentValid(state) {
     const globalError = 'Check your form for errors!';
@@ -13,7 +14,7 @@ function isCommentValid(state) {
         errors.content = contentError
         isValid = false;
     }
-    if(!isValid) {toast.error(globalError)}
+    if(!isValid) {notify.error(globalError)}
 
     return {isValid, errors};
 }

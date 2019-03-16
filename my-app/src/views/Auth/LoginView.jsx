@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
-import { toast } from 'react-toastify';
 import AuthService from '../../services/auth-service';
 import isUserDataValid from '../../utils/userValidation';
 import Login from '../../components/Auth/LoginForm';
+import notify from '../../utils/notification';
+
 
 const HOME = '/';
 const CREDENTIALS_ERROR = 'Invalid credentials!';
@@ -55,16 +56,16 @@ async handleSubmit(event) {
 
   if(!result.userId) {
     this.setState({message: CREDENTIALS_ERROR})
-    toast.error(this.state.message);
+    notify.error(this.state.message);
   } else if(result.error){
     this.setState({message: result.error})
-    toast.error(result.error);
+    notify.error(result.error);
   } else {
-    toast.success("Logged in!");
-    this.props.loginUser(result)
+    notify.success(result.message);
     this.setState({
       redirect: true,
     });
+    this.props.loginUser(result)
   }
 }
 

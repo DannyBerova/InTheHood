@@ -1,5 +1,4 @@
 import React, { Component} from 'react';
-
 import Search from '../../components/Home/Search';
 import SideNavLeft from '../../components/SideNavs/SideNavLeft';
 import Home from '../../components/Home/Home';

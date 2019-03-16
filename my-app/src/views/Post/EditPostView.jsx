@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
-import { toast } from 'react-toastify';
 import PostService from '../../services/post-service';
 import CategoryService from '../../services/category-service';
 import isPostValid from '../../utils/postValidation';
 import EditPost from '../../components/Post/EditPost'
 import cnst from '../../utils/constants/constants';
+import notify from '../../utils/notification';
+
 
 class EditPostView extends Component {
 
@@ -79,13 +80,13 @@ class EditPostView extends Component {
           err = err + ' ' + error;
       })
       this.setState({message: err})
-      toast.error(err);
+      notify.error(err);
       return;
     } else if(body.error){
       this.setState({message: body.error})
-      toast.error(body.error);
+      notify.error(body.error);
     } else {
-      toast.success(body.message);
+      notify.success(body.message);
 
         this.setState({
           redirect: true,

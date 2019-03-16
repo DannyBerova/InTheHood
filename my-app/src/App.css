@@ -98,6 +98,22 @@ ul.pagination a.page-link:hover {
   background-color: #f4f4f4;
 }
 
+.active {
+  color: white !important;
+}
+
+li.active {
+  color: white !important;
+  background-color: #183333;
+}
+
+.btn {
+  min-width: 130px;
+}
+
+
+
+
 /* @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

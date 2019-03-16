@@ -1,6 +1,5 @@
 import React, { Component, Suspense, lazy} from 'react';
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 import './App.css';
 import '../node_modules/materialize-css/dist/css/materialize.css'
@@ -10,6 +9,7 @@ import cnst from './utils/constants/constants'
 import About from './components/About/About';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import notify from './utils/notification';
 
 
 const Home = lazy(() => import('./views/Home/HomeView'));
@@ -68,6 +68,8 @@ class App extends Component {
   }
 
    loginUser(user) {
+    console.log('test app state')
+    
     if(user && user.userId) {
        this.setState((prevState, props) => ({
         user: user.username,
@@ -93,13 +95,13 @@ class App extends Component {
     this.setState({
       isAdmin: false,
       isLoggedIn: false,
-      user: null,
+      user: 'null',
       userId: null,
       isFetched: false,
       message: messageToSet
     })
     localStorage.clear();
-    toast.success({messageToSet});
+    notify.success(messageToSet);
   }
 
   render() {
@@ -156,16 +158,6 @@ class App extends Component {
                     </Switch>
                   </div>
                     <Footer  {...this.state} logout={this.logout} />
-                  <div className="row">
-                  <ToastContainer 
-                      position="bottom-right"
-                      autoClose={4000}
-                      hideProgressBar={false}
-                      newestOnTop={false}
-                      pauseOnVisibilityChange
-                      draggable
-                      pauseOnHover/>
-                    </div>
                   </div>
               </BrowserRouter>
             </Suspense>

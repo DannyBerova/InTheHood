@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
-import { toast } from 'react-toastify';
 import cnst from '../../utils/constants/constants';
 import PostService from '../../services/post-service';
 import DeletePost from '../../components/Post/DeletePost';
+import notify from '../../utils/notification';
+
 
 const HOME = '/';
 const NOT_ALLOWED = 'You are not allowed for this operation!';
@@ -43,9 +44,9 @@ class DeleteView extends Component {
         if(this.state.post.createdBy._id === this.props.userId || this.props.isAdmin === true) {
             if(body.error){
                 this.setState({message: body.error})
-                toast.error(body.error);
+                notify.error(body.error);
             } else {
-                toast.success(body.message);
+                notify.success(body.message);
                 localStorage.setItem(cnst.message, body.message)
                 this.setState({
                     redirect: true,

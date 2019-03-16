@@ -3,6 +3,8 @@ import {Redirect} from 'react-router-dom';
 import { toast } from 'react-toastify';
 import UserService from '../../services/user-service';
 import DestroyUser from '../../components/UserDetails/DestroyUser';
+import notify from '../../utils/notification';
+
 
 const HOME = '/';
 const MESSAGE_DESTROY = 'Your profile is permanently destroyed!!! You must to create new account to log in InDaHood';
@@ -34,7 +36,7 @@ class DestroyUserView extends Component {
 
         let result =  await this.UserService.destroy({id, id2: id });
         if(result.user) {
-          toast.success(<h6 className="white-text center">{MESSAGE_DESTROY}</h6>);
+          notify.success(MESSAGE_DESTROY);
           await this.props.logout(event, MESSAGE_DESTROY)
           this.setState({redirect: true})
         } else {

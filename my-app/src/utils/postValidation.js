@@ -1,5 +1,6 @@
 import validator from 'validator';
-import { toast } from 'react-toastify';
+import notify from './notification';
+
 
 function isPostValid(state) {
     const globalError = 'Check your form for errors!';
@@ -25,7 +26,7 @@ function isPostValid(state) {
         errors.imageUrl = imageUrlError
         isValid = false;
     }
-    if(!isValid) {toast.error(globalError)}
+    if(!isValid) {notify.error(globalError)}
 
     return {isValid, errors};
 }

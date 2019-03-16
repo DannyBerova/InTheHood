@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import {Link} from 'react-router-dom';
-import { toast } from 'react-toastify';
 import CommentService from '../../services/comment-service'
+import notify from '../../utils/notification';
+
 
 class CommentCard extends Component {
     constructor(props) {
@@ -20,13 +21,13 @@ class CommentCard extends Component {
         if(this.props.comment.createdBy === this.props.user || this.props.user === 'Admin') {
             let result = await this.CommentService.remove(commentObj);
             if(result.success === false){
-                toast.error(result.message);
+                notify.error(result.message);
             } else {
-            toast.success(result.message);
-            this.props.updateState()
+                notify.success(result.message);
+                this.props.updateState()
             }
         } else {
-            toast.error("You cannot delete other users comments!")
+            notify.error("You cannot delete other users comments!")
         }
 
 

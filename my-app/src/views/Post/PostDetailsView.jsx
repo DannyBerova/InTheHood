@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
-import { toast } from 'react-toastify';
 import PostService from '../../services/post-service';
 import CommentService from '../../services/comment-service';
 import PostDetails from '../../components/Post/PostDetails';
-
+import notify from '../../utils/notification';
 
 const BLOCKED_ERROR = 'You are blocked! You can\'t give stars!';
 class PostDetailsView extends Component {
@@ -52,7 +51,7 @@ class PostDetailsView extends Component {
 
             let result = await this.PostService.star(id);
             if(result.post) {
-                toast.success(result.message)
+                notify.success(result.message);
                 result.comments.sort((a, b) =>{
                     return a.createdOn > b.createdOn  ? -1 : 1;
                   })
@@ -67,7 +66,7 @@ class PostDetailsView extends Component {
             }
             return;
         } else {
-            toast.error(BLOCKED_ERROR)
+            notify.error(BLOCKED_ERROR)
         }
     }
 

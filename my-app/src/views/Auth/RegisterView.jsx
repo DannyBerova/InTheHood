@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
-import { toast } from 'react-toastify';
 import AuthService from '../../services/auth-service';
 import Register from '../../components/Auth/RegisterForm';
 import isUserDataValid from '../../utils/userValidation';
+import notify from '../../utils/notification';
+
 
 const HOME = '/';
 const OPTIONS_REGISTER = 'register';
@@ -66,14 +67,14 @@ async handleSubmit(event) {
               err = err + ' ' + error;
           })
             this.setState({message: err})
-            toast.error(err);
+            notify.error(err);
           } else if(body.error){
             this.setState({message: body.error})
-            toast.error(body.error);
+            notify.error(body.error);
         } else {
-              toast.success('Signed up!');
-              await this.props.loginUser(body)
+              
               this.setState({ redirect: true });
+              await this.props.loginUser(body)
         } 
   } 
 

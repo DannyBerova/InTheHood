@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import PostCard from '../Post/PostCard';
 import Pagination from "../pagination";
 

@@ -1,5 +1,6 @@
 import validator from 'validator';
-import { toast } from 'react-toastify';
+import notify from './notification';
+
 
 function isUserDataValid(state, option) {
     const globalError = 'Check your form for errors!';
@@ -52,7 +53,7 @@ function isUserDataValid(state, option) {
         }
 
     } 
-    if(!isValid) toast.error(globalError)   
+    if(!isValid) notify.error(globalError)   
 
     return {isValid, errors};
 }

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { toast } from 'react-toastify';
-//import cnst from '../../utils/constants/constants';
 import CommentService from '../../services/comment-service';
 import isValidComment from '../../utils/commentValidation';
+import notify from '../../utils/notification';
+
 
 class CreateComment extends Component {
     constructor(props) {
@@ -63,13 +63,13 @@ class CreateComment extends Component {
             err = err + ' ' + error;
         })
         this.setState({message: err})
-        toast.error(err);
+        notify.error(err);
         return;
       } else if(body.error){
         this.setState({message: body.error})
-        toast.error(body.error);
+        notify.error(body.error);
       } else {
-        toast.success(body.message);
+        notify.success(body.message);
     
         this.props.updateState()
         this.setState({
