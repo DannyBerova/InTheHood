@@ -16,7 +16,7 @@ class CreateView extends Component {
       title: '',
       content: '',
       imageUrl: '',
-      category: '',
+      category: 'info',
       },
       redirect: false,
       createdPostId: '',
@@ -54,7 +54,7 @@ async handleSubmit(event) {
 
   let postData = this.state.post;
   postData.createdBy = this.props.userId;
-  if(postData.category === null) {
+  if(postData.category === '') {
     postData.category = this.state.post.category || 'info'
   }
 

@@ -99,7 +99,7 @@ class App extends Component {
       message: messageToSet
     })
     localStorage.clear();
-    toast.success(<h6 className="white-text center">{messageToSet}</h6>);
+    toast.success({messageToSet});
   }
 
   render() {
@@ -155,6 +155,7 @@ class App extends Component {
                         <Route render={() => <NoMatch/>}/>
                     </Switch>
                   </div>
+                    <Footer  {...this.state} logout={this.logout} />
                   <div className="row">
                   <ToastContainer 
                       position="bottom-right"
@@ -165,7 +166,6 @@ class App extends Component {
                       draggable
                       pauseOnHover/>
                     </div>
-                    <Footer  {...this.state} logout={this.logout} />
                   </div>
               </BrowserRouter>
             </Suspense>

@@ -71,7 +71,7 @@ async handleSubmit(event) {
             this.setState({message: body.error})
             toast.error(body.error);
         } else {
-              toast.success(body.message);
+              toast.success('Signed up!');
               await this.props.loginUser(body)
               this.setState({ redirect: true });
         } 

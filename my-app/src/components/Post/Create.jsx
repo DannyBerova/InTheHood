@@ -42,7 +42,7 @@ class Create extends Component {
          <div className="row">
           <label>Categories</label>
           <select className="browser-default" name="category" onChange={this.props.handleChange}>
-          <option defaultValue="info">info</option>
+          <option value="info">info</option>
           {catFiltered.map(cat => (
             <option key={cat._id} value={cat.name}>{cat.name}</option>           
           ))}
