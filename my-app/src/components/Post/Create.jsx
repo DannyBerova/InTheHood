@@ -25,7 +25,7 @@ class Create extends Component {
          </div>
          <div className="row">
             <div className="col s12">
-            <div class="input-field col s12">
+            <div className="input-field col s12">
               <label htmlFor="content">Content</label>
               <textarea style={{minHeight: 80 + "px"}} className="input-field col s12 white" type="text" onChange={this.props.handleChange} name="content" id="content" placeholder="Content here..."></textarea>
               <div className='red-text'>{ this.props.errors.content}</div>
@@ -42,7 +42,7 @@ class Create extends Component {
          <div className="row">
           <label>Categories</label>
           <select className="browser-default" name="category" onChange={this.props.handleChange}>
-          <option value='info' selected>info</option>
+          <option defaultValue="info">info</option>
           {catFiltered.map(cat => (
             <option key={cat._id} value={cat.name}>{cat.name}</option>           
           ))}

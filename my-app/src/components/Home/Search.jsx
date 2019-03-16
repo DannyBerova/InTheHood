@@ -5,7 +5,7 @@ class Search extends Component {
         return(
         <div className="row">
             <div className="col s8 offset-s1">
-                <i class="material-icons left">search</i>
+                <i className="material-icons left">search</i>
                 <input className="input-field col s11 " type="text" onChange={this.props.handleChange} 
                     onKeyPress={event => { if (event.key === 'Enter') { this.props.searching() }}}   
                     name="search" placeholder="Search..." value={this.props.search}/>

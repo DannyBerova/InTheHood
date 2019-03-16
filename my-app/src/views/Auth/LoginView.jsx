@@ -13,12 +13,12 @@ class LoginView extends Component {
     super(props);
     this.state = {
       userData: {
-        username: null,
-        password: null,
+        username: '',
+        password: '',
       },
       redirect: false,
       errors: {},
-      message: null
+      message: ''
     }
 
     this.AuthService = new AuthService();

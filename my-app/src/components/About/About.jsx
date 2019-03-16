@@ -40,6 +40,8 @@ class About extends Component {
                         </h6></li>
                         <li><h6>
                             Edit post page (only applicable to own posts);
+                        </h6></li><li><h6>
+                            Delete post page (only applicable to own posts);
                         </h6></li>
                     </ul>
                     <hr></hr>

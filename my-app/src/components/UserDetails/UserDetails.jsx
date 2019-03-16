@@ -21,15 +21,15 @@ class UserDetails extends Component {
       return ((this.props.userId === null) ? (<Redirect to="/"/>) : (
         <div className="col s10 offset-s1">
           <div className="col s3">
-            <div class="card">
+            <div className="card">
               {this.props.user === this.props.userD.username && this.props.isAdmin === false 
               ? (
               <Fragment>
-                <Link type="button" class="waves-effect red darken-3  waves-light btn" to={`/user/destroy/${this.props.userD._id}`}>
+                <Link type="button" className="waves-effect red darken-3  waves-light btn" to={`/user/destroy/${this.props.userD._id}`}>
                   <i className="material-icons left">delete_forever</i>DESTROY!</Link>
               </Fragment>
               ) : (null)}
-              <div class="card-content">
+              <div className="card-content">
                 <img src={this.props.userD.avatar} alt="" className="circle responsive-img small"/>
                 <h6 className='teal-text'>Username:</h6>
                 <h5>{username}</h5>
@@ -43,11 +43,13 @@ class UserDetails extends Component {
               
               {this.props.isAdmin === true && this.props.userId !== this.props.userD._id 
               ? (
-              <div class="card-action">
+              <div className="card-action">
+                  <h6 className="teal-text">Status :</h6>
                   <button onClick={this.props.handleClick} className={isBlockedColor + " darken-1 btn-large"}>{block}</button>
               </div>
               ) : (
-              <div class="card-action">
+              <div className="card-action">
+                <h6 className="teal-text">Status :</h6>
                 <button  className={isBlockedColor + " darken-1 btn-large"}>{active}</button>
               </div>
               )}

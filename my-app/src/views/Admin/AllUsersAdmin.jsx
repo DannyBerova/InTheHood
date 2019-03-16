@@ -55,7 +55,7 @@ class AllUsersAdmin extends Component {
             <td><span><a className="btn-floating waves-effect waves-light teal darken-1" 
                                 href={`/user/details/${user._id}`}><i className="material-icons">person</i></a></span></td>
         </tr>))
-         ) : (<h4>No users to show!</h4>)}
+         ) : (<tr><td>No users to show!</td></tr>)}
         
         </tbody>
       </table>

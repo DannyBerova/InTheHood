@@ -26,7 +26,6 @@ function isUserDataValid(state, option) {
     }
     
     if(option === 'register') {
-        console.log('register')
         if(!payload || typeof payload.repeatPass !== STRING || !validator.equals(payload.password, payload.repeatPass)) {
             errors.repeatPass = repeatPassError;
             isValid = false;

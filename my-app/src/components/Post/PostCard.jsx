@@ -45,7 +45,7 @@ class PostCard extends Component {
                   </div>
                   <div className="card-action ">
                     <span>
-                      <Link className="waves-effect teal darken-1  waves-light btn" to={detailsLink}><i class="material-icons left">cloud</i>Read more...</Link>
+                      <Link className="waves-effect teal darken-1  waves-light btn" to={detailsLink}><i className="material-icons left">cloud</i>Read more...</Link>
                     </span>
                   </div>
                 </div>

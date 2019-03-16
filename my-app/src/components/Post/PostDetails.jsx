@@ -6,7 +6,7 @@ import CommentCard from '../Comments/CommentCard';
 
 class PostDetails extends Component {
     render() {
-        let isAuth = (this.props.userId)
+        let isAuth = (this.props.userId && !this.props.isBlocked)
         let isAdmin = localStorage.getItem(cnst.isAdmin) === "true"
         let isCreator = localStorage.getItem(cnst.username) === this.props.createdBy.username;
 
@@ -14,6 +14,7 @@ class PostDetails extends Component {
         var dateStr = new Date(createdOn).toLocaleString('en-GB', { timeZone: 'UTC' });
         let stars = this.props.starsCount
         let editLink = `/post/edit/${_id}`;
+        let deleteLink = `/post/delete/${_id}`;
         let userLink = `/user/details/${this.props.createdBy._id}`;
 
         let starLinkColor = this.props.liked === true ? 'teal' : 'grey'
@@ -25,6 +26,7 @@ class PostDetails extends Component {
                     <div className="row">
                         <div className="card-content col s7">
                             <span><h6 className="teal-text">Category: {category}</h6></span>
+                            <span><p className="teal-text">Stars: {stars}</p></span>
                             <h5>{title}</h5>
                             <p>created on: {dateStr} by {this.props.createdBy.username} </p>
                             <div className="card-action ">
@@ -38,32 +40,19 @@ class PostDetails extends Component {
                                 ? (
                                 <Fragment>
                                 <div className="col s3 offset-s2">
-                                    <a class="waves-effect teal darken-1  waves-light btn" href="/" data-toggle="modal" data-target="#myModal"><i className="material-icons left">delete</i>DELETE</a>
+                                <Link className="waves-effect teal darken-1  waves-light btn" to={deleteLink}><i className="material-icons left">edit</i>Delete</Link>
                                 </div>
-                                <div class="modal fade orange" style={{width: 60 + '%', maxHeight: 50 + '%', opacity: 5}}  id="myModal" role="dialog">
-                                    <div class="modal-dialog">                           
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    <h4 class="modal-title">Are you sure you want to delete ''{title}'' post?</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Press [DELETE] to proceed!</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
-                                                    <button type="button" onClick={this.props.handleClickDelete} class="btn btn-default orange" data-dismiss="modal">DELETE</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                </div>
+                                
                                 </Fragment>) : null}
                             </div>
                         </div>
                         <div className='card-content col s1 offset-s1'>
-                            <div><p className="teal-text">Stars: {stars}</p></div>
+                            {/* <div><p className="teal-text">Stars: {stars}</p></div> */}
                             {isAuth ? (
                                 <Fragment>
+                                    <div className="col s12">
+                                        <br></br>
+                                    </div>
                                     <div className="col s12">
                                         <Link className={"btn-floating  waves-effect waves-light " + starLinkColor}
                                         to='/' onClick={this.props.handleClickStar}>
@@ -100,6 +89,7 @@ class PostDetails extends Component {
                     ? (<CreateComment {...this.props} handleCreateComment={this.props.handleCreateComment} handleChange={this.props.handleChange} updateState={this.props.updateState}/>) 
                     : (<p>Adding comment is not available</p>)}
                 </div>
+                <div className="col s12">
                 {isAuth && this.props.isBlocked === false 
                 ? (<Fragment>
                     {(this.props.comments.length > 0) 
@@ -116,6 +106,7 @@ class PostDetails extends Component {
                         </div>)}  
                    </Fragment>) 
                 : (<p>Log in to see comments!</p>)}
+                </div>
             </div>
         </div>
         )

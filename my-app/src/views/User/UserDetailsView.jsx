@@ -63,7 +63,7 @@ class UserDetailsView extends Component {
     }
 
     render() {
-      let isAuth = this.props.isLoggedIn && !this.props.isBlocked;
+      let isAuth = this.props.isLoggedIn;
       return (
         (isAuth) 
         ? (<UserDetails {...this.state} {...this.props} handleClick={this.handleClick} />) 

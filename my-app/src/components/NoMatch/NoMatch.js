@@ -6,7 +6,7 @@ class NoMatch extends Component {
     return (
       <div className='container'>
         <div className="row section center">
-        <h4> <i class="material-icons">gps_off</i> Page not found!</h4>
+        <h4> <i className="material-icons">gps_off</i> Page not found!</h4>
         <p>No match for this route! Check for valid path!</p>
         <Link to="/" className="waves-effect waves-light btn teal lighten-2">GO TO HOME</Link>
         </div>

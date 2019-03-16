@@ -62,9 +62,9 @@ class SideNavRight extends Component {
         <ul className="teal" >
         <li className="teal"><h6 className="white-text ">TRENDING:</h6></li> 
           <li>
-            <div class="card">
-              <div class="card-content">
-                <div  class="teal-text"   >
+            <div className="card">
+              <div className="card-content">
+                <div  className="teal-text"   >
                   <p>Current Weather:</p>
                   <img src={icon} alt="weather"/>
                   <p>{d.toLocaleDateString()}</p>
@@ -75,21 +75,21 @@ class SideNavRight extends Component {
             </div>
           </li> 
           <li> 
-            <div class="row">
-              <div class="col s12">
-                <div class="card">
+            <div className="row">
+              <div className="col s12">
+                <div className="card">
                     {content !== undefined ? (
                       <Fragment>
-                  <div class="card-content">
+                  <div className="card-content">
                   <h5 className='teal-text'>*LATEST*</h5>
                     <h5>{title}</h5>
                         <p>{shortContent}</p>
                   </div>
-                  <div class="card-action">
-                    <Link className="waves-effect teal darken-1  waves-light btn" to={detailsLink}><i class="material-icons left">cloud</i>Read more...</Link>
+                  <div className="card-action">
+                    <Link className="waves-effect teal darken-1  waves-light btn" to={detailsLink}><i className="material-icons left">cloud</i>Read more...</Link>
                   </div>
                   </Fragment>
-                    ) : (<p>No connection with database in the moment!</p>)}
+                    ) : (<p>No posts!</p>)}
                 </div>
 
               </div>

@@ -13,13 +13,13 @@ class CreateView extends Component {
     super(props);
     this.state = {
       post: {
-      title: null,
-      content: null,
-      imageUrl: null,
-      category: null,
+      title: '',
+      content: '',
+      imageUrl: '',
+      category: '',
       },
       redirect: false,
-      createdPostId: null,
+      createdPostId: '',
       categories: [],
       errors: {},
       message: ''

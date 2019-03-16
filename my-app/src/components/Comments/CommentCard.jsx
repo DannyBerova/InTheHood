@@ -35,7 +35,6 @@ class CommentCard extends Component {
       
         let {_id, content, postId, createdBy, createdOn} = this.props.comment;
         let isCreatorOrAdmin = createdBy === this.props.user || this.props.user === 'Admin';
-        console.log(this.props.comment)
         let ifEntry =_id && content && postId && createdBy && createdOn;
         let dateStr, classIsAdminSays;
         if(ifEntry) {

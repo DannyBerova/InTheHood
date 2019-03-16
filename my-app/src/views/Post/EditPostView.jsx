@@ -13,13 +13,13 @@ class EditPostView extends Component {
     super(props);
     this.state = {
       post: {
-      title: null,
-      content: null,
-      imageUrl: null,
-      category: null,
+      title: '',
+      content: '',
+      imageUrl: '',
+      category: '',
       },
       redirect: false,
-      editedPostId: null,
+      editedPostId: '',
       categories: [],
       errors: {},
       message: ''
@@ -39,10 +39,10 @@ class EditPostView extends Component {
 
           this.setState({
               post: {
-                  title: post.title,
-                  content: post.content,
-                  imageUrl: post.imageUrl,
-                  category: post.category,
+                  title: post.title || '',
+                  content: post.content || '',
+                  imageUrl: post.imageUrl || '',
+                  category: post.category || '',
                   },
                   categories: categories,
                   message: ''
@@ -113,8 +113,8 @@ class EditPostView extends Component {
 
     return (
       <div className="Create">
-        {(isAuth && !this.state.redirect) ? (
-          <EditPost {...this.state} {...this.props} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
+        {(isAuth && !this.state.redirect) 
+        ? ( <EditPost {...this.state} {...this.props} handleChange={this.handleChange} handleSubmit=  {this.handleSubmit}/>
         ) : (<Redirect to={redirectLink}/>)}
       </div>
     );

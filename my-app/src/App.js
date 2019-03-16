@@ -1,4 +1,4 @@
-import React, { Component, Fragment, Suspense, lazy} from 'react';
+import React, { Component, Suspense, lazy} from 'react';
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
@@ -17,6 +17,7 @@ const Create = lazy(() => import('./views/Post/CreateView'));
 const Auth = lazy(() => import('./Auth'));
 const PostDetails = lazy(() => import('./views/Post/PostDetailsView'));
 const EditPost = lazy(() => import('./views/Post/EditPostView'));
+const DeletePost = lazy(() => import('./views/Post/DeleteView'));
 const UserDetails = lazy(() => import('./views/User/UserDetailsView'));
 const DestroyUser = lazy(() => import('./views/User/DestroyUserView'));
 const AllUsers = lazy(() => import('./views/Admin/AllUsersAdmin'));
@@ -108,7 +109,7 @@ class App extends Component {
         <div className="row" >
             <Suspense fallback={<h1 className='teal'>Loading...</h1>}>
               <BrowserRouter>
-                <Fragment>
+                <div className="col s12">
                   <Header  {...this.state} logout={this.logout} />
                   <div className='col s12 '>
                     <Switch>
@@ -136,6 +137,11 @@ class App extends Component {
                                   (!localStorage.hasOwnProperty(cnst.jwtoken)
                                   ) ? (<Redirect to="/"/>
                                   ) : (<EditPost {...props} {...this.state}/>)} />
+                        <Route exact path='/post/delete/:id' 
+                                render={(props) => 
+                                  (!localStorage.hasOwnProperty(cnst.jwtoken)
+                                  ) ? (<Redirect to="/"/>
+                                  ) : (<DeletePost {...props} {...this.state}/>)} />
                         <Route exact path='/user/destroy/:id' 
                                 render={(props) => 
                                   (!localStorage.hasOwnProperty(cnst.jwtoken)
@@ -149,7 +155,7 @@ class App extends Component {
                         <Route render={() => <NoMatch/>}/>
                     </Switch>
                   </div>
-                  <Fragment>
+                  <div className="row">
                   <ToastContainer 
                       position="bottom-right"
                       autoClose={4000}
@@ -158,9 +164,9 @@ class App extends Component {
                       pauseOnVisibilityChange
                       draggable
                       pauseOnHover/>
-                    </Fragment>
+                    </div>
                     <Footer  {...this.state} logout={this.logout} />
-                  </Fragment>
+                  </div>
               </BrowserRouter>
             </Suspense>
         </div>

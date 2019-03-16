@@ -29,7 +29,7 @@ class Login extends Component {
                 <h5 className='teal-text'>
                   <hr></hr>
                   <span>  Don't have an account?   </span>
-                  <span><Link className="waves-effect teal darken-1  waves-light btn-small" to="/auth/register"><i class="material-icons left">border_color</i>Sign Up</Link></span>
+                  <span><Link className="waves-effect teal darken-1  waves-light btn-small" to="/auth/register"><i className="material-icons left">border_color</i>Sign Up</Link></span>
               </h5>
             </div>
       </div>

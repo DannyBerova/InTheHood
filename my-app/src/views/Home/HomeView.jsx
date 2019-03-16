@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component} from 'react';
 
 import Search from '../../components/Home/Search';
 import SideNavLeft from '../../components/SideNavs/SideNavLeft';
@@ -21,6 +21,7 @@ class HomeView extends Component {
         search: '',
         currentPosts: [],
         latest: {
+            _id: '',
             title: '',
             content: '',
             createdOn: ''
@@ -52,7 +53,9 @@ async componentWillMount() {
           posts: orderedPosts,
           filteredPosts: orderedPosts,
           currentPosts: orderedPosts,
-          latest: orderedPosts[0] || {title: '',
+          latest: orderedPosts[0] || {
+                                        _id: "",
+                                        title: '',
                                         content: '',
                                         createdOn: ''},
           totalPages: Math.ceil(orderedPosts / 5)
@@ -92,8 +95,8 @@ async filterPosts(text) {
             })
     } else {
         this.setState({
-            filteredPosts: [{ title:'', content: '', imageUrl: '', stars:'' }],
-            currentPosts: [{ title:'', content: '', imageUrl: '', stars:'' }],
+            filteredPosts: [{_id: "", title:'', content: '', imageUrl: '', stars:'' }],
+            currentPosts: [{_id: "", title:'', content: '', imageUrl: '', stars:'' }],
             totalPages:1,
             filter: filter
     })
@@ -122,8 +125,8 @@ async filterPosts(text) {
           })
       } else {
         this.setState({
-            filteredPosts: [{ title:'', content: '', imageUrl: '', stars:'' }],
-            currentPosts: [{ title:'', content: '', imageUrl: '', stars:'' }],
+            filteredPosts: [{_id:'', title:'', content: '', imageUrl: '', stars:'' }],
+            currentPosts: [{_id:'', title:'', content: '', imageUrl: '', stars:'' }],
             totalPages:1,
             currentPage: 1,
             search: '',
@@ -146,17 +149,15 @@ onPageChanged = data => {
   render() {
     
     return (
-        <Fragment>
-            <div className='row'>
-                <HomeWelcomeBlock  {...this.props} />
-                <SideNavLeft  {...this.state} filterPosts={this.filterPosts} />
-                    <div className='col s8'>
-                        <Search {...this.state} searching={this.search} handleChange={this.handleChange}/>
-                        <Home {...this.props} {...this.state} handleChange={this.handleChange} filterPosts={this.filterPosts} onPageChanged={this.onPageChanged}/>
-                    </div>
-                <SideNavRight  {...this.state} {...this.props} filterPosts={this.filterPosts}/>
-            </div>
-        </Fragment>
+        <div className='row'>
+            <HomeWelcomeBlock  {...this.props} />
+            <SideNavLeft  {...this.state} filterPosts={this.filterPosts} />
+                <div className='col s8'>
+                    <Search {...this.state} searching={this.search} handleChange={this.handleChange}/>
+                    <Home {...this.props} {...this.state} handleChange={this.handleChange} filterPosts={this.filterPosts} onPageChanged={this.onPageChanged}/>
+                </div>
+            <SideNavRight  {...this.state} {...this.props} filterPosts={this.filterPosts}/>
+        </div>
     );
   }
 }

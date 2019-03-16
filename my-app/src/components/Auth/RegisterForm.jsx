@@ -61,7 +61,7 @@ class Register extends Component {
             <h5 className='teal-text'>
               <hr></hr>
               <span>  Already have an account?   </span>
-              <span><Link className="waves-effect teal darken-1  waves-light btn-small" to="/auth/login"><i class="material-icons left">border_color</i>Log In</Link></span>
+              <span><Link className="waves-effect teal darken-1  waves-light btn-small" to="/auth/login"><i className="material-icons left">border_color</i>Log In</Link></span>
           </h5>
         </div>
       </div>

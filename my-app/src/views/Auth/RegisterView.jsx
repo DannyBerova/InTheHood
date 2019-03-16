@@ -12,17 +12,17 @@ class RegisterView extends Component {
     super(props);
     this.state = {
       userData: {
-        username: null,
-        password: null,
-        repeatPass: null,
-        email: null,
-        firstName: null,
-        lastName: null,
-        avatar: null
+        username: '',
+        password: '',
+        repeatPass: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        avatar: ''
       },
         redirect: false,
         errors: {},
-        message: null
+        message: ''
     }
 
     this.AuthService = new AuthService();

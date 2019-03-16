@@ -11,7 +11,7 @@ class Header extends Component {
         <header>
           <nav>
             <div className="nav-wrapper teal darken-3">
-              <ul id="nav-mobile" class="left hide-on-med-and-down">
+              <ul id="nav-mobile" className="left hide-on-med-and-down">
                 <li><NavLink to="/">Home</NavLink></li>
                 <li><NavLink to="/about">About</NavLink></li>
                 {isAdmin ? 
@@ -28,7 +28,7 @@ class Header extends Component {
                   <li><NavLink to="/auth/register">Register</NavLink></li>
                 </Fragment>)}
               </ul>
-              <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <ul id="nav-mobile" className="right hide-on-med-and-down">
                 {isAuth ? (
                   <Fragment>
                     <li className="grey-text lighten-3">Welcome, {this.props.user}!</li>

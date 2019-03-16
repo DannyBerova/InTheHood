@@ -4,9 +4,8 @@ import { toast } from 'react-toastify';
 import PostService from '../../services/post-service';
 import CommentService from '../../services/comment-service';
 import PostDetails from '../../components/Post/PostDetails';
-import cnst from '../../utils/constants/constants'
 
-const NOT_ALLOWED = 'You are not allowed for this operation!';
+
 const BLOCKED_ERROR = 'You are blocked! You can\'t give stars!';
 class PostDetailsView extends Component {
     constructor(props) {
@@ -25,7 +24,6 @@ class PostDetailsView extends Component {
         this.PostService = new PostService();
         this.CommentService = new CommentService();
         this.handleClickStar = this.handleClickStar.bind(this);
-        this.handleClickDelete = this.handleClickDelete.bind(this);
         this.updateState = this.updateState.bind(this);
     }
     async componentWillMount() {
@@ -87,37 +85,13 @@ class PostDetailsView extends Component {
             })
         }
     }
-
-    async handleClickDelete() {
-        const id = this.state.post._id;
-        const creatorId = this.state.post.createdBy._id;
-
-        const body = await this.PostService.remove({id, creatorId });
-        if(this.state.createdBy._id === this.props.userId || this.props.isAdmin === true) {
-            if(body.error){
-                this.setState({message: body.error})
-                toast.error(body.error);
-            } else {
-                toast.success(body.message);
-                localStorage.setItem(cnst.message, body.message)
-                this.setState({
-                    redirect: true,
-                });
-            }
-        } else {
-            localStorage.setItem(cnst.message, NOT_ALLOWED)
-            this.setState({
-                redirect: true,
-            });
-        }
-    }
     
     render() {
         let redirectLink = `/user/details/${this.state.createdBy._id}`;
         return (
             <div className="col s10 offset-s1">
                 {(!this.state.redirect) ? (
-                    <PostDetails {...this.state} {...this.props} handleClickDelete={this.handleClickDelete} handleClickStar={this.handleClickStar} updateState={this.updateState}/>
+                    <PostDetails {...this.state} {...this.props}  handleClickStar={this.handleClickStar} updateState={this.updateState}/>
                 ) : (<Redirect to={redirectLink}/>)}
             </div>
         )
