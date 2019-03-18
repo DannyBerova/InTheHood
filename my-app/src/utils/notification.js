@@ -10,7 +10,7 @@ function show(style) {
 }
 
 const notify = {
-    success: show('teal lighten-4'),
+    success: show('green lighten-2'),
     error: show('red'),
     info: show('light-blue'),
     warn: show('orange'),

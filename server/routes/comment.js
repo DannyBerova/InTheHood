@@ -39,7 +39,7 @@ function validateCommentCreateForm(payload) {
 
 router.post('/create', authCheck, async (req, res) => {
   const commentObj = req.body
-  if (req.user.roles.indexOf('User') > -1) {
+  if (req.user.roles.indexOf('User') > -1 && req.user.isBlocked === false) {
     const validationResult = validateCommentCreateForm(commentObj)
     var user = req.user;
     if (!user) {
@@ -91,7 +91,7 @@ router.post('/create', authCheck, async (req, res) => {
   }
 })
 
-router.get('/allByPost/:id', (req, res) => {
+router.get('/allByPost/:id', authCheck, (req, res) => {
     let postId = req.params.id
   Comment
     .find({postId: postId})    
@@ -111,7 +111,7 @@ router.get('/allByPost/:id', (req, res) => {
 router.delete('/remove/:id', authCheck, async (req, res) => {
   const id = req.params.id;
   const creator = req.body.creator;
-  if (req.user.username === creator || req.user.username === 'Admin') {
+  if (req.user.username === creator || req.user.roles.includes('Admin')) {
       Comment
       .findById(id)
       .then(async (comment) => {

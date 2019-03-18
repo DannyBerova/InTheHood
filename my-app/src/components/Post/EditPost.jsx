@@ -4,7 +4,7 @@ import cnst from '../../utils/constants/constants';
 class EditPost extends Component {
   render() {
     let {title, content, imageUrl, category} = this.props.post;
-    const isAdmin = localStorage.getItem(cnst.isAdmin) === "true";
+    const isAdmin = this.props.isAdmin === true;
     let catFiltered = this.props.categories;
     if(!isAdmin) {
       catFiltered = catFiltered.filter(c => c.name !== 'adminSays')

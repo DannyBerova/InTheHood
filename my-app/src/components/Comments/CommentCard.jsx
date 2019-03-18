@@ -18,7 +18,7 @@ class CommentCard extends Component {
             id: this.props.comment._id,
             creator: this.props.comment.createdBy
         }
-        if(this.props.comment.createdBy === this.props.user || this.props.user === 'Admin') {
+        if(this.props.comment.createdBy === this.props.user || this.props.isAdmin === true) {
             let result = await this.CommentService.remove(commentObj);
             if(result.success === false){
                 notify.error(result.message);

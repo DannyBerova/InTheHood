@@ -7,8 +7,8 @@ import CommentCard from '../Comments/CommentCard';
 class PostDetails extends Component {
     render() {
         let isAuth = (this.props.userId && !this.props.isBlocked)
-        let isAdmin = localStorage.getItem(cnst.isAdmin) === "true"
-        let isCreator = localStorage.getItem(cnst.username) === this.props.createdBy.username;
+        let isAdmin = this.props.isAdmin === true
+        let isCreator = this.props.user === this.props.createdBy.username;
 
         let {title, content, imageUrl, category, createdOn, _id} = this.props.post;
         var dateStr = new Date(createdOn).toLocaleString('en-GB', { timeZone: 'UTC' });
@@ -98,7 +98,7 @@ class PostDetails extends Component {
                         <div className="col s12">
                             <h6 className="teal-text">Comments (newest first):</h6>
                             {this.props.comments.map((comment, i) => (
-                            <CommentCard key={comment._id} comment={comment} user={this.props.user} updateState={this.props.updateState}/>))}
+                            <CommentCard key={comment._id} comment={comment} user={this.props.user} isAdmin = {this.props.isAdmin} updateState={this.props.updateState}/>))}
                         </div>
                     </Fragment>) 
                     : (<div className="col s12">

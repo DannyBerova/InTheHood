@@ -27,7 +27,9 @@ class App extends Component {
   constructor(props) {
     super(props) 
     this.state={
-      isAdmin: localStorage.getItem(cnst.isAdmin) === 'true' || false,
+      isAdmin: 
+      localStorage.getItem(cnst.isAdmin) === 'true' || 
+      false,
       isLoggedIn: false,
       jwtoken: localStorage.getItem(cnst.jwtoken) || null,
       user: localStorage.getItem(cnst.username) || null,

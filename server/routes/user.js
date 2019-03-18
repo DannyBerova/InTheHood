@@ -41,38 +41,46 @@ router.get('/details/:id', authCheck, async (req, res) => {
         })
 })
 
-router.get('/all', async (req, res) => {
+router.get('/all',authCheck, async (req, res) => {
   const id = req.params.id
-  User
-    .find()
-    .then(users => {
-      if (!users) {
-        const message = 'Users not found.'
-        return res.status(200).json({
-          success: false,
-          message: message
-        })
-      }
-        return res.status(200).json({
-          success: true,
-          message: 'All users info.',
-          users: users,
-        })
-      })
-        .catch((err) => {
-          let message = 'Something went wrong :( Check the form for errors.'
+  if(req.user.roles.includes('Admin')) {
+    
+    User
+      .find()
+      .then(users => {
+        if (!users) {
+          const message = 'Users not found.'
           return res.status(200).json({
             success: false,
             message: message
           })
+        }
+          return res.status(200).json({
+            success: true,
+            message: 'All users info.',
+            users: users,
+          })
         })
+          .catch((err) => {
+            let message = 'Something went wrong :( Check the form for errors.'
+            return res.status(200).json({
+              success: false,
+              message: message
+            })
+          })
+  } else {
+    return res.status(200).json({
+      success: false,
+      message: "Not authorized!"
+    })
+  }
 })
 
 router.post('/block/:id', authCheck, async (req, res) => {
   const id = req.params.id
   const userId = req.user.id
-  
-  User
+  if(req.user.roles.includes('Admin')) {
+    User
   .findById(id)
   .then(user => {
     if (!user) {
@@ -117,57 +125,67 @@ router.post('/block/:id', authCheck, async (req, res) => {
         message: message
       })
     })
+  } else {
+    return res.status(200).json({
+      success: false,
+      message: "Not authorized!"
+    })
+  }
+  
 })
 
 router.delete('/destroy/:id', authCheck, async (req, res) => {
   try {
-    
     const id = req.params.id
     let userToDestroy = await User
        .findById(id)
-       
-       let posts = await Post.find({createdBy: userToDestroy._id})
+       if(req.user.id === userToDestroy.id) {
+        let posts = await Post.find({createdBy: userToDestroy._id})
       
-      //remove posts from categories and remove posts from db
-      let categories = await Category.find();
-      for (const cat of categories) {
-        let postsCat = cat.posts;
-        for (const post of posts) {
-          if(cat.posts.some(p => p.toString() === post._id.toString())) {
-            let idx = cat.posts.indexOf(post._id)
-            postsCat = postsCat.filter(p => p.toString() !== post._id.toString());
-          
+        //remove posts from categories and remove posts from db
+        let categories = await Category.find();
+        for (const cat of categories) {
+          let postsCat = cat.posts;
+          for (const post of posts) {
+            if(cat.posts.some(p => p.toString() === post._id.toString())) {
+              let idx = cat.posts.indexOf(post._id)
+              postsCat = postsCat.filter(p => p.toString() !== post._id.toString());
+            
+            }
           }
+          cat.posts = postsCat;
+          let catEdited = await cat.save()
         }
-        cat.posts = postsCat;
-        let catEdited = await cat.save()
-      }
-      
-      let deleted = await Post.deleteMany({createdBy: userToDestroy._id})
-
-      if(deleted) {
-        let userDeleted = await User.findByIdAndDelete(id);
-        return res.status(200).json({
-          success: true,
-          message: 'User destroyed!!!.',
-          user: userToDestroy,
-        })
+        
+        let deleted = await Post.deleteMany({createdBy: userToDestroy._id})
+  
+        if(deleted) {
+          let userDeleted = await User.findByIdAndDelete(id);
+          return res.status(200).json({
+            success: true,
+            message: 'User destroyed!!!.',
+            user: userToDestroy,
+          })
+        } else {
+          return res.status(200).json({
+            success: false,
+            message: 'Error!!!.',
+          })
+        }
       } else {
         return res.status(200).json({
           success: false,
-          message: 'Error!!!.',
+          message: "Not authorized!"
         })
       }
-  
-  
-  } catch (err) {
-    console.log(err)
-      const message = 'Something went wrong :( Check the form for errors.'
-      return res.status(200).json({
-        success: false,
-        message: message
-      })
-  }
+    } catch (err) {
+      console.log(err)
+        const message = 'Something went wrong :( Check the form for errors.'
+        return res.status(200).json({
+          success: false,
+          message: message
+        })
+    }
 })
 
 module.exports = router

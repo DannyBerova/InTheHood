@@ -4,7 +4,7 @@ import cnst from '../../utils/constants/constants';
 class Create extends Component {
 
   render() {
-    const isAdmin = localStorage.getItem(cnst.isAdmin) === "true";
+    const isAdmin = this.props.isAdmin === true;
     let catFiltered = this.props.categories.filter(c => c.name !== 'info');
     if(!isAdmin) {
       catFiltered = catFiltered.filter(c => c.name !== 'adminSays')

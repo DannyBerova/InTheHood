@@ -40,7 +40,7 @@ function validatePostCreateForm(payload) {
 
 router.post('/create', authCheck, async (req, res) => {
   const postObj = req.body
-  if (req.user.roles.indexOf('User') > -1) {
+  if (req.user.roles.indexOf('User') > -1 && req.user.isBlocked === false) {
     const validationResult = validatePostCreateForm(postObj)
     var user = req.user;
     if (!user) {
@@ -103,10 +103,10 @@ router.post('/create', authCheck, async (req, res) => {
 })
 
 router.post('/edit/:id', authCheck, async (req, res) => {
-  if (req.user.roles.indexOf('User') > -1) {
-    const postId = req.params.id;
-    const postBody = req.body;
-    let postObj = postBody;
+  const postId = req.params.id;
+  const postBody = req.body;
+  let postObj = postBody;
+        if (req.user.roles.indexOf('User') > -1 && req.user.id === postBody.createdBy) {
     if(!postObj.imageUrl) {
       postObj.imageUrl = "https://www.union.edu/files/union-marketing-layer/201803/picture.jpg";
     }
@@ -250,68 +250,76 @@ router.get('/details/:id', async (req, res) => {
 router.post('/star/:id', authCheck, async (req, res) => {
   const id = req.params.id
   const userId = req.user.id
+  if (req.user.roles.indexOf('User') > -1 && req.user.isBlocked === false) {
 
-  let comments = await Comment.find({postId: id})
-  Post
-  .findById(id)
-  .then(post => {
-    if (!post) {
-      const message = 'Post not found.'
-      return res.status(200).json({
-        success: false,
-        message: message
-      })
-    }
-    
-    let stars = post.stars;
-    let message = '';
-    if (stars.includes(userId)) {
-      const index = stars.indexOf(req.user.id)
-      stars.splice(index, 1)
-      message = 'Post unstar successfully.'
-    } else {
-      stars.push(userId)
-      message = 'Post recieved star successfully.'    
-    }
-      post.stars = stars
-      post
-        .save()
-        .then(async (likedPost) => {
-         let user = await User.findById(likedPost.createdBy._id)
-          res.status(200).json({
-            success: true,
-            message: message,
-            post: likedPost,
-            createdBy:  user,
-            starsCount: likedPost.stars.length,
-            stars: likedPost.stars,
-            comments: comments
-          })
+    let comments = await Comment.find({postId: id})
+    Post
+    .findById(id)
+    .then(post => {
+      if (!post) {
+        const message = 'Post not found.'
+        return res.status(200).json({
+          success: false,
+          message: message
         })
-        .catch((err) => {
-          console.log(err)
-          const message = 'Something went wrong :('
-          return res.status(200).json({
-            success: false,
-            message: message
+      }
+      
+      let stars = post.stars;
+      let message = '';
+      if (stars.includes(userId)) {
+        const index = stars.indexOf(req.user.id)
+        stars.splice(index, 1)
+        message = 'Post unstar successfully.'
+      } else {
+        stars.push(userId)
+        message = 'Post recieved star successfully.'    
+      }
+        post.stars = stars
+        post
+          .save()
+          .then(async (likedPost) => {
+           let user = await User.findById(likedPost.createdBy._id)
+            res.status(200).json({
+              success: true,
+              message: message,
+              post: likedPost,
+              createdBy:  user,
+              starsCount: likedPost.stars.length,
+              stars: likedPost.stars,
+              comments: comments
+            })
           })
-        })
-    })
-    .catch((err) => {
-      console.log(err)
-      const message = 'Something went wrong :('
-      return res.status(200).json({
-        success: false,
-        message: message
+          .catch((err) => {
+            console.log(err)
+            const message = 'Something went wrong :('
+            return res.status(200).json({
+              success: false,
+              message: message
+            })
+          })
       })
+      .catch((err) => {
+        console.log(err)
+        const message = 'Something went wrong :('
+        return res.status(200).json({
+          success: false,
+          message: message
+        })
+      })
+  } else {
+    return res.status(200).json({
+      success: false,
+      message: 'Not authorized'
     })
+  }
+
 })
 
 router.delete('/remove/:id', authCheck, async (req, res) => {
   const id = req.params.id;
   const creator = req.body.creatorId;
   var user = await User.findById(creator);
-  if (req.user.roles.indexOf('User') > -1 || req.user.roles.indexOf('Admin') > -1) {
+  if (req.user.id === creator || req.user.roles.indexOf('Admin') > -1) {
     Post
     .findById(id)
     .then(async (post) => {
